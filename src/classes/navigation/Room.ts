@@ -13,6 +13,15 @@ export interface RoomBaseModelProps<TActivity extends ActivityBaseModel> {
     /**
      * The background of the room. Can be a string or an object with keys for different screen sizes.
      * Then define it as an object in order to manage multiple backgrounds, for example to have a background based on time.
+     * @example
+     * ```ts
+     * {
+     *    "morning": "morning-background.jpg",
+     *    "afternoon": "afternoon-background.jpg",
+     *    "evening": "evening-background.jpg",
+     *    "night": "night-background.jpg"
+     * }
+     * ```
      */
     background?: string | { [key: string]: string }
     /**
