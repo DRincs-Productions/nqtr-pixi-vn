@@ -1,0 +1,19 @@
+{
+  "name": "@drincs/nqtr-pixi-vn",
+  "version": "0.0.1",
+  "description": "Navigation Quest Time Routine System for Pixi'VN",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DRincs-Productions/nqtr-pixi-vn.git"
+  },
+  "author": "DRincs-Productions",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/DRincs-Productions/nqtr-pixi-vn/issues"
+  },
+  "homepage": "https://github.com/DRincs-Productions/nqtr-pixi-vn#readme"
+}
