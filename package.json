@@ -36,5 +36,8 @@
     "pixi-vn",
     "visual",
     "visual-novel"
-  ]
+  ],
+  "dependencies": {
+    "@drincs/pixi-vn": "^0.1.5"
+  }
 }
