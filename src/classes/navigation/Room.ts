@@ -49,6 +49,7 @@ export default class RoomBaseModel<TLocation extends LocationBaseModel = Locatio
         this.defaultName = props.name || ""
         this.defaultBackground = props.background
         this.defaultActivities = props.activities || []
+        this.activities = props.activities || []
         this.defaultDisabled = props.disabled || false
         this.defaultHidden = props.hidden || false
         this._iconElement = props.iconElement
@@ -82,16 +83,23 @@ export default class RoomBaseModel<TLocation extends LocationBaseModel = Locatio
     private set defaultActivities(value: TActivity[]) {
         this.defaultActivityIds = value.map(activity => activity.id)
     }
-    private addedActivityIds: string[] = []
     addActivity(activity: TActivity) {
-        if (this.addedActivityIds.includes(activity.id)) return
-        this.addedActivityIds.push(activity.id)
+        let activityIds = this.getStorageProperty<string[]>("activities") || this.defaultActivityIds
+        activityIds.push(activity.id)
+        this.updateStorageProperty("activities", activityIds)
     }
     removeActivity(activity: TActivity) {
-        this.addedActivityIds = this.addedActivityIds.filter(id => id !== activity.id)
+        let activityIds = this.getStorageProperty<string[]>("activities") || this.defaultActivityIds
+        activityIds = activityIds.filter(id => id !== activity.id)
+        this.updateStorageProperty("activities", activityIds)
     }
     get activities(): TActivity[] {
-        return this.defaultActivities.concat(this.addedActivityIds.map(id => getActivityById<TActivity>(id)).filter(activity => activity !== undefined))
+        let activityIds = this.getStorageProperty<string[]>("activities") || this.defaultActivityIds
+        return activityIds.map(id => getActivityById<TActivity>(id)).filter(activity => activity !== undefined)
+    }
+    set activities(value: TActivity[]) {
+        let activityIds = value.map(activity => activity.id)
+        this.updateStorageProperty("activities", activityIds)
     }
 
 
