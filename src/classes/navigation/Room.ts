@@ -35,9 +35,7 @@ export interface RoomBaseModelProps<TActivity extends ActivityBaseModel> {
 
 export default class RoomBaseModel<TLocation extends LocationBaseModel = LocationBaseModel, TActivity extends ActivityBaseModel = ActivityBaseModel> extends StoredClassModel {
     constructor(id: string, location: TLocation, props: RoomBaseModelProps<TActivity>) {
-        super(
-            ROOM_PREFIX + id
-        )
+        super(ROOM_PREFIX + id)
         this._location = location
         this.defaultName = props.name || ""
         this.defaultBackground = props.background
