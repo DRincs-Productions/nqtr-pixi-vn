@@ -6,11 +6,30 @@ import LocationBaseModel from "./Location";
 const ROOM_PREFIX = "__NQTR-Room__"
 
 export interface RoomBaseModelProps<TActivity extends ActivityBaseModel> {
-    name?: string,
-    background?: string,
+    /**
+     * The name of the room
+     */
+    name?: string
+    /**
+     * The background of the room. Can be a string or an object with keys for different screen sizes.
+     * Then define it as an object in order to manage multiple backgrounds, for example to have a background based on time.
+     */
+    background?: string | { [key: string]: string }
+    /**
+     * The activities that are available in this room
+     */
     activities?: TActivity[],
+    /**
+     * Whether the room is disabled
+     */
     disabled?: boolean
+    /**
+     * Whether the room is hidden
+     */
     hidden?: boolean
+    /**
+     * The icon element for the room. Can be a string or an HTMLElement
+     */
     iconElement?: string | HTMLElement
 }
 
@@ -41,11 +60,11 @@ export default class RoomBaseModel<TLocation extends LocationBaseModel = Locatio
         this.updateStorageProperty("name", value)
     }
 
-    private defaultBackground?: string
-    get background(): string | undefined {
+    private defaultBackground?: string | { [key: string]: string }
+    get background(): string | { [key: string]: string } | undefined {
         return this.getStorageProperty<string>("background") || this.defaultBackground
     }
-    set background(value: string | undefined) {
+    set background(value: string | { [key: string]: string } | undefined) {
         this.updateStorageProperty("background", value)
     }
 
