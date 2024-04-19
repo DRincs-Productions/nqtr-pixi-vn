@@ -2,9 +2,15 @@
   "name": "@drincs/nqtr-pixi-vn",
   "version": "0.0.1",
   "description": "Navigation Quest Time Routine System for Pixi'VN",
-  "main": "index.js",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsup",
+    "test": "vitest"
   },
   "repository": {
     "type": "git",
@@ -15,5 +21,20 @@
   "bugs": {
     "url": "https://github.com/DRincs-Productions/nqtr-pixi-vn/issues"
   },
-  "homepage": "https://github.com/DRincs-Productions/nqtr-pixi-vn#readme"
+  "homepage": "https://github.com/DRincs-Productions/nqtr-pixi-vn#readme",
+  "devDependencies": {
+    "ts-node": "^10.9.2",
+    "tsup": "^8.0.2",
+    "typescript": "^5.4.2",
+    "vitest": "^1.4.0"
+  },
+  "keywords": [
+    "game",
+    "js",
+    "novel",
+    "pixi",
+    "pixi-vn",
+    "visual",
+    "visual-novel"
+  ]
 }
