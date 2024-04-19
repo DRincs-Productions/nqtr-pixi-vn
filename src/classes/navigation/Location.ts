@@ -1,10 +1,10 @@
-import { StoredClassModel } from "@drincs/pixi-vn";
+import { CanvasBase, StoredClassModel } from "@drincs/pixi-vn";
 import MapBaseModel from "./Map";
 import RoomBaseModel from "./Room";
 
 const LOCATION_PREFIX = "__NQTR-Location__"
 
-export interface LocationBaseModelProps {
+export interface LocationBaseModelProps<TCanvasItem extends CanvasBase<any>> {
     /**
      * The name of the location
      */
@@ -18,13 +18,13 @@ export interface LocationBaseModelProps {
      */
     hidden?: boolean
     /**
-     * The icon element for the location. Can be a string or an HTMLElement
+     * The icon element for the location. Can be a string or an HTMLElement or a CanvasItem
      */
-    iconElement?: string | HTMLElement
+    iconElement?: string | HTMLElement | TCanvasItem
 }
 
-export default class LocationBaseModel<TMap extends MapBaseModel = MapBaseModel> extends StoredClassModel {
-    constructor(id: string, location: TMap, entrance: RoomBaseModel, props: LocationBaseModelProps) {
+export default class LocationBaseModel<TMap extends MapBaseModel = MapBaseModel, TCanvasItem extends CanvasBase<any> = CanvasBase<any>> extends StoredClassModel {
+    constructor(id: string, location: TMap, entrance: RoomBaseModel, props: LocationBaseModelProps<TCanvasItem>) {
         super(LOCATION_PREFIX + id)
         if (entrance.location.id !== id) {
             throw new Error(`[NQTR] Entrance room ${entrance.id} is not in location ${id}`)
@@ -64,8 +64,8 @@ export default class LocationBaseModel<TMap extends MapBaseModel = MapBaseModel>
         this.updateStorageProperty("hidden", value)
     }
 
-    private _iconElement?: string | HTMLElement
-    get iconElement(): string | HTMLElement | undefined {
+    private _iconElement?: string | HTMLElement | TCanvasItem
+    get iconElement(): string | HTMLElement | TCanvasItem | undefined {
         return this._iconElement
     }
 }

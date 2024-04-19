@@ -1,11 +1,11 @@
-import { StoredClassModel } from "@drincs/pixi-vn";
+import { CanvasBase, StoredClassModel } from "@drincs/pixi-vn";
 import { getActivityById } from "../../decorators";
 import ActivityBaseModel from "../Activity";
 import LocationBaseModel from "./Location";
 
 const ROOM_PREFIX = "__NQTR-Room__"
 
-export interface RoomBaseModelProps<TActivity extends ActivityBaseModel> {
+export interface RoomBaseModelProps<TActivity extends ActivityBaseModel, TCanvasItem extends CanvasBase<any>> {
     /**
      * The name of the room
      */
@@ -37,13 +37,13 @@ export interface RoomBaseModelProps<TActivity extends ActivityBaseModel> {
      */
     hidden?: boolean
     /**
-     * The icon element for the room. Can be a string or an HTMLElement
+     * The icon element for the room. Can be a string or an HTMLElement or a CanvasItem
      */
-    iconElement?: string | HTMLElement
+    iconElement?: string | HTMLElement | TCanvasItem
 }
 
-export default class RoomBaseModel<TLocation extends LocationBaseModel = LocationBaseModel, TActivity extends ActivityBaseModel = ActivityBaseModel> extends StoredClassModel {
-    constructor(id: string, location: TLocation, props: RoomBaseModelProps<TActivity>) {
+export default class RoomBaseModel<TLocation extends LocationBaseModel = LocationBaseModel, TActivity extends ActivityBaseModel = ActivityBaseModel, TCanvasItem extends CanvasBase<any> = CanvasBase<any>> extends StoredClassModel {
+    constructor(id: string, location: TLocation, props: RoomBaseModelProps<TActivity, TCanvasItem>) {
         super(ROOM_PREFIX + id)
         this._location = location
         this.defaultName = props.name || ""
@@ -111,8 +111,8 @@ export default class RoomBaseModel<TLocation extends LocationBaseModel = Locatio
         this.updateStorageProperty("hidden", value)
     }
 
-    private _iconElement?: string | HTMLElement
-    get iconElement(): string | HTMLElement | undefined {
+    private _iconElement?: string | HTMLElement | TCanvasItem
+    get iconElement(): string | HTMLElement | TCanvasItem | undefined {
         return this._iconElement
     }
 }
