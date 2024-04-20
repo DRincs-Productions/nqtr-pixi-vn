@@ -1,6 +1,6 @@
 import { StoredClassModel } from "@drincs/pixi-vn";
 import { getActivityById } from "../../decorators";
-import { GraphicItem } from "../../types/GraphicItem";
+import { GraphicItemType } from "../../types/GraphicItem";
 import ActivityBaseModel from "../Activity";
 import LocationBaseModel from "./Location";
 
@@ -40,7 +40,7 @@ export interface RoomBaseModelProps<TActivity extends ActivityBaseModel> {
     /**
      * The icon element for the room. Can be a string or an HTMLElement or a CanvasItem
      */
-    iconElement?: GraphicItem
+    iconElement?: GraphicItemType
 }
 
 export default class RoomBaseModel<TLocation extends LocationBaseModel = LocationBaseModel, TActivity extends ActivityBaseModel = ActivityBaseModel> extends StoredClassModel {
@@ -126,8 +126,8 @@ export default class RoomBaseModel<TLocation extends LocationBaseModel = Locatio
         this.updateStorageProperty("hidden", value)
     }
 
-    private _iconElement?: GraphicItem
-    get iconElement(): GraphicItem | undefined {
+    private _iconElement?: GraphicItemType
+    get iconElement(): GraphicItemType | undefined {
         return this._iconElement
     }
 }
