@@ -28,6 +28,9 @@ export default class Goal implements IGoal {
     setComplete(): void {
         this.have = this.need
     }
+    find(): void {
+        this.have++
+    }
     get export(): IGoal {
         return {
             description: this.description,
