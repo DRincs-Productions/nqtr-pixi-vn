@@ -1,8 +1,9 @@
-import { CanvasBase, StoredClassModel } from "@drincs/pixi-vn";
+import { StoredClassModel } from "@drincs/pixi-vn";
+import { GraphicItem } from "../types/GraphicItem";
 
 const ACTIVITY_PREFIX = "__NQTR-Activity__"
 
-export interface ActivityBaseModelProps<TCanvasItem extends CanvasBase<any>> {
+export interface ActivityBaseModelProps {
     /**
      * The name of the room
      */
@@ -34,11 +35,11 @@ export interface ActivityBaseModelProps<TCanvasItem extends CanvasBase<any>> {
     /**
      * The icon element for the room. Can be a string or an HTMLElement or a CanvasItem
      */
-    iconElement?: string | HTMLElement | TCanvasItem
+    iconElement?: GraphicItem
 }
 
-export default class ActivityBaseModel<TCanvasItem extends CanvasBase<any> = CanvasBase<any>> extends StoredClassModel {
-    constructor(id: string, fn: (activity: ActivityBaseModel) => void, props: ActivityBaseModelProps<TCanvasItem>) {
+export default class ActivityBaseModel extends StoredClassModel {
+    constructor(id: string, fn: (activity: ActivityBaseModel) => void, props: ActivityBaseModelProps) {
         super(ACTIVITY_PREFIX + id)
         this.defaultName = props.name || ""
         this.defaultStartHour = props.startHour
@@ -107,8 +108,8 @@ export default class ActivityBaseModel<TCanvasItem extends CanvasBase<any> = Can
         this.updateStorageProperty("hidden", value)
     }
 
-    private _iconElement?: string | HTMLElement | TCanvasItem
-    get iconElement(): string | HTMLElement | TCanvasItem | undefined {
+    private _iconElement?: GraphicItem
+    get iconElement(): GraphicItem | undefined {
         return this._iconElement
     }
 
