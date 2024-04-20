@@ -1,6 +1,6 @@
 import { StoredClassModel } from "@drincs/pixi-vn";
 
-const STAGE_PREFIX = "__NQTR-Quest__"
+const STAGE_PREFIX = "__NQTR-Stage__"
 
 export interface StageBaseModelProps {
 }
