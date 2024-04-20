@@ -28,7 +28,7 @@ export interface RoomBaseModelProps<TActivity extends ActivityBaseModel> {
     /**
      * The activities that are available in this room
      */
-    activities?: TActivity[],
+    defaultActivities?: TActivity[],
     /**
      * Whether the room is disabled
      */
@@ -49,8 +49,7 @@ export default class RoomBaseModel<TLocation extends LocationBaseModel = Locatio
         this._location = location
         this.defaultName = props.name || ""
         this.defaultBackground = props.background
-        this.defaultActivities = props.activities || []
-        this.activities = props.activities || []
+        this.defaultActivities = props.defaultActivities || []
         this.defaultDisabled = props.disabled || false
         this.defaultHidden = props.hidden || false
         this._iconElement = props.iconElement
@@ -77,32 +76,39 @@ export default class RoomBaseModel<TLocation extends LocationBaseModel = Locatio
         this.updateStorageProperty("background", value)
     }
 
-    private defaultActivityIds: string[] = []
-    private get defaultActivities(): TActivity[] {
-        return this.defaultActivityIds.map(id => getActivityById<TActivity>(id)).filter(activity => activity !== undefined)
+    private defaultActivities: TActivity[]
+    get defaultActivityIds(): string[] {
+        return this.defaultActivities.map(activity => activity.id)
     }
-    private set defaultActivities(value: TActivity[]) {
-        this.defaultActivityIds = value.map(activity => activity.id)
-    }
-    addActivity(activity: TActivity) {
-        let activityIds = this.getStorageProperty<string[]>("activities") || this.defaultActivityIds
+    addAdditionalActivity(activity: TActivity) {
+        let activityIds = this.getStorageProperty<string[]>("additional_activities") || []
+        if (activityIds.includes(activity.id) || this.defaultActivityIds.includes(activity.id)) {
+            console.warn(`[NQTR] Activity id ${activity.id} already exists in room ${this.id}`)
+            return
+        }
         activityIds.push(activity.id)
-        this.updateStorageProperty("activities", activityIds)
+        this.updateStorageProperty("additional_activities", activityIds)
     }
-    removeActivity(activity: TActivity) {
-        let activityIds = this.getStorageProperty<string[]>("activities") || this.defaultActivityIds
+    removeAdditionalActivity(activity: TActivity) {
+        let activityIds = this.getStorageProperty<string[]>("additional_activities") || []
+        if (!activityIds.includes(activity.id)) {
+            console.warn(`[NQTR] Activity id ${activity.id} does not exist in room ${this.id}`)
+            return
+        }
         activityIds = activityIds.filter(id => id !== activity.id)
-        this.updateStorageProperty("activities", activityIds)
+        this.updateStorageProperty("additional_activities", activityIds)
     }
-    get activities(): TActivity[] {
-        let activityIds = this.getStorageProperty<string[]>("activities") || this.defaultActivityIds
+    get additionalActivities(): TActivity[] {
+        let activityIds = this.getStorageProperty<string[]>("additional_activities") || []
         return activityIds.map(id => getActivityById<TActivity>(id)).filter(activity => activity !== undefined)
     }
-    set activities(value: TActivity[]) {
+    set additionalActivities(value: TActivity[]) {
         let activityIds = value.map(activity => activity.id)
-        this.updateStorageProperty("activities", activityIds)
+        this.updateStorageProperty("additional_activities", activityIds)
     }
-
+    get activities(): TActivity[] {
+        return this.defaultActivities.concat(this.additionalActivities)
+    }
 
     private defaultDisabled: boolean
     get disabled(): boolean {
