@@ -1,11 +1,12 @@
-import { CanvasBase, StoredClassModel } from "@drincs/pixi-vn";
+import { StoredClassModel } from "@drincs/pixi-vn";
 import { getActivityById } from "../../decorators";
+import { GraphicItem } from "../../types/GraphicItem";
 import ActivityBaseModel from "../Activity";
 import LocationBaseModel from "./Location";
 
 const ROOM_PREFIX = "__NQTR-Room__"
 
-export interface RoomBaseModelProps<TActivity extends ActivityBaseModel, TCanvasItem extends CanvasBase<any>> {
+export interface RoomBaseModelProps<TActivity extends ActivityBaseModel> {
     /**
      * The name of the room
      */
@@ -39,11 +40,11 @@ export interface RoomBaseModelProps<TActivity extends ActivityBaseModel, TCanvas
     /**
      * The icon element for the room. Can be a string or an HTMLElement or a CanvasItem
      */
-    iconElement?: string | HTMLElement | TCanvasItem
+    iconElement?: GraphicItem
 }
 
-export default class RoomBaseModel<TLocation extends LocationBaseModel = LocationBaseModel, TActivity extends ActivityBaseModel = ActivityBaseModel, TCanvasItem extends CanvasBase<any> = CanvasBase<any>> extends StoredClassModel {
-    constructor(id: string, location: TLocation, props: RoomBaseModelProps<TActivity, TCanvasItem>) {
+export default class RoomBaseModel<TLocation extends LocationBaseModel = LocationBaseModel, TActivity extends ActivityBaseModel = ActivityBaseModel> extends StoredClassModel {
+    constructor(id: string, location: TLocation, props: RoomBaseModelProps<TActivity>) {
         super(ROOM_PREFIX + id)
         this._location = location
         this.defaultName = props.name || ""
@@ -119,8 +120,8 @@ export default class RoomBaseModel<TLocation extends LocationBaseModel = Locatio
         this.updateStorageProperty("hidden", value)
     }
 
-    private _iconElement?: string | HTMLElement | TCanvasItem
-    get iconElement(): string | HTMLElement | TCanvasItem | undefined {
+    private _iconElement?: GraphicItem
+    get iconElement(): GraphicItem | undefined {
         return this._iconElement
     }
 }
