@@ -1,5 +1,5 @@
 import { StoredClassModel } from "@drincs/pixi-vn";
-import { GraphicItem } from "../types/GraphicItem";
+import { GraphicItemType } from "../types/GraphicItem";
 
 const ACTIVITY_PREFIX = "__NQTR-Activity__"
 
@@ -35,11 +35,11 @@ export interface ActivityBaseModelProps {
     /**
      * The icon element for the room. Can be a string or an HTMLElement or a CanvasItem
      */
-    iconElement?: GraphicItem
+    iconElement?: GraphicItemType
 }
 
 export default class ActivityBaseModel extends StoredClassModel {
-    constructor(id: string, fn: (activity: ActivityBaseModel) => void, props: ActivityBaseModelProps) {
+    constructor(id: string, onRun: (activity: ActivityBaseModel) => void, props: ActivityBaseModelProps) {
         super(ACTIVITY_PREFIX + id)
         this.defaultName = props.name || ""
         this.defaultStartHour = props.startHour
@@ -49,7 +49,7 @@ export default class ActivityBaseModel extends StoredClassModel {
         this.defaultDisabled = props.disabled || false
         this.defaultHidden = props.hidden || false
         this._iconElement = props.iconElement
-        this._fn = fn
+        this._onRun = onRun
     }
 
     private defaultName: string
@@ -108,13 +108,13 @@ export default class ActivityBaseModel extends StoredClassModel {
         this.updateStorageProperty("hidden", value)
     }
 
-    private _iconElement?: GraphicItem
-    get iconElement(): GraphicItem | undefined {
+    private _iconElement?: GraphicItemType
+    get iconElement(): GraphicItemType | undefined {
         return this._iconElement
     }
 
-    private _fn: (activity: ActivityBaseModel) => void
-    get function() {
-        return this._fn
+    private _onRun: (activity: ActivityBaseModel) => void
+    get onRun() {
+        return this._onRun
     }
 }

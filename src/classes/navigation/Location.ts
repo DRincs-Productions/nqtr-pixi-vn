@@ -1,5 +1,5 @@
 import { StoredClassModel } from "@drincs/pixi-vn";
-import { GraphicItem } from "../../types/GraphicItem";
+import { GraphicItemType } from "../../types/GraphicItem";
 import MapBaseModel from "./Map";
 import RoomBaseModel from "./Room";
 
@@ -21,7 +21,7 @@ export interface LocationBaseModelProps {
     /**
      * The icon element for the location. Can be a string or an HTMLElement or a CanvasItem
      */
-    iconElement?: GraphicItem
+    iconElement?: GraphicItemType
 }
 
 export default class LocationBaseModel<TMap extends MapBaseModel = MapBaseModel> extends StoredClassModel {
@@ -66,8 +66,8 @@ export default class LocationBaseModel<TMap extends MapBaseModel = MapBaseModel>
         this.updateStorageProperty("hidden", value)
     }
 
-    private _iconElement?: GraphicItem
-    get iconElement(): GraphicItem | undefined {
+    private _iconElement?: GraphicItemType
+    get iconElement(): GraphicItemType | undefined {
         return this._iconElement
     }
 
