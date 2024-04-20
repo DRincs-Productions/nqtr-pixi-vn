@@ -1,5 +1,5 @@
 {
-  "name": "@drincs/nqtr-pixi-vn",
+  "name": "@drincs/nqtr",
   "version": "0.0.1",
   "description": "Navigation Quest Time Routine System for Pixi'VN",
   "main": "./dist/index.js",
