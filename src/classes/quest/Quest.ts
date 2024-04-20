@@ -7,7 +7,7 @@ export interface QuestBaseModelProps {
     name?: string
     description?: string
     icon?: string
-    descriptionImage?: string
+    image?: string
     isInDevelopment?: boolean
 }
 
@@ -18,7 +18,7 @@ export default class QuestBaseModel<TStage extends StageBaseModel = StageBaseMod
         this._name = props.name || ""
         this._description = props.description || ""
         this._icon = props.icon || ""
-        this._descriptionImage = props.descriptionImage || ""
+        this._image = props.image || ""
         this._isInDevelopment = props.isInDevelopment || false
     }
     private _stages: TStage[]
@@ -41,9 +41,9 @@ export default class QuestBaseModel<TStage extends StageBaseModel = StageBaseMod
         return this._icon
     }
 
-    private _descriptionImage: string
-    get descriptionImage(): string {
-        return this._descriptionImage
+    private _image: string
+    get image(): string {
+        return this._image
     }
 
     private _isInDevelopment: boolean
