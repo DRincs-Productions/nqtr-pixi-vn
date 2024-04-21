@@ -17,11 +17,11 @@ export interface ActivityBaseModelProps {
      */
     endHour?: number
     /**
-     * The start day and end day of the activity
+     * The start day of the activity
      */
     startDay?: number
     /**
-     * The start day and end day of the activity
+     * The end day of the activity
      */
     endDay?: number
     /**

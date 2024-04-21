@@ -36,9 +36,9 @@ export default class StageBaseModel<TQuest extends QuestBaseModel = QuestBaseMod
     }
 
 
-    private _dayStart: undefined | number = undefined
-    get dayStart(): undefined | number {
-        return this._dayStart
+    private _startDay: undefined | number = undefined
+    get startDay(): undefined | number {
+        return this._startDay
     }
 
     private _completed: boolean = false
