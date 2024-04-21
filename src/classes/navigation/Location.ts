@@ -7,19 +7,19 @@ const LOCATION_PREFIX = "__NQTR-Location__"
 
 export interface LocationBaseModelProps {
     /**
-     * The name of the location
+     * The name
      */
     name?: string
     /**
-     * Whether the location is disabled
+     * Whether is disabled
      */
     disabled?: boolean
     /**
-     * Whether the location is hidden
+     * Whether is hidden
      */
     hidden?: boolean
     /**
-     * The icon element for the location. Can be a string or an HTMLElement or a CanvasItem
+     * The icon element. Can be a string or an HTMLElement or a CanvasItem
      */
     iconElement?: GraphicItemType
 }

@@ -4,12 +4,12 @@ const MAP_PREFIX = "__NQTR-Map__"
 
 export interface MapBaseModelProps<TMap extends MapBaseModel = MapBaseModel> {
     /**
-     * The name of the location
+     * The name
      */
     name?: string
     /**
-     * The background of the map. Can be a string or an object with keys for different screen sizes.
-     * Then define it as an object in order to manage multiple backgrounds, for example to have a background based on time.
+     * The image. Can be a string or an object with keys for different screen sizes.
+     * Then define it as an object in order to manage multiple images, for example to have a image based on time.
      * @example
      * ```ts
      * {
@@ -20,9 +20,9 @@ export interface MapBaseModelProps<TMap extends MapBaseModel = MapBaseModel> {
      * }
      * ```
      */
-    background?: string | { [key: string]: string }
+    image?: string | { [key: string]: string }
     /**
-     * The maps that are available in this location.
+     * The neighboring maps that are available.
      * @example
      * ```ts
      * {
@@ -35,11 +35,11 @@ export interface MapBaseModelProps<TMap extends MapBaseModel = MapBaseModel> {
      */
     neighboringMaps?: { [key: string]: TMap }
     /**
-     * Whether the map is disabled
+     * Whether is disabled
      */
     disabled?: boolean
     /**
-     * Whether the map is hidden
+     * Whether is hidden
      */
     hidden?: boolean
 }
@@ -48,7 +48,7 @@ export default class MapBaseModel extends StoredClassModel {
     constructor(id: string, props: MapBaseModelProps) {
         super(MAP_PREFIX + id)
         this.defaultName = props.name || ""
-        this.defaultBackground = props.background
+        this.defaultImage = props.image
         this.defaultDisabled = props.disabled || false
         this.defaultHidden = props.hidden || false
     }
@@ -61,12 +61,12 @@ export default class MapBaseModel extends StoredClassModel {
         this.updateStorageProperty("name", value)
     }
 
-    private defaultBackground?: string | { [key: string]: string }
-    get background(): string | { [key: string]: string } | undefined {
-        return this.getStorageProperty<string>("background") || this.defaultBackground
+    private defaultImage?: string | { [key: string]: string }
+    get image(): string | { [key: string]: string } | undefined {
+        return this.getStorageProperty<string>("image") || this.defaultImage
     }
-    set background(value: string | { [key: string]: string } | undefined) {
-        this.updateStorageProperty("background", value)
+    set image(value: string | { [key: string]: string } | undefined) {
+        this.updateStorageProperty("image", value)
     }
 
     private defaultDisabled: boolean

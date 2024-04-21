@@ -5,35 +5,35 @@ const ACTIVITY_PREFIX = "__NQTR-Activity__"
 
 export interface ActivityBaseModelProps {
     /**
-     * The name of the room
+     * The name
      */
     name?: string
     /**
-     * The start hour and end hour of the activity
+     * The start hour and end hour
      */
     startHour?: number
     /**
-     * The start hour and end hour of the activity
+     * The start hour and end hour
      */
     endHour?: number
     /**
-     * The start day of the activity
+     * The start day
      */
     startDay?: number
     /**
-     * The end day of the activity
+     * The end day
      */
     endDay?: number
     /**
-     * Whether the room is disabled
+     * Whether is disabled
      */
     disabled?: boolean
     /**
-     * Whether the room is hidden
+     * Whether is hidden
      */
     hidden?: boolean
     /**
-     * The icon element for the room. Can be a string or an HTMLElement or a CanvasItem
+     * The icon element. Can be a string or an HTMLElement or a CanvasItem
      */
     iconElement?: GraphicItemType
 }
