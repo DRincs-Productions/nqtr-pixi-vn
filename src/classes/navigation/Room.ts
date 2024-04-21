@@ -12,8 +12,8 @@ export interface RoomBaseModelProps<TActivity extends ActivityBaseModel> {
      */
     name?: string
     /**
-     * The image. Can be a GraphicItemType or an object to manage multiple image types
-     * Then define it as an object in order to manage multiple images, for example to have a image based on time.
+     * The image. It can be a string, an HTMLElement or a Pixi'VN Canvas Item.
+     * Or an object to manage multiple image types. For example to have a image based on time.
      * @example
      * ```ts
      * {
@@ -38,7 +38,7 @@ export interface RoomBaseModelProps<TActivity extends ActivityBaseModel> {
      */
     hidden?: boolean
     /**
-     * The icon element. Can be a string or an HTMLElement or a CanvasItem
+     * The icon element. Can be a string or an HTMLElement or a Pixi'VN CanvasItem
      */
     iconElement?: GraphicItemType
 }

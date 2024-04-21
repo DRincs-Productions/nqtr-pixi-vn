@@ -19,7 +19,7 @@ export interface LocationBaseModelProps {
      */
     hidden?: boolean
     /**
-     * The icon element. Can be a string or an HTMLElement or a CanvasItem
+     * The icon element. Can be a string or an HTMLElement or a Pixi'VN CanvasItem
      */
     iconElement?: GraphicItemType
 }
