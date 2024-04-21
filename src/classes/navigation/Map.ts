@@ -1,4 +1,5 @@
 import { StoredClassModel } from "@drincs/pixi-vn"
+import { GraphicItemType } from "../../types/GraphicItem"
 
 const MAP_PREFIX = "__NQTR-Map__"
 
@@ -8,7 +9,7 @@ export interface MapBaseModelProps<TMap extends MapBaseModel = MapBaseModel> {
      */
     name?: string
     /**
-     * The image. Can be a string or an object with keys for different screen sizes.
+     * The image. Can be a GraphicItemType or an object to manage multiple image types
      * Then define it as an object in order to manage multiple images, for example to have a image based on time.
      * @example
      * ```ts
@@ -20,7 +21,7 @@ export interface MapBaseModelProps<TMap extends MapBaseModel = MapBaseModel> {
      * }
      * ```
      */
-    image?: string | { [key: string]: string }
+    image?: GraphicItemType | { [key: string]: GraphicItemType }
     /**
      * The neighboring maps that are available.
      * @example
@@ -61,11 +62,11 @@ export default class MapBaseModel extends StoredClassModel {
         this.updateStorageProperty("name", value)
     }
 
-    private defaultImage?: string | { [key: string]: string }
-    get image(): string | { [key: string]: string } | undefined {
-        return this.getStorageProperty<string>("image") || this.defaultImage
+    private defaultImage?: GraphicItemType | { [key: string]: GraphicItemType }
+    get image(): GraphicItemType | { [key: string]: GraphicItemType } | undefined {
+        return this.getStorageProperty<GraphicItemType>("image") || this.defaultImage
     }
-    set image(value: string | { [key: string]: string } | undefined) {
+    set image(value: GraphicItemType | { [key: string]: GraphicItemType } | undefined) {
         this.updateStorageProperty("image", value)
     }
 

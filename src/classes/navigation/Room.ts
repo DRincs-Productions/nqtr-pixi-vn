@@ -12,7 +12,7 @@ export interface RoomBaseModelProps<TActivity extends ActivityBaseModel> {
      */
     name?: string
     /**
-     * The image. Can be a string or an object with keys for different screen sizes.
+     * The image. Can be a GraphicItemType or an object to manage multiple image types
      * Then define it as an object in order to manage multiple images, for example to have a image based on time.
      * @example
      * ```ts
@@ -70,7 +70,7 @@ export default class RoomBaseModel<TLocation extends LocationBaseModel = Locatio
 
     private defaultImage?: GraphicItemType | { [key: string]: GraphicItemType }
     get image(): GraphicItemType | { [key: string]: GraphicItemType } | undefined {
-        return this.getStorageProperty<string>("image") || this.defaultImage
+        return this.getStorageProperty<GraphicItemType>("image") || this.defaultImage
     }
     set image(value: GraphicItemType | { [key: string]: GraphicItemType } | undefined) {
         this.updateStorageProperty("image", value)
