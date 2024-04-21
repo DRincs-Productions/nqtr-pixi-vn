@@ -35,6 +35,22 @@ export default class StageBaseModel<TQuest extends QuestBaseModel = QuestBaseMod
         this._onEnd = props.onEnd
     }
 
+
+    private _dayStart: undefined | number = undefined
+    get dayStart(): undefined | number {
+        return this._dayStart
+    }
+
+    private _completed: boolean = false
+    get completed(): boolean {
+        return this._completed
+    }
+
+    private _active: boolean = false
+    get active(): boolean {
+        return this._active
+    }
+
     private _quest: TQuest
     get quest(): TQuest {
         return this._quest
