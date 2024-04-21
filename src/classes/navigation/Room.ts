@@ -12,8 +12,8 @@ export interface RoomBaseModelProps<TActivity extends ActivityBaseModel> {
      */
     name?: string
     /**
-     * The background. Can be a string or an object with keys for different screen sizes.
-     * Then define it as an object in order to manage multiple backgrounds, for example to have a background based on time.
+     * The image. Can be a string or an object with keys for different screen sizes.
+     * Then define it as an object in order to manage multiple images, for example to have a image based on time.
      * @example
      * ```ts
      * {
@@ -24,7 +24,7 @@ export interface RoomBaseModelProps<TActivity extends ActivityBaseModel> {
      * }
      * ```
      */
-    background?: string | { [key: string]: string }
+    image?: GraphicItemType | { [key: string]: GraphicItemType }
     /**
      * The activities that are available
      */
@@ -48,7 +48,7 @@ export default class RoomBaseModel<TLocation extends LocationBaseModel = Locatio
         super(ROOM_PREFIX + id)
         this._location = location
         this.defaultName = props.name || ""
-        this.defaultBackground = props.background
+        this.defaultImage = props.image
         this.defaultActivities = props.defaultActivities || []
         this.defaultDisabled = props.disabled || false
         this.defaultHidden = props.hidden || false
@@ -68,12 +68,12 @@ export default class RoomBaseModel<TLocation extends LocationBaseModel = Locatio
         this.updateStorageProperty("name", value)
     }
 
-    private defaultBackground?: string | { [key: string]: string }
-    get background(): string | { [key: string]: string } | undefined {
-        return this.getStorageProperty<string>("background") || this.defaultBackground
+    private defaultImage?: GraphicItemType | { [key: string]: GraphicItemType }
+    get image(): GraphicItemType | { [key: string]: GraphicItemType } | undefined {
+        return this.getStorageProperty<string>("image") || this.defaultImage
     }
-    set background(value: string | { [key: string]: string } | undefined) {
-        this.updateStorageProperty("background", value)
+    set image(value: GraphicItemType | { [key: string]: GraphicItemType } | undefined) {
+        this.updateStorageProperty("image", value)
     }
 
     private defaultActivities: TActivity[]
