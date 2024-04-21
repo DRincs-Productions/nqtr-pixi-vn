@@ -8,11 +8,11 @@ const ROOM_PREFIX = "__NQTR-Room__"
 
 export interface RoomBaseModelProps<TActivity extends ActivityBaseModel> {
     /**
-     * The name of the room
+     * The name
      */
     name?: string
     /**
-     * The background of the room. Can be a string or an object with keys for different screen sizes.
+     * The background. Can be a string or an object with keys for different screen sizes.
      * Then define it as an object in order to manage multiple backgrounds, for example to have a background based on time.
      * @example
      * ```ts
@@ -26,19 +26,19 @@ export interface RoomBaseModelProps<TActivity extends ActivityBaseModel> {
      */
     background?: string | { [key: string]: string }
     /**
-     * The activities that are available in this room
+     * The activities that are available
      */
     defaultActivities?: TActivity[],
     /**
-     * Whether the room is disabled
+     * Whether is disabled
      */
     disabled?: boolean
     /**
-     * Whether the room is hidden
+     * Whether is hidden
      */
     hidden?: boolean
     /**
-     * The icon element for the room. Can be a string or an HTMLElement or a CanvasItem
+     * The icon element. Can be a string or an HTMLElement or a CanvasItem
      */
     iconElement?: GraphicItemType
 }
