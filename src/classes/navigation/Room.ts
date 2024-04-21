@@ -26,7 +26,7 @@ export interface RoomBaseModelProps<TActivity extends ActivityBaseModel> {
      */
     image?: GraphicItemType | { [key: string]: GraphicItemType }
     /**
-     * The activities that are available
+     * The activities that are available in this room.
      */
     defaultActivities?: TActivity[],
     /**

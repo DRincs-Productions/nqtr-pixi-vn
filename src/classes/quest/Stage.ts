@@ -1,7 +1,6 @@
 import { StoredClassModel } from "@drincs/pixi-vn";
 import { QuestsRequiredType } from "../../types/QuestsRequired";
 import Goal, { IGoal } from "./Goal";
-import QuestBaseModel from "./Quest";
 
 const STAGE_PREFIX = "__NQTR-Stage__"
 
@@ -19,10 +18,9 @@ export interface StageBaseModelProps {
     onEnd: () => void
 }
 
-export default class StageBaseModel<TQuest extends QuestBaseModel = QuestBaseModel> extends StoredClassModel {
-    constructor(id: string, quest: TQuest, props: StageBaseModelProps) {
+export default class StageBaseModel extends StoredClassModel {
+    constructor(id: string, props: StageBaseModelProps) {
         super(STAGE_PREFIX + id)
-        this._quest = quest
         this._name = props.name || ""
         this._description = props.description || ""
         this._adviceDescription = props.adviceDescription || ""
@@ -49,11 +47,6 @@ export default class StageBaseModel<TQuest extends QuestBaseModel = QuestBaseMod
     private _active: boolean = false
     get active(): boolean {
         return this._active
-    }
-
-    private _quest: TQuest
-    get quest(): TQuest {
-        return this._quest
     }
 
     private defaultGoals: Goal[] = []
