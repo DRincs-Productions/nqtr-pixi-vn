@@ -1,12 +1,11 @@
 import { StoredClassModel } from "@drincs/pixi-vn";
 import { QuestsRequiredType } from "../../types/QuestsRequired";
-import Goal from "./Goal";
+import Goal, { IGoal } from "./Goal";
 import QuestBaseModel from "./Quest";
 
 const STAGE_PREFIX = "__NQTR-Stage__"
 
 export interface StageBaseModelProps {
-    quest: QuestBaseModel,
     goals?: Goal[]
     name?: string
     description?: string
@@ -20,8 +19,87 @@ export interface StageBaseModelProps {
     onEnd: () => void
 }
 
-export default class StageBaseModel extends StoredClassModel {
-    constructor(id: string, props: StageBaseModelProps) {
+export default class StageBaseModel<TQuest extends QuestBaseModel = QuestBaseModel> extends StoredClassModel {
+    constructor(id: string, quest: TQuest, props: StageBaseModelProps) {
         super(STAGE_PREFIX + id)
+        this._quest = quest
+        this._name = props.name || ""
+        this._description = props.description || ""
+        this._adviceDescription = props.adviceDescription || ""
+        this._image = props.image || ""
+        this._daysRequiredToStart = props.daysRequiredToStart
+        this._flagsRequired = props.flagsRequired
+        this._questsRequired = props.questsRequired
+        this._requestDescription = props.requestDescription || ""
+        this._onStart = props.onStart
+        this._onEnd = props.onEnd
+    }
+
+    private _quest: TQuest
+    get quest(): TQuest {
+        return this._quest
+    }
+
+    private defaultGoals: Goal[] = []
+    get goals(): Goal[] {
+        let list = this.getStorageProperty<IGoal[]>('goals')
+        if (!list) {
+            return this.defaultGoals
+        }
+        return list.map(goal => new Goal(goal))
+    }
+    set goals(value: Goal[]) {
+        let list = value.map(goal => goal.export)
+        this.updateStorageProperty('goals', list)
+    }
+
+    private _name: string
+    get name(): string {
+        return this._name
+    }
+
+    private _description: string
+    get description(): string {
+        return this._description
+    }
+
+    private _adviceDescription: string
+    get adviceDescription(): string {
+        return this._adviceDescription
+    }
+
+    private _image: string
+    get image(): string {
+        return this._image
+    }
+
+    private _daysRequiredToStart: number
+    get daysRequiredToStart(): number {
+        return this._daysRequiredToStart
+    }
+
+    private _flagsRequired: string[]
+    get flagsRequired(): string[] {
+        return this._flagsRequired
+    }
+
+    private _questsRequired: QuestsRequiredType[]
+    get questsRequired(): QuestsRequiredType[] {
+        return this._questsRequired
+    }
+
+    private _requestDescription: string
+    get requestDescription(): string {
+        return this._requestDescription
+    }
+
+    private _onStart: () => void
+    get onStart(): () => void {
+        return this._onStart
+    }
+
+    private _onEnd: () => void
+    get onEnd(): () => void {
+        return this._onEnd
     }
 }
