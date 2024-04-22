@@ -1,5 +1,6 @@
 import { CharacterModelBase, getFlag, StoredClassModel } from "@drincs/pixi-vn";
 import { ExecutionTypeEnum } from "../enums/ExecutionTypeEnum";
+import TimeManager from "../managers/TimeManager";
 import { GraphicItemType } from "../types/GraphicItem";
 import { RoomBaseModel } from "./navigation";
 
@@ -85,12 +86,12 @@ export default class CommitmentBaseModel<TCharacter extends CharacterModelBase =
 
     private _startHour?: number
     get startHour(): number {
-        return this._startHour || 0
+        return this._startHour || TimeManager.minDayHour
     }
 
     private _endHour?: number
     get endHour(): number {
-        return this._endHour || 0
+        return this._endHour || (TimeManager.maxDayHour + 1)
     }
 
     private _image?: GraphicItemType | { [key: string]: GraphicItemType }
@@ -99,8 +100,8 @@ export default class CommitmentBaseModel<TCharacter extends CharacterModelBase =
     }
 
     private _endDay?: number
-    get endDay(): number {
-        return this._endDay || 0
+    get endDay(): number | undefined {
+        return this._endDay
     }
 
     private _executionType: ExecutionTypeEnum
