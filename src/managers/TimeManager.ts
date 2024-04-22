@@ -7,6 +7,7 @@ export interface ITimeSettings {
     minDayHour?: number
     maxDayHour?: number
     defaultTimeSpent?: number
+    timeSlots?: ITimeStlot[]
 }
 
 interface ITimeData {
@@ -15,6 +16,11 @@ interface ITimeData {
     weekLength?: number
     weekendStartDay?: number
     currentDay?: number
+}
+
+export interface ITimeStlot {
+    name: string
+    startHour: number
 }
 
 export default class TimeManager {
@@ -29,6 +35,9 @@ export default class TimeManager {
         }
         if (typeof value.minDayHour === 'number') {
             settings['defaultTimeSpent'] = value.defaultTimeSpent
+        }
+        if (Array.isArray(value.timeSlots)) {
+            settings['timeSlots'] = value.timeSlots
         }
         GameStorageManager.setVariable(TIME_SETTINGS_KEY, settings)
     }
@@ -57,6 +66,15 @@ export default class TimeManager {
         return result
     }
 
+    static get timeSlots(): ITimeStlot[] {
+        let result: ITimeStlot[] = []
+        let settings = GameStorageManager.getVariable<ITimeSettings>(TIME_SETTINGS_KEY)
+        if (settings && settings.hasOwnProperty('timeSlots')) {
+            result = settings.timeSlots || []
+        }
+        return result
+    }
+
     static get newDayHour(): number {
         let data = GameStorageManager.getVariable<ITimeData>(TIME_DATA_KEY) || {}
         if (data.hasOwnProperty('newDayHour') && typeof data.newDayHour === 'number') {
@@ -81,9 +99,13 @@ export default class TimeManager {
         }
         return this.minDayHour
     }
-    static set currentHour(value: number) {
+    static set currentHour(value: number | undefined) {
         let data = GameStorageManager.getVariable<ITimeData>(TIME_DATA_KEY) || {}
-        data.currentHour = value
+        if (typeof value === 'number') {
+            data.currentHour = value
+        } else {
+            delete data.currentHour
+        }
         GameStorageManager.setVariable(TIME_DATA_KEY, data)
     }
 
@@ -94,9 +116,13 @@ export default class TimeManager {
         }
         return 7
     }
-    static set weekLength(value: number) {
+    static set weekLength(value: number | undefined) {
         let data = GameStorageManager.getVariable<ITimeData>(TIME_DATA_KEY) || {}
-        data.weekLength = value
+        if (typeof value === 'number') {
+            data.weekLength = value
+        } else {
+            delete data.weekLength
+        }
         GameStorageManager.setVariable(TIME_DATA_KEY, data)
     }
 
@@ -107,17 +133,22 @@ export default class TimeManager {
         }
         return 6
     }
-    static set weekendStartDay(value: number) {
+    static set weekendStartDay(value: number | undefined) {
         let data = GameStorageManager.getVariable<ITimeData>(TIME_DATA_KEY) || {}
-        if (value >= this.weekLength) {
-            console.warn('[NQTR] Weekend start day should be less than week length')
+        if (typeof value === 'number') {
+            if (value >= this.weekLength) {
+                console.warn('[NQTR] Weekend start day should be less than week length')
+            }
+            data.weekendStartDay = value
+        } else {
+            delete data.weekendStartDay
         }
-        data.weekendStartDay = value
         GameStorageManager.setVariable(TIME_DATA_KEY, data)
     }
     static get isWeekend(): boolean {
         return this.weekendStartDay > this.weekLength
     }
+
     static get currentDay(): number {
         let data = GameStorageManager.getVariable<ITimeData>(TIME_DATA_KEY) || {}
         if (data.hasOwnProperty('currentDay') && typeof data.currentDay === 'number') {
@@ -125,9 +156,14 @@ export default class TimeManager {
         }
         return 0
     }
-    static set currentDay(value: number) {
+    static set currentDay(value: number | undefined) {
         let data = GameStorageManager.getVariable<ITimeData>(TIME_DATA_KEY) || {}
-        data.currentDay = value
+        if (typeof value === 'number') {
+            data.currentDay = value
+        }
+        else {
+            delete data.currentDay
+        }
         GameStorageManager.setVariable(TIME_DATA_KEY, data)
     }
 }
