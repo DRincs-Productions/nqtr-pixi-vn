@@ -1,4 +1,5 @@
 import { getFlag, StoredClassModel } from "@drincs/pixi-vn";
+import TimeManager from "../managers/TimeManager";
 import { GraphicItemType } from "../types/GraphicItem";
 
 const ACTIVITY_CATEGORY = "__NQTR-Activity__"
@@ -62,7 +63,7 @@ export default class ActivityBaseModel extends StoredClassModel {
 
     private defaultStartHour?: number
     get startHour(): number {
-        return this.getStorageProperty<number>("startHour") || this.defaultStartHour || 0
+        return this.getStorageProperty<number>("startHour") || this.defaultStartHour || TimeManager.minDayHour
     }
     set startHour(value: number) {
         this.setStorageProperty("startHour", value)
@@ -70,7 +71,7 @@ export default class ActivityBaseModel extends StoredClassModel {
 
     private defaultEndHour?: number
     get endHour(): number {
-        return this.getStorageProperty<number>("endHour") || this.defaultEndHour || 99
+        return this.getStorageProperty<number>("endHour") || this.defaultEndHour || (TimeManager.maxDayHour + 1)
     }
     set endHour(value: number) {
         this.setStorageProperty("endHour", value)
