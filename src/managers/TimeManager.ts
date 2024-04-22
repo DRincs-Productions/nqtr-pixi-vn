@@ -132,7 +132,7 @@ export default class TimeManager {
         if (data.hasOwnProperty('currentHour') && typeof data.currentHour === 'number') {
             return data.currentHour
         }
-        return this.minDayHour
+        return TimeManager.minDayHour
     }
     static set currentHour(value: number | undefined) {
         let data = GameStorageManager.getVariable<ITimeData>(TIME_DATA_KEY) || {}
@@ -163,9 +163,43 @@ export default class TimeManager {
     }
 
 
-
-
     static get isWeekend(): boolean {
-        return this.weekendStartDay > this.weekLength
+        return TimeManager.weekendStartDay > TimeManager.weekLength
+    }
+    static get weekDay(): number {
+        let result = TimeManager.currentDay % TimeManager.weekLength
+        return result
+    }
+    static get weekDayName(): string | undefined {
+        if (TimeManager.weekDay >= TimeManager.weekDaysNames.length) {
+            console.warn(`[NQTR] Week day name is not defined for day ${TimeManager.weekDay}`, TimeManager.weekDaysNames)
+            return undefined
+        }
+        return TimeManager.weekDaysNames[TimeManager.weekDay]
+    }
+
+
+    static newHour(timeSpent: number = TimeManager.defaultTimeSpent): number {
+        let newHour = TimeManager.currentHour + timeSpent
+        if (newHour >= TimeManager.maxDayHour) {
+            TimeManager.newDay()
+            newHour = TimeManager.minDayHour + (newHour - TimeManager.maxDayHour)
+        }
+        TimeManager.currentHour = newHour
+        return newHour
+    }
+
+    static newDay(days: number = 1): number {
+        let newDay = TimeManager.currentDay + days
+        TimeManager.currentDay = newDay
+        return newDay
+    }
+
+    static nowIsBetween(startHour: number, endHour: number): boolean {
+        let currentHour = TimeManager.currentHour
+        if (startHour < endHour) {
+            return currentHour >= startHour && currentHour < endHour
+        }
+        return currentHour >= startHour || currentHour < endHour
     }
 }
