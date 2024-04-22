@@ -8,13 +8,13 @@ export interface ITimeSettings {
     maxDayHour?: number
     defaultTimeSpent?: number
     timeSlots?: ITimeStlot[]
+    weekLength?: number
+    newDayHour?: number
+    weekendStartDay?: number
 }
 
 interface ITimeData {
-    newDayHour?: number
     currentHour?: number
-    weekLength?: number
-    weekendStartDay?: number
     currentDay?: number
 }
 
@@ -38,6 +38,18 @@ export default class TimeManager {
         }
         if (Array.isArray(value.timeSlots)) {
             settings['timeSlots'] = value.timeSlots
+        }
+        if (typeof value.weekLength === 'number') {
+            settings['weekLength'] = value.weekLength
+        }
+        if (typeof value.newDayHour === 'number') {
+            settings['newDayHour'] = value.newDayHour
+        }
+        if (typeof value.weekendStartDay === 'number') {
+            let weekLength = value.weekLength || TimeManager.weekLength
+            if (value.weekendStartDay >= weekLength) {
+                console.warn(`[NQTR] Weekend start day should be less than week length ${weekLength}`)
+            }
         }
         GameStorageManager.setVariable(TIME_SETTINGS_KEY, settings)
     }
@@ -65,7 +77,14 @@ export default class TimeManager {
         }
         return result
     }
-
+    static get newDayHour(): number {
+        let result = 0
+        let settings = GameStorageManager.getVariable<ITimeSettings>(TIME_SETTINGS_KEY)
+        if (settings && settings.hasOwnProperty('newDayHour')) {
+            result = settings.newDayHour || 0
+        }
+        return result
+    }
     static get timeSlots(): ITimeStlot[] {
         let result: ITimeStlot[] = []
         let settings = GameStorageManager.getVariable<ITimeSettings>(TIME_SETTINGS_KEY)
@@ -74,22 +93,21 @@ export default class TimeManager {
         }
         return result
     }
-
-    static get newDayHour(): number {
-        let data = GameStorageManager.getVariable<ITimeData>(TIME_DATA_KEY) || {}
-        if (data.hasOwnProperty('newDayHour') && typeof data.newDayHour === 'number') {
-            return data.newDayHour
+    static get weekLength(): number {
+        let result = 7
+        let settings = GameStorageManager.getVariable<ITimeSettings>(TIME_SETTINGS_KEY)
+        if (settings && settings.hasOwnProperty('weekLength')) {
+            result = settings.weekLength || 7
         }
-        return this.minDayHour
+        return result
     }
-    static set newDayHour(value: number | undefined) {
-        let data = GameStorageManager.getVariable<ITimeData>(TIME_DATA_KEY) || {}
-        if (typeof value === 'number') {
-            data.newDayHour = value
-        } else {
-            delete data.newDayHour
+    static get weekendStartDay(): number {
+        let result = TimeManager.weekLength - 1
+        let settings = GameStorageManager.getVariable<ITimeSettings>(TIME_SETTINGS_KEY)
+        if (settings && settings.hasOwnProperty('weekendStartDay')) {
+            result = settings.weekendStartDay || TimeManager.weekLength - 1
         }
-        GameStorageManager.setVariable(TIME_DATA_KEY, data)
+        return result
     }
 
     static get currentHour(): number {
@@ -109,46 +127,6 @@ export default class TimeManager {
         GameStorageManager.setVariable(TIME_DATA_KEY, data)
     }
 
-    static get weekLength(): number {
-        let data = GameStorageManager.getVariable<ITimeData>(TIME_DATA_KEY) || {}
-        if (data.hasOwnProperty('weekLength') && typeof data.weekLength === 'number') {
-            return data.weekLength
-        }
-        return 7
-    }
-    static set weekLength(value: number | undefined) {
-        let data = GameStorageManager.getVariable<ITimeData>(TIME_DATA_KEY) || {}
-        if (typeof value === 'number') {
-            data.weekLength = value
-        } else {
-            delete data.weekLength
-        }
-        GameStorageManager.setVariable(TIME_DATA_KEY, data)
-    }
-
-    static get weekendStartDay(): number {
-        let data = GameStorageManager.getVariable<ITimeData>(TIME_DATA_KEY) || {}
-        if (data.hasOwnProperty('weekendStartDay') && typeof data.weekendStartDay === 'number') {
-            return data.weekendStartDay
-        }
-        return 6
-    }
-    static set weekendStartDay(value: number | undefined) {
-        let data = GameStorageManager.getVariable<ITimeData>(TIME_DATA_KEY) || {}
-        if (typeof value === 'number') {
-            if (value >= this.weekLength) {
-                console.warn('[NQTR] Weekend start day should be less than week length')
-            }
-            data.weekendStartDay = value
-        } else {
-            delete data.weekendStartDay
-        }
-        GameStorageManager.setVariable(TIME_DATA_KEY, data)
-    }
-    static get isWeekend(): boolean {
-        return this.weekendStartDay > this.weekLength
-    }
-
     static get currentDay(): number {
         let data = GameStorageManager.getVariable<ITimeData>(TIME_DATA_KEY) || {}
         if (data.hasOwnProperty('currentDay') && typeof data.currentDay === 'number') {
@@ -165,5 +143,12 @@ export default class TimeManager {
             delete data.currentDay
         }
         GameStorageManager.setVariable(TIME_DATA_KEY, data)
+    }
+
+
+
+
+    static get isWeekend(): boolean {
+        return this.weekendStartDay > this.weekLength
     }
 }
