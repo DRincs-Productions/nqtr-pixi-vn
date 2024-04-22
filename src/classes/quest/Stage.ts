@@ -2,7 +2,7 @@ import { StoredClassModel } from "@drincs/pixi-vn";
 import { QuestsRequiredType } from "../../types/QuestsRequired";
 import Goal, { IGoal } from "./Goal";
 
-const STAGE_PREFIX = "__NQTR-Stage__"
+const STAGE_CATEGORY = "__NQTR-Stage__"
 
 export interface StageBaseModelProps {
     goals?: Goal[]
@@ -20,7 +20,7 @@ export interface StageBaseModelProps {
 
 export default class StageBaseModel extends StoredClassModel {
     constructor(id: string, props: StageBaseModelProps) {
-        super(STAGE_PREFIX + id)
+        super(STAGE_CATEGORY, id)
         this._name = props.name || ""
         this._description = props.description || ""
         this._adviceDescription = props.adviceDescription || ""
@@ -59,7 +59,7 @@ export default class StageBaseModel extends StoredClassModel {
     }
     set goals(value: Goal[]) {
         let list = value.map(goal => goal.export)
-        this.updateStorageProperty('goals', list)
+        this.setStorageProperty('goals', list)
     }
 
     private _name: string

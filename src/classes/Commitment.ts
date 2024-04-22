@@ -3,7 +3,7 @@ import { ExecutionTypeEnum } from "../enums/ExecutionTypeEnum";
 import { GraphicItemType } from "../types/GraphicItem";
 import { RoomBaseModel } from "./navigation";
 
-const COMMITMENT_PREFIX = "__NQTR-Commitment__"
+const COMMITMENT_CATEGORY = "__NQTR-Commitment__"
 
 export interface CommitmentBaseModelProps {
     /**
@@ -54,7 +54,7 @@ export interface CommitmentBaseModelProps {
 
 export default class CommitmentBaseModel<TCharacter extends CharacterModelBase = CharacterModelBase, TRoom extends RoomBaseModel = RoomBaseModel> extends StoredClassModel {
     constructor(id: string, character: TCharacter | TCharacter[], room: TRoom, props: CommitmentBaseModelProps) {
-        super(COMMITMENT_PREFIX + id)
+        super(COMMITMENT_CATEGORY, id)
         this._characters = Array.isArray(character) ? character : [character]
         this._room = room
         this._name = props.name || ""

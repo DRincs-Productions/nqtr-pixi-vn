@@ -3,7 +3,7 @@ import { GraphicItemType } from "../../types/GraphicItem";
 import MapBaseModel from "./Map";
 import RoomBaseModel from "./Room";
 
-const LOCATION_PREFIX = "__NQTR-Location__"
+const LOCATION_CATEGORY = "__NQTR-Location__"
 
 export interface LocationBaseModelProps {
     /**
@@ -26,7 +26,7 @@ export interface LocationBaseModelProps {
 
 export default class LocationBaseModel<TMap extends MapBaseModel = MapBaseModel> extends StoredClassModel {
     constructor(id: string, map: TMap, entrance: RoomBaseModel, props: LocationBaseModelProps) {
-        super(LOCATION_PREFIX + id)
+        super(LOCATION_CATEGORY, id)
         if (entrance.location.id !== id) {
             throw new Error(`[NQTR] Entrance room ${entrance.id} is not in location ${id}`)
         }
@@ -47,7 +47,7 @@ export default class LocationBaseModel<TMap extends MapBaseModel = MapBaseModel>
         return this.getStorageProperty<string>("name") || this.defaultName
     }
     set name(value: string) {
-        this.updateStorageProperty("name", value)
+        this.setStorageProperty("name", value)
     }
 
     private defaultDisabled: boolean
@@ -55,7 +55,7 @@ export default class LocationBaseModel<TMap extends MapBaseModel = MapBaseModel>
         return this.getStorageProperty<boolean>("disabled") || this.defaultDisabled
     }
     set disabled(value: boolean) {
-        this.updateStorageProperty("disabled", value)
+        this.setStorageProperty("disabled", value)
     }
 
     private defaultHidden: boolean
@@ -63,7 +63,7 @@ export default class LocationBaseModel<TMap extends MapBaseModel = MapBaseModel>
         return this.getStorageProperty<boolean>("hidden") || this.defaultHidden
     }
     set hidden(value: boolean) {
-        this.updateStorageProperty("hidden", value)
+        this.setStorageProperty("hidden", value)
     }
 
     private _iconElement?: GraphicItemType

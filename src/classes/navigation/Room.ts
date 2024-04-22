@@ -4,7 +4,7 @@ import { GraphicItemType } from "../../types/GraphicItem";
 import ActivityBaseModel from "../Activity";
 import LocationBaseModel from "./Location";
 
-const ROOM_PREFIX = "__NQTR-Room__"
+const ROOM_CATEGORY = "__NQTR-Room__"
 
 export interface RoomBaseModelProps<TActivity extends ActivityBaseModel> {
     /**
@@ -45,7 +45,7 @@ export interface RoomBaseModelProps<TActivity extends ActivityBaseModel> {
 
 export default class RoomBaseModel<TLocation extends LocationBaseModel = LocationBaseModel, TActivity extends ActivityBaseModel = ActivityBaseModel> extends StoredClassModel {
     constructor(id: string, location: TLocation, props: RoomBaseModelProps<TActivity>) {
-        super(ROOM_PREFIX + id)
+        super(ROOM_CATEGORY, id)
         this._location = location
         this.defaultName = props.name || ""
         this.defaultImage = props.image
@@ -65,7 +65,7 @@ export default class RoomBaseModel<TLocation extends LocationBaseModel = Locatio
         return this.getStorageProperty<string>("name") || this.defaultName
     }
     set name(value: string) {
-        this.updateStorageProperty("name", value)
+        this.setStorageProperty("name", value)
     }
 
     private defaultImage?: GraphicItemType | { [key: string]: GraphicItemType }
@@ -73,7 +73,7 @@ export default class RoomBaseModel<TLocation extends LocationBaseModel = Locatio
         return this.getStorageProperty<GraphicItemType>("image") || this.defaultImage
     }
     set image(value: GraphicItemType | { [key: string]: GraphicItemType } | undefined) {
-        this.updateStorageProperty("image", value)
+        this.setStorageProperty("image", value)
     }
 
     private defaultActivities: TActivity[]
@@ -87,7 +87,7 @@ export default class RoomBaseModel<TLocation extends LocationBaseModel = Locatio
             return
         }
         activityIds.push(activity.id)
-        this.updateStorageProperty("additional_activities", activityIds)
+        this.setStorageProperty("additional_activities", activityIds)
     }
     removeAdditionalActivity(activity: TActivity) {
         let activityIds = this.getStorageProperty<string[]>("additional_activities") || []
@@ -96,7 +96,7 @@ export default class RoomBaseModel<TLocation extends LocationBaseModel = Locatio
             return
         }
         activityIds = activityIds.filter(id => id !== activity.id)
-        this.updateStorageProperty("additional_activities", activityIds)
+        this.setStorageProperty("additional_activities", activityIds)
     }
     get additionalActivities(): TActivity[] {
         let activityIds = this.getStorageProperty<string[]>("additional_activities") || []
@@ -104,7 +104,7 @@ export default class RoomBaseModel<TLocation extends LocationBaseModel = Locatio
     }
     set additionalActivities(value: TActivity[]) {
         let activityIds = value.map(activity => activity.id)
-        this.updateStorageProperty("additional_activities", activityIds)
+        this.setStorageProperty("additional_activities", activityIds)
     }
     get activities(): TActivity[] {
         return this.defaultActivities.concat(this.additionalActivities)
@@ -115,7 +115,7 @@ export default class RoomBaseModel<TLocation extends LocationBaseModel = Locatio
         return this.getStorageProperty<boolean>("disabled") || this.defaultDisabled
     }
     set disabled(value: boolean) {
-        this.updateStorageProperty("disabled", value)
+        this.setStorageProperty("disabled", value)
     }
 
     private defaultHidden: boolean
@@ -123,7 +123,7 @@ export default class RoomBaseModel<TLocation extends LocationBaseModel = Locatio
         return this.getStorageProperty<boolean>("hidden") || this.defaultHidden
     }
     set hidden(value: boolean) {
-        this.updateStorageProperty("hidden", value)
+        this.setStorageProperty("hidden", value)
     }
 
     private _iconElement?: GraphicItemType

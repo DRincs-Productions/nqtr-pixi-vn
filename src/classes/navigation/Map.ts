@@ -1,7 +1,7 @@
 import { StoredClassModel } from "@drincs/pixi-vn"
 import { GraphicItemType } from "../../types/GraphicItem"
 
-const MAP_PREFIX = "__NQTR-Map__"
+const MAP_CATEGORY = "__NQTR-Map__"
 
 export interface MapBaseModelProps<TMap extends MapBaseModel = MapBaseModel> {
     /**
@@ -47,7 +47,7 @@ export interface MapBaseModelProps<TMap extends MapBaseModel = MapBaseModel> {
 
 export default class MapBaseModel extends StoredClassModel {
     constructor(id: string, props: MapBaseModelProps) {
-        super(MAP_PREFIX + id)
+        super(MAP_CATEGORY, id)
         this.defaultName = props.name || ""
         this.defaultImage = props.image
         this.defaultDisabled = props.disabled || false
@@ -59,7 +59,7 @@ export default class MapBaseModel extends StoredClassModel {
         return this.getStorageProperty<string>("name") || this.defaultName
     }
     set name(value: string) {
-        this.updateStorageProperty("name", value)
+        this.setStorageProperty("name", value)
     }
 
     private defaultImage?: GraphicItemType | { [key: string]: GraphicItemType }
@@ -67,7 +67,7 @@ export default class MapBaseModel extends StoredClassModel {
         return this.getStorageProperty<GraphicItemType>("image") || this.defaultImage
     }
     set image(value: GraphicItemType | { [key: string]: GraphicItemType } | undefined) {
-        this.updateStorageProperty("image", value)
+        this.setStorageProperty("image", value)
     }
 
     private defaultDisabled: boolean
@@ -75,7 +75,7 @@ export default class MapBaseModel extends StoredClassModel {
         return this.getStorageProperty<boolean>("disabled") || this.defaultDisabled
     }
     set disabled(value: boolean) {
-        this.updateStorageProperty("disabled", value)
+        this.setStorageProperty("disabled", value)
     }
 
     private defaultHidden: boolean
@@ -83,6 +83,6 @@ export default class MapBaseModel extends StoredClassModel {
         return this.getStorageProperty<boolean>("hidden") || this.defaultHidden
     }
     set hidden(value: boolean) {
-        this.updateStorageProperty("hidden", value)
+        this.setStorageProperty("hidden", value)
     }
 }

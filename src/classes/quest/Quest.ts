@@ -1,7 +1,7 @@
 import { StoredClassModel } from "@drincs/pixi-vn";
 import StageBaseModel from "./Stage";
 
-const QUEST_PREFIX = "__NQTR-Quest__"
+const QUEST_CATEGORY = "__NQTR-Quest__"
 
 export interface QuestBaseModelProps {
     name?: string
@@ -13,7 +13,7 @@ export interface QuestBaseModelProps {
 
 export default class QuestBaseModel<TStage extends StageBaseModel = StageBaseModel> extends StoredClassModel {
     constructor(id: string, stages: TStage[], props: QuestBaseModelProps) {
-        super(QUEST_PREFIX + id)
+        super(QUEST_CATEGORY, id)
         this._stages = stages
         this._name = props.name || ""
         this._description = props.description || ""

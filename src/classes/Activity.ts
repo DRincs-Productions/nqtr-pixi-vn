@@ -1,7 +1,7 @@
 import { StoredClassModel } from "@drincs/pixi-vn";
 import { GraphicItemType } from "../types/GraphicItem";
 
-const ACTIVITY_PREFIX = "__NQTR-Activity__"
+const ACTIVITY_CATEGORY = "__NQTR-Activity__"
 
 export interface ActivityBaseModelProps {
     /**
@@ -40,7 +40,7 @@ export interface ActivityBaseModelProps {
 
 export default class ActivityBaseModel extends StoredClassModel {
     constructor(id: string, onRun: (activity: ActivityBaseModel) => void, props: ActivityBaseModelProps) {
-        super(ACTIVITY_PREFIX + id)
+        super(ACTIVITY_CATEGORY, id)
         this.defaultName = props.name || ""
         this.defaultStartHour = props.startHour
         this.defaultEndDay = props.endHour
@@ -57,7 +57,7 @@ export default class ActivityBaseModel extends StoredClassModel {
         return this.getStorageProperty<string>("name") || this.defaultName
     }
     set name(value: string) {
-        this.updateStorageProperty("name", value)
+        this.setStorageProperty("name", value)
     }
 
     private defaultStartHour?: number
@@ -65,7 +65,7 @@ export default class ActivityBaseModel extends StoredClassModel {
         return this.getStorageProperty<number>("startHour") || this.defaultStartHour || 0
     }
     set startHour(value: number) {
-        this.updateStorageProperty("startHour", value)
+        this.setStorageProperty("startHour", value)
     }
 
     private defaultEndHour?: number
@@ -73,7 +73,7 @@ export default class ActivityBaseModel extends StoredClassModel {
         return this.getStorageProperty<number>("endHour") || this.defaultEndHour || 99
     }
     set endHour(value: number) {
-        this.updateStorageProperty("endHour", value)
+        this.setStorageProperty("endHour", value)
     }
 
     private defaultStartDay?: number
@@ -81,7 +81,7 @@ export default class ActivityBaseModel extends StoredClassModel {
         return this.getStorageProperty<number>("startDay") || this.defaultStartDay
     }
     set startDay(value: number | undefined) {
-        this.updateStorageProperty("startDay", value)
+        this.setStorageProperty("startDay", value)
     }
 
     private defaultEndDay?: number
@@ -89,7 +89,7 @@ export default class ActivityBaseModel extends StoredClassModel {
         return this.getStorageProperty<number>("endDay") || this.defaultEndDay
     }
     set endDay(value: number | undefined) {
-        this.updateStorageProperty("endDay", value)
+        this.setStorageProperty("endDay", value)
     }
 
     private defaultDisabled: boolean
@@ -97,7 +97,7 @@ export default class ActivityBaseModel extends StoredClassModel {
         return this.getStorageProperty<boolean>("disabled") || this.defaultDisabled
     }
     set disabled(value: boolean) {
-        this.updateStorageProperty("disabled", value)
+        this.setStorageProperty("disabled", value)
     }
 
     private defaultHidden: boolean
@@ -105,7 +105,7 @@ export default class ActivityBaseModel extends StoredClassModel {
         return this.getStorageProperty<boolean>("hidden") || this.defaultHidden
     }
     set hidden(value: boolean) {
-        this.updateStorageProperty("hidden", value)
+        this.setStorageProperty("hidden", value)
     }
 
     private _iconElement?: GraphicItemType
