@@ -1,4 +1,4 @@
-import { StoredClassModel } from "@drincs/pixi-vn";
+import { getFlag, StoredClassModel } from "@drincs/pixi-vn";
 import { GraphicItemType } from "../../types/GraphicItem";
 import MapBaseModel from "./Map";
 import RoomBaseModel from "./Room";
@@ -11,13 +11,13 @@ export interface LocationBaseModelProps {
      */
     name?: string
     /**
-     * Whether is disabled
+     * Whether is disabled. You can also pass a Pixi'VN flag name.
      */
-    disabled?: boolean
+    disabled?: boolean | string
     /**
-     * Whether is hidden
+     * Whether is hidden. You can also pass a Pixi'VN flag name.
      */
-    hidden?: boolean
+    hidden?: boolean | string
     /**
      * The icon element. Can be a string or an HTMLElement or a Pixi'VN CanvasItem
      */
@@ -50,19 +50,27 @@ export default class LocationBaseModel<TMap extends MapBaseModel = MapBaseModel>
         this.setStorageProperty("name", value)
     }
 
-    private defaultDisabled: boolean
+    private defaultDisabled: boolean | string
     get disabled(): boolean {
-        return this.getStorageProperty<boolean>("disabled") || this.defaultDisabled
+        let value = this.getStorageProperty<boolean>("disabled") || this.defaultDisabled
+        if (typeof value === "string") {
+            return getFlag(value)
+        }
+        return value
     }
-    set disabled(value: boolean) {
+    set disabled(value: boolean | string) {
         this.setStorageProperty("disabled", value)
     }
 
-    private defaultHidden: boolean
+    private defaultHidden: boolean | string
     get hidden(): boolean {
-        return this.getStorageProperty<boolean>("hidden") || this.defaultHidden
+        let value = this.getStorageProperty<boolean>("hidden") || this.defaultHidden
+        if (typeof value === "string") {
+            return getFlag(value)
+        }
+        return value
     }
-    set hidden(value: boolean) {
+    set hidden(value: boolean | string) {
         this.setStorageProperty("hidden", value)
     }
 

@@ -1,4 +1,4 @@
-import { CharacterModelBase, StoredClassModel } from "@drincs/pixi-vn";
+import { CharacterModelBase, getFlag, StoredClassModel } from "@drincs/pixi-vn";
 import { ExecutionTypeEnum } from "../enums/ExecutionTypeEnum";
 import { GraphicItemType } from "../types/GraphicItem";
 import { RoomBaseModel } from "./navigation";
@@ -47,9 +47,10 @@ export interface CommitmentBaseModelProps {
      */
     onInteraction?: (commitment: CommitmentBaseModel) => void
     /**
-     * Whether is disabled
+     * Whether is disabled. You can also pass a Pixi'VN flag name.
+     * If it is disabled this commitment will not be taken into consideration. So the characters will not be in the room, but will be busy with other commitments.
      */
-    disabled?: boolean
+    disabled?: boolean | string
 }
 
 export default class CommitmentBaseModel<TCharacter extends CharacterModelBase = CharacterModelBase, TRoom extends RoomBaseModel = RoomBaseModel> extends StoredClassModel {
@@ -64,7 +65,7 @@ export default class CommitmentBaseModel<TCharacter extends CharacterModelBase =
         this._endDay = props.endDay
         this._executionType = props.executionType || ExecutionTypeEnum.INTERACTION
         this._onInteraction = props.onInteraction
-        this._disabled = props.disabled || false
+        this.defaultDisabled = props.disabled || false
     }
 
     private _characters: TCharacter[]
@@ -117,8 +118,15 @@ export default class CommitmentBaseModel<TCharacter extends CharacterModelBase =
         }
     }
 
-    private _disabled: boolean
+    private defaultDisabled: boolean | string
     get disabled(): boolean {
-        return this._disabled
+        let value = this.getStorageProperty<boolean>("disabled") || this.defaultDisabled
+        if (typeof value === "string") {
+            return getFlag(value)
+        }
+        return value
+    }
+    set disabled(value: boolean | string) {
+        this.setStorageProperty("disabled", value)
     }
 }

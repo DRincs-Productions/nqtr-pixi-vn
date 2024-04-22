@@ -1,4 +1,4 @@
-import { StoredClassModel } from "@drincs/pixi-vn"
+import { getFlag, StoredClassModel } from "@drincs/pixi-vn"
 import { GraphicItemType } from "../../types/GraphicItem"
 
 const MAP_CATEGORY = "__NQTR-Map__"
@@ -36,13 +36,13 @@ export interface MapBaseModelProps<TMap extends MapBaseModel = MapBaseModel> {
      */
     neighboringMaps?: { [key: string]: TMap }
     /**
-     * Whether is disabled
+     * Whether is disabled. You can also pass a Pixi'VN flag name.
      */
-    disabled?: boolean
+    disabled?: boolean | string
     /**
-     * Whether is hidden
+     * Whether is hidden. You can also pass a Pixi'VN flag name.
      */
-    hidden?: boolean
+    hidden?: boolean | string
 }
 
 export default class MapBaseModel extends StoredClassModel {
@@ -70,19 +70,27 @@ export default class MapBaseModel extends StoredClassModel {
         this.setStorageProperty("image", value)
     }
 
-    private defaultDisabled: boolean
+    private defaultDisabled: boolean | string
     get disabled(): boolean {
-        return this.getStorageProperty<boolean>("disabled") || this.defaultDisabled
+        let value = this.getStorageProperty<boolean>("disabled") || this.defaultDisabled
+        if (typeof value === "string") {
+            return getFlag(value)
+        }
+        return value
     }
-    set disabled(value: boolean) {
+    set disabled(value: boolean | string) {
         this.setStorageProperty("disabled", value)
     }
 
-    private defaultHidden: boolean
+    private defaultHidden: boolean | string
     get hidden(): boolean {
-        return this.getStorageProperty<boolean>("hidden") || this.defaultHidden
+        let value = this.getStorageProperty<boolean>("hidden") || this.defaultHidden
+        if (typeof value === "string") {
+            return getFlag(value)
+        }
+        return value
     }
-    set hidden(value: boolean) {
+    set hidden(value: boolean | string) {
         this.setStorageProperty("hidden", value)
     }
 }
