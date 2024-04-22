@@ -11,6 +11,7 @@ export interface ITimeSettings {
     weekLength?: number
     newDayHour?: number
     weekendStartDay?: number
+    weekDaysNames?: string[]
 }
 
 interface ITimeData {
@@ -50,6 +51,14 @@ export default class TimeManager {
             if (value.weekendStartDay >= weekLength) {
                 console.warn(`[NQTR] Weekend start day should be less than week length ${weekLength}`)
             }
+            settings['weekendStartDay'] = value.weekendStartDay
+        }
+        if (Array.isArray(value.weekDaysNames)) {
+            let weekLength = value.weekLength || TimeManager.weekLength
+            if (value.weekDaysNames.length !== weekLength) {
+                console.warn(`[NQTR] Week days names should be equal to week length ${weekLength}`)
+            }
+            settings['weekDaysNames'] = value.weekDaysNames
         }
         GameStorageManager.setVariable(TIME_SETTINGS_KEY, settings)
     }
@@ -106,6 +115,14 @@ export default class TimeManager {
         let settings = GameStorageManager.getVariable<ITimeSettings>(TIME_SETTINGS_KEY)
         if (settings && settings.hasOwnProperty('weekendStartDay')) {
             result = settings.weekendStartDay || TimeManager.weekLength - 1
+        }
+        return result
+    }
+    static get weekDaysNames(): string[] {
+        let result: string[] = []
+        let settings = GameStorageManager.getVariable<ITimeSettings>(TIME_SETTINGS_KEY)
+        if (settings && settings.hasOwnProperty('weekDaysNames')) {
+            result = settings.weekDaysNames || result
         }
         return result
     }
