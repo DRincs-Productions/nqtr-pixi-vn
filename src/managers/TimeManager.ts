@@ -164,18 +164,19 @@ export default class TimeManager {
 
 
     static get isWeekend(): boolean {
-        return TimeManager.weekendStartDay > TimeManager.weekLength
+        return TimeManager.weekDayNumber >= TimeManager.weekendStartDay
     }
     static get weekDayNumber(): number {
         let result = TimeManager.currentDay % TimeManager.weekLength
-        return result
+        return result + 1
     }
     static get weekDayName(): string | undefined {
-        if (TimeManager.weekDayNumber >= TimeManager.weekDaysNames.length) {
-            console.warn(`[NQTR] Week day name is not defined for day ${TimeManager.weekDayNumber}`, TimeManager.weekDaysNames)
+        let weekDayNumber = TimeManager.weekDayNumber - 1
+        if (weekDayNumber >= TimeManager.weekDaysNames.length) {
+            console.warn(`[NQTR] Week day name is not defined for day ${weekDayNumber}`, TimeManager.weekDaysNames)
             return undefined
         }
-        return TimeManager.weekDaysNames[TimeManager.weekDayNumber]
+        return TimeManager.weekDaysNames[weekDayNumber]
     }
 
 
