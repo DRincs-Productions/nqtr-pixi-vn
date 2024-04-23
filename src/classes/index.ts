@@ -1,1 +1,1 @@
-export { default as ActivityBaseModel } from './Activity';
+export { default as ActivitySynchronizedModel } from './Activity';

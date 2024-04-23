@@ -4,7 +4,7 @@ import { GraphicItemType } from "../types/GraphicItem";
 
 const ACTIVITY_CATEGORY = "__NQTR-Activity__"
 
-export interface ActivityBaseModelProps {
+export interface ActivityProps {
     /**
      * The name
      */
@@ -43,10 +43,9 @@ export interface ActivityBaseModelProps {
     iconElement?: GraphicItemType
 }
 
-export default class ActivityBaseModel extends StoredClassModel {
-    constructor(id: string, onRun: (activity: ActivityBaseModel) => void, props: ActivityBaseModelProps) {
-        super(ACTIVITY_CATEGORY, id)
-        this.defaultName = props.name || ""
+export abstract class ActivityAbstract {
+    constructor(onRun: (activity: ActivitySynchronizedModel) => void, props: ActivityProps) {
+        this.defaultName = props.name
         this.defaultFromHour = props.fromHour
         this.defaultToHour = props.toHour
         this.defaultFromDay = props.fromDay
@@ -57,11 +56,15 @@ export default class ActivityBaseModel extends StoredClassModel {
         this._onRun = onRun
     }
 
-    private defaultName: string
+    abstract setStorageProperty<T>(propertyName: string, value: T | undefined): void;
+    abstract getStorageProperty<T>(propertyName: string): T | undefined;
+    abstract get id(): string
+
+    private defaultName?: string
     get name(): string {
-        return this.getStorageProperty<string>("name") || this.defaultName
+        return this.getStorageProperty<string>("name") || this.defaultName || ""
     }
-    set name(value: string) {
+    set name(value: string | undefined) {
         this.setStorageProperty("name", value)
     }
 
@@ -69,7 +72,7 @@ export default class ActivityBaseModel extends StoredClassModel {
     get fromHour(): number {
         return this.getStorageProperty<number>("fromHour") || this.defaultFromHour || TimeManager.minDayHour
     }
-    set fromHour(value: number) {
+    set fromHour(value: number | undefined) {
         this.setStorageProperty("fromHour", value)
     }
 
@@ -77,7 +80,7 @@ export default class ActivityBaseModel extends StoredClassModel {
     get toHour(): number {
         return this.getStorageProperty<number>("toHour") || this.defaultToHour || (TimeManager.maxDayHour + 1)
     }
-    set toHour(value: number) {
+    set toHour(value: number | undefined) {
         this.setStorageProperty("toHour", value)
     }
 
@@ -132,7 +135,7 @@ export default class ActivityBaseModel extends StoredClassModel {
         return this._iconElement
     }
 
-    private _onRun: (activity: ActivityBaseModel) => void
+    private _onRun: (activity: ActivitySynchronizedModel) => void
     get onRun() {
         return this._onRun
     }
@@ -142,5 +145,35 @@ export default class ActivityBaseModel extends StoredClassModel {
             return true
         }
         return false
+    }
+
+    export(): ActivityProps {
+        return {
+            name: this.getStorageProperty<string>("name") || this.defaultName,
+            fromHour: this.getStorageProperty<number>("fromHour") || this.defaultFromHour,
+            toHour: this.getStorageProperty<number>("toHour") || this.defaultToHour,
+            fromDay: this.getStorageProperty<number>("fromDay") || this.defaultFromDay,
+            toDay: this.getStorageProperty<number>("toDay") || this.defaultToDay,
+            disabled: this.getStorageProperty<boolean>("disabled") || this.defaultDisabled,
+            hidden: this.getStorageProperty<boolean>("hidden") || this.defaultHidden,
+            iconElement: this._iconElement
+        }
+    }
+}
+
+export default class ActivitySynchronizedModel extends ActivityAbstract {
+    constructor(id: string, onRun: (activity: ActivitySynchronizedModel) => void, props: ActivityProps) {
+        super(onRun, props)
+        this._internalStorage = new StoredClassModel(ACTIVITY_CATEGORY, id)
+    }
+    private _internalStorage: StoredClassModel
+    setStorageProperty<T>(propertyName: string, value: T | undefined): void {
+        this._internalStorage.setStorageProperty(propertyName, value)
+    }
+    getStorageProperty<T>(propertyName: string): T | undefined {
+        return this._internalStorage.getStorageProperty(propertyName)
+    }
+    get id(): string {
+        return this._internalStorage.id
     }
 }

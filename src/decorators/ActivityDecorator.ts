@@ -1,8 +1,8 @@
-import { ActivityBaseModel } from "../classes"
+import { ActivitySynchronizedModel } from "../classes"
 
-export const registeredActivitys: { [id: string]: ActivityBaseModel } = {}
+export const registeredActivitys: { [id: string]: ActivitySynchronizedModel } = {}
 
-export function saveActivity<T extends ActivityBaseModel = ActivityBaseModel>(activity: T | T[]) {
+export function saveActivity<T extends ActivitySynchronizedModel = ActivitySynchronizedModel>(activity: T | T[]) {
     if (Array.isArray(activity)) {
         activity.forEach(c => saveActivity(c))
         return
@@ -13,14 +13,14 @@ export function saveActivity<T extends ActivityBaseModel = ActivityBaseModel>(ac
     registeredActivitys[activity.id] = activity
 }
 
-export function getActivityById<T extends ActivityBaseModel>(id: string): T | undefined {
+export function getActivityById<T extends ActivitySynchronizedModel>(id: string): T | undefined {
     try {
-        let Activity = registeredActivitys[id]
-        if (!Activity) {
+        let activity = registeredActivitys[id]
+        if (!activity) {
             console.error(`[NQTR] Activity ${id} not found`)
             return
         }
-        return Activity as T
+        return activity as T
     }
     catch (e) {
         console.error(`[NQTR] Error while getting Activity ${id}`, e)
