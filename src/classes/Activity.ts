@@ -10,13 +10,15 @@ export interface ActivityBaseModelProps {
      */
     name?: string
     /**
-     * The start hour
+     * The hour when the activity starts. If the activity is not started yet, it will be hidden.
+     * If you set 3, the activity will be hidden into hours 1 and 2, and will be shown from hour 3.
      */
-    startHour?: number
+    fromHour?: number
     /**
-     * The end hour
+     * The hour when the activity ends. If the activity is ended yet, it will be hidden.
+     * If you set 3, the activity will be shown into hours 1 and 2 and will be hidden from hour 3.
      */
-    endHour?: number
+    toHour?: number
     /**
      * The day when the activity starts. If the activity is not started yet, it will be hidden.
      * If you set 3, the activity will be hidden into days 1 and 2, and will be shown from day 3.
@@ -45,8 +47,8 @@ export default class ActivityBaseModel extends StoredClassModel {
     constructor(id: string, onRun: (activity: ActivityBaseModel) => void, props: ActivityBaseModelProps) {
         super(ACTIVITY_CATEGORY, id)
         this.defaultName = props.name || ""
-        this.defaultStartHour = props.startHour
-        this.defaultEndHour = props.endHour
+        this.defaultFromHour = props.fromHour
+        this.defaultToHour = props.toHour
         this.defaultFromDay = props.fromDay
         this.defaultToDay = props.toDay
         this.defaultDisabled = props.disabled || false
@@ -63,20 +65,20 @@ export default class ActivityBaseModel extends StoredClassModel {
         this.setStorageProperty("name", value)
     }
 
-    private defaultStartHour?: number
-    get startHour(): number {
-        return this.getStorageProperty<number>("startHour") || this.defaultStartHour || TimeManager.minDayHour
+    private defaultFromHour?: number
+    get fromHour(): number {
+        return this.getStorageProperty<number>("fromHour") || this.defaultFromHour || TimeManager.minDayHour
     }
-    set startHour(value: number) {
-        this.setStorageProperty("startHour", value)
+    set fromHour(value: number) {
+        this.setStorageProperty("fromHour", value)
     }
 
-    private defaultEndHour?: number
-    get endHour(): number {
-        return this.getStorageProperty<number>("endHour") || this.defaultEndHour || (TimeManager.maxDayHour + 1)
+    private defaultToHour?: number
+    get toHour(): number {
+        return this.getStorageProperty<number>("toHour") || this.defaultToHour || (TimeManager.maxDayHour + 1)
     }
-    set endHour(value: number) {
-        this.setStorageProperty("endHour", value)
+    set toHour(value: number) {
+        this.setStorageProperty("toHour", value)
     }
 
     private defaultFromDay?: number
