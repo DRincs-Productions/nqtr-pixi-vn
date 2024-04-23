@@ -196,11 +196,11 @@ export default class TimeManager {
         return newDay
     }
 
-    static nowIsBetween(startHour: number, endHour: number): boolean {
+    static nowIsBetween(fromHour: number, toHour: number): boolean {
         let currentHour = TimeManager.currentHour
-        if (startHour < endHour) {
-            return currentHour >= startHour && currentHour < endHour
+        if (fromHour < toHour) {
+            return currentHour >= fromHour && currentHour < toHour
         }
-        return currentHour >= startHour || currentHour < endHour
+        return currentHour >= fromHour || currentHour < toHour
     }
 }
