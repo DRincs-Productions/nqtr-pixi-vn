@@ -107,6 +107,12 @@ export default class ActivityBaseModel extends StoredClassModel {
 
     private defaultHidden: boolean | string
     get hidden(): boolean {
+        if (this.startDay && this.startDay >= TimeManager.currentDay) {
+            return true
+        }
+        if (!this.isDeadline) {
+            return true
+        }
         let value = this.getStorageProperty<boolean>("hidden") || this.defaultHidden
         if (typeof value === "string") {
             return getFlag(value)
@@ -125,5 +131,12 @@ export default class ActivityBaseModel extends StoredClassModel {
     private _onRun: (activity: ActivityBaseModel) => void
     get onRun() {
         return this._onRun
+    }
+
+    isDeadline(): boolean {
+        if (this.endDay && this.endDay <= TimeManager.currentDay) {
+            return true
+        }
+        return false
     }
 }
