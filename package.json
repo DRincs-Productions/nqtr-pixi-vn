@@ -38,6 +38,6 @@
     "visual-novel"
   ],
   "dependencies": {
-    "@drincs/pixi-vn": "^0.2.1"
+    "@drincs/pixi-vn": "^0.2.2"
   }
 }
