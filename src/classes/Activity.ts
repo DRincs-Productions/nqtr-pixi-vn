@@ -25,8 +25,8 @@ export interface ActivityBaseModelProps {
      */
     fromDay?: number
     /**
-     * The day when the activity ends. If the activity is ended yet, it will be hidden.
-     * If you set 3, the activity will be shown into days 1 and 2 and will be hidden from day 3.
+     * The day when the activity ends. If the activity is ended yet, it will be deleted or hidden.
+     * If you set 3, the activity will be shown into days 1 and 2 and will be deleted or hidden from day 3.
      */
     toDay?: number
     /**
