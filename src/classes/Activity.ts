@@ -18,11 +18,15 @@ export interface ActivityBaseModelProps {
      */
     endHour?: number
     /**
-     * The start day
+     * The start day. if the activity is not started yet, it will be hidden.
+     * @example
+     * if you set 3, the activity will be hidden into days 1 and 2, and will be shown from day 3.
      */
     startDay?: number
     /**
-     * The end day
+     * The end day. if the activity is ended yet, it will be hidden.
+     * @example
+     * if you set 3, the activity will be shown into days 1, and 2, and will be hidden from day 3.
      */
     endDay?: number
     /**
@@ -107,7 +111,7 @@ export default class ActivityBaseModel extends StoredClassModel {
 
     private defaultHidden: boolean | string
     get hidden(): boolean {
-        if (this.startDay && this.startDay >= TimeManager.currentDay) {
+        if (this.startDay && this.startDay > TimeManager.currentDay) {
             return true
         }
         if (!this.isDeadline) {

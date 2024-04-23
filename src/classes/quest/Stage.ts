@@ -34,11 +34,6 @@ export default class StageBaseModel extends StoredClassModel {
     }
 
 
-    private _startDay: undefined | number = undefined
-    get startDay(): undefined | number {
-        return this._startDay
-    }
-
     private _completed: boolean = false
     get completed(): boolean {
         return this._completed
