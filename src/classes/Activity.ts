@@ -10,25 +10,23 @@ export interface ActivityBaseModelProps {
      */
     name?: string
     /**
-     * The start hour and end hour
+     * The start hour
      */
     startHour?: number
     /**
-     * The start hour and end hour
+     * The end hour
      */
     endHour?: number
     /**
-     * The start day. if the activity is not started yet, it will be hidden.
-     * @example
-     * if you set 3, the activity will be hidden into days 1 and 2, and will be shown from day 3.
+     * The day when the activity starts. If the activity is not started yet, it will be hidden.
+     * If you set 3, the activity will be hidden into days 1 and 2, and will be shown from day 3.
      */
-    startDay?: number
+    fromDay?: number
     /**
-     * The end day. if the activity is ended yet, it will be hidden.
-     * @example
-     * if you set 3, the activity will be shown into days 1, and 2, and will be hidden from day 3.
+     * The day when the activity ends. If the activity is ended yet, it will be hidden.
+     * If you set 3, the activity will be shown into days 1 and 2 and will be hidden from day 3.
      */
-    endDay?: number
+    toDay?: number
     /**
      * Whether is disabled. You can also pass a Pixi'VN flag name.
      */
@@ -48,9 +46,9 @@ export default class ActivityBaseModel extends StoredClassModel {
         super(ACTIVITY_CATEGORY, id)
         this.defaultName = props.name || ""
         this.defaultStartHour = props.startHour
-        this.defaultEndDay = props.endHour
-        this.defaultStartDay = props.startDay
-        this.defaultEndDay = props.endDay
+        this.defaultEndHour = props.endHour
+        this.defaultFromDay = props.fromDay
+        this.defaultToDay = props.toDay
         this.defaultDisabled = props.disabled || false
         this.defaultHidden = props.hidden || false
         this._iconElement = props.iconElement
@@ -81,20 +79,20 @@ export default class ActivityBaseModel extends StoredClassModel {
         this.setStorageProperty("endHour", value)
     }
 
-    private defaultStartDay?: number
-    get startDay(): number | undefined {
-        return this.getStorageProperty<number>("startDay") || this.defaultStartDay
+    private defaultFromDay?: number
+    get fromDay(): number | undefined {
+        return this.getStorageProperty<number>("fromDay") || this.defaultFromDay
     }
-    set startDay(value: number | undefined) {
-        this.setStorageProperty("startDay", value)
+    set fromDay(value: number | undefined) {
+        this.setStorageProperty("fromDay", value)
     }
 
-    private defaultEndDay?: number
-    get endDay(): number | undefined {
-        return this.getStorageProperty<number>("endDay") || this.defaultEndDay
+    private defaultToDay?: number
+    get toDay(): number | undefined {
+        return this.getStorageProperty<number>("toDay") || this.defaultToDay
     }
-    set endDay(value: number | undefined) {
-        this.setStorageProperty("endDay", value)
+    set toDay(value: number | undefined) {
+        this.setStorageProperty("toDay", value)
     }
 
     private defaultDisabled: boolean | string
@@ -111,7 +109,7 @@ export default class ActivityBaseModel extends StoredClassModel {
 
     private defaultHidden: boolean | string
     get hidden(): boolean {
-        if (this.startDay && this.startDay > TimeManager.currentDay) {
+        if (this.fromDay && this.fromDay > TimeManager.currentDay) {
             return true
         }
         if (!this.isDeadline) {
@@ -138,7 +136,7 @@ export default class ActivityBaseModel extends StoredClassModel {
     }
 
     isDeadline(): boolean {
-        if (this.endDay && this.endDay <= TimeManager.currentDay) {
+        if (this.toDay && this.toDay <= TimeManager.currentDay) {
             return true
         }
         return false
