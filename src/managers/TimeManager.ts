@@ -1,7 +1,7 @@
 import { GameStorageManager } from "@drincs/pixi-vn";
 
-const TIME_SETTINGS_KEY = '___TimeManagerSettings___';
-const TIME_DATA_KEY = '___TimeManagerData___';
+const TIME_SETTINGS_KEY = '___nqtr_time_manager_settings___';
+const TIME_DATA_KEY = '___nqtr_time_manager_data___';
 
 export interface ITimeSettings {
     minDayHour?: number
