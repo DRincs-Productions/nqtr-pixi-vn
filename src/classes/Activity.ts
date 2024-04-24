@@ -162,7 +162,8 @@ export abstract class ActivityStoredAbstract {
 }
 
 export default class ActivityModel {
-    constructor(onRun: (activity: ActivityModel) => void, props: ActivityProps) {
+    constructor(id: string, onRun: (activity: ActivityModel) => void, props: ActivityProps) {
+        this._id = id
         this._name = props.name
         this._fromHour = props.fromHour
         this._toHour = props.toHour
@@ -172,6 +173,11 @@ export default class ActivityModel {
         this._hidden = props.hidden || false
         this._iconElement = props.iconElement
         this._onRun = onRun
+    }
+
+    private _id: string
+    get id(): string {
+        return this._id
     }
 
     private _name?: string
