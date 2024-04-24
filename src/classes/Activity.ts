@@ -2,8 +2,6 @@ import { getFlag } from "@drincs/pixi-vn";
 import TimeManager from "../managers/TimeManager";
 import { GraphicItemType } from "../types/GraphicItem";
 
-const ACTIVITY_CATEGORY = "__NQTR-Activity__"
-
 export interface ActivityProps {
     /**
      * The name
