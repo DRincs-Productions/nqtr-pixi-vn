@@ -7,7 +7,7 @@ export class ActivityRoom<TRoom extends RoomBaseModel = RoomBaseModel> extends A
         this._id = id
         this._room = room
     }
-    setStorageProperty<T>(propertyName: string, value: T | undefined): void {
+    setStorageProperty<T>(_: string, __: T | undefined): void {
         this._room.setActivity(this)
     }
     getStorageProperty<T>(propertyName: string): T | undefined {
