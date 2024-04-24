@@ -1,12 +1,15 @@
 import { getFlag, StoredClassModel } from "@drincs/pixi-vn";
 import { getActivityById } from "../../decorators";
 import { GraphicItemType } from "../../types/GraphicItem";
-import ActivityBaseModel from "../Activity";
+import ActivityModel, { ActivityProps } from "../Activity";
+import { ActivityRoom } from "./ActivityRoom";
 import LocationBaseModel from "./Location";
 
-const ROOM_CATEGORY = "__NQTR-Room__"
+export const ROOM_CATEGORY = "__NQTR-Room__"
 
-export interface RoomBaseModelProps<TActivity extends ActivityBaseModel> {
+interface RoomActivityMemory { [key: string]: ActivityProps }
+
+export interface RoomBaseModelProps {
     /**
      * The name
      */
@@ -28,7 +31,7 @@ export interface RoomBaseModelProps<TActivity extends ActivityBaseModel> {
     /**
      * The activities that are available in this room.
      */
-    defaultActivities?: TActivity[],
+    defaultActivities?: ActivityModel[],
     /**
      * Whether is disabled. You can also pass a Pixi'VN flag name.
      */
@@ -43,13 +46,13 @@ export interface RoomBaseModelProps<TActivity extends ActivityBaseModel> {
     iconElement?: GraphicItemType
 }
 
-export default class RoomBaseModel<TLocation extends LocationBaseModel = LocationBaseModel, TActivity extends ActivityBaseModel = ActivityBaseModel> extends StoredClassModel {
-    constructor(id: string, location: TLocation, props: RoomBaseModelProps<TActivity>) {
+export default class RoomBaseModel<TLocation extends LocationBaseModel = LocationBaseModel> extends StoredClassModel {
+    constructor(id: string, location: TLocation, props: RoomBaseModelProps) {
         super(ROOM_CATEGORY, id)
         this._location = location
         this.defaultName = props.name || ""
         this.defaultImage = props.image
-        this.defaultActivities = props.defaultActivities || []
+        this.defaultActivityIds = props.defaultActivities?.map(activity => activity.id) || []
         this.defaultDisabled = props.disabled || false
         this.defaultHidden = props.hidden || false
         this._iconElement = props.iconElement
@@ -76,38 +79,90 @@ export default class RoomBaseModel<TLocation extends LocationBaseModel = Locatio
         this.setStorageProperty("image", value)
     }
 
-    private defaultActivities: TActivity[]
-    get defaultActivityIds(): string[] {
-        return this.defaultActivities.map(activity => activity.id)
+    private defaultActivityIds: string[]
+    get defaultActivities(): ActivityRoom[] {
+        let roomMemories = this.getStorageProperty<RoomActivityMemory>("activities_memory") || {}
+        let activities = this.defaultActivityIds.map(id => {
+            let activity = getActivityById(id)
+            if (!activity) {
+                console.warn(`[NQTR] Activity with id ${id} not found, so it will be ignored.`)
+                return undefined
+            }
+            let memory = activity.export()
+            if (roomMemories && roomMemories[id]) {
+                memory = {
+                    ...memory,
+                    ...roomMemories[id]
+                }
+            }
+            return new ActivityRoom(id, this, activity.onRun, memory)
+        })
+        return activities.filter(activity => activity !== undefined)
     }
-    addAdditionalActivity(activity: TActivity) {
-        let activityIds = this.getStorageProperty<string[]>("additional_activities") || []
-        if (activityIds.includes(activity.id) || this.defaultActivityIds.includes(activity.id)) {
-            console.warn(`[NQTR] Activity id ${activity.id} already exists in room ${this.id}`)
+
+    get activityIds(): string[] {
+        let addedActivityIds = this.getStorageProperty<string[]>(`addedActivityIds`) || []
+        return this.defaultActivityIds.concat(addedActivityIds)
+    }
+    getActivityMemory(id: string): object | undefined {
+        let roomMemories = this.getStorageProperty<RoomActivityMemory>("activities_memory") || {}
+        let roomMemory = roomMemories[id] || {}
+        return roomMemory
+    }
+    getActivity(id: string): ActivityRoom | undefined {
+        if (!this.activityIds.includes(id)) {
+            console.error(`[NQTR] Activity with id ${id} not found in room ${this.id}`)
+            return undefined
+        }
+        let activity = getActivityById(id)
+        if (!activity) {
+            console.error(`[NQTR] Activity with id ${id} not found`)
+            return undefined
+        }
+        let roomMemories = this.getStorageProperty<RoomActivityMemory>("activities_memory") || {}
+        let roomMemory = roomMemories[id] || {}
+        roomMemory = {
+            ...activity.export(),
+            ...roomMemory
+        }
+        return new ActivityRoom(id, this, activity.onRun, roomMemory)
+    }
+    setActivity(activity: ActivityRoom) {
+        let roomMemories = this.getStorageProperty<RoomActivityMemory>("activities_memory") || {}
+        roomMemories[activity.id] = activity.export()
+        this.setStorageProperty("activities_memory", roomMemories)
+    }
+    addActivity(activity: ActivityModel) {
+        if (this.activityIds.includes(activity.id)) {
+            console.error(`[NQTR] Activity with id ${activity.id} already exists in room ${this.id}, so it will be ignored.`)
             return
         }
-        activityIds.push(activity.id)
-        this.setStorageProperty("additional_activities", activityIds)
+        let addedActivityIds = this.getStorageProperty<string[]>(`addedActivityIds`) || []
+        addedActivityIds.push(activity.id)
+        this.setStorageProperty("addedActivityIds", addedActivityIds)
     }
-    removeAdditionalActivity(activity: TActivity) {
-        let activityIds = this.getStorageProperty<string[]>("additional_activities") || []
-        if (!activityIds.includes(activity.id)) {
-            console.warn(`[NQTR] Activity id ${activity.id} does not exist in room ${this.id}`)
+    removeActivity(activity: ActivityModel) {
+        if (this.defaultActivityIds.includes(activity.id)) {
+            console.warn(`[NQTR] Activity with id ${activity.id} is a default activity, so it can't be removed. It will be hidden instead.`)
+            let activityToEdit = this.getActivity(activity.id)
+            if (!activityToEdit) {
+                console.error(`[NQTR] Activity with id ${activity.id} not found, so it can't be hidden.`)
+                return
+            }
+            activityToEdit.hidden = true
             return
         }
-        activityIds = activityIds.filter(id => id !== activity.id)
-        this.setStorageProperty("additional_activities", activityIds)
-    }
-    get additionalActivities(): TActivity[] {
-        let activityIds = this.getStorageProperty<string[]>("additional_activities") || []
-        return activityIds.map(id => getActivityById<TActivity>(id)).filter(activity => activity !== undefined)
-    }
-    set additionalActivities(value: TActivity[]) {
-        let activityIds = value.map(activity => activity.id)
-        this.setStorageProperty("additional_activities", activityIds)
-    }
-    get activities(): TActivity[] {
-        return this.defaultActivities.concat(this.additionalActivities)
+        let addedActivityIds = this.getStorageProperty<string[]>(`addedActivityIds`) || []
+        let index = addedActivityIds.indexOf(activity.id)
+        if (index === -1) {
+            console.error(`[NQTR] Activity with id ${activity.id} not found, so it can't be removed.`)
+            return
+        }
+        addedActivityIds.splice(index, 1)
+        this.setStorageProperty("addedActivityIds", addedActivityIds)
+        let roomMemories = this.getStorageProperty<RoomActivityMemory>("activities_memory") || {}
+        delete roomMemories[activity.id]
+        this.setStorageProperty("activities_memory", roomMemories)
     }
 
     private defaultDisabled: boolean | string
