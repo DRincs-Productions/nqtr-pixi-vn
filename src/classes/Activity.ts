@@ -1,4 +1,4 @@
-import { getFlag, StoredClassModel } from "@drincs/pixi-vn";
+import { getFlag } from "@drincs/pixi-vn";
 import TimeManager from "../managers/TimeManager";
 import { GraphicItemType } from "../types/GraphicItem";
 
@@ -43,8 +43,8 @@ export interface ActivityProps {
     iconElement?: GraphicItemType
 }
 
-export abstract class ActivityAbstract {
-    constructor(onRun: (activity: ActivitySynchronizedModel) => void, props: ActivityProps) {
+export abstract class ActivityStoredAbstract {
+    constructor(onRun: (activity: ActivityModel) => void, props: ActivityProps) {
         this.defaultName = props.name
         this.defaultFromHour = props.fromHour
         this.defaultToHour = props.toHour
@@ -135,7 +135,7 @@ export abstract class ActivityAbstract {
         return this._iconElement
     }
 
-    private _onRun: (activity: ActivitySynchronizedModel) => void
+    private _onRun: (activity: ActivityModel) => void
     get onRun() {
         return this._onRun
     }
@@ -161,19 +161,93 @@ export abstract class ActivityAbstract {
     }
 }
 
-export default class ActivitySynchronizedModel extends ActivityAbstract {
-    constructor(id: string, onRun: (activity: ActivitySynchronizedModel) => void, props: ActivityProps) {
-        super(onRun, props)
-        this._internalStorage = new StoredClassModel(ACTIVITY_CATEGORY, id)
+export default class ActivityModel {
+    constructor(onRun: (activity: ActivityModel) => void, props: ActivityProps) {
+        this._name = props.name
+        this._fromHour = props.fromHour
+        this._toHour = props.toHour
+        this._fromDay = props.fromDay
+        this._toDay = props.toDay
+        this._disabled = props.disabled || false
+        this._hidden = props.hidden || false
+        this._iconElement = props.iconElement
+        this._onRun = onRun
     }
-    private _internalStorage: StoredClassModel
-    setStorageProperty<T>(propertyName: string, value: T | undefined): void {
-        this._internalStorage.setStorageProperty(propertyName, value)
+
+    private _name?: string
+    get name(): string | undefined {
+        return this._name
     }
-    getStorageProperty<T>(propertyName: string): T | undefined {
-        return this._internalStorage.getStorageProperty(propertyName)
+
+    private _fromHour?: number
+    get fromHour(): number | undefined {
+        return this._fromHour
     }
-    get id(): string {
-        return this._internalStorage.id
+
+    private _toHour?: number
+    get toHour(): number | undefined {
+        return this._toHour
+    }
+
+    private _fromDay?: number
+    get fromDay(): number | undefined {
+        return this._fromDay
+    }
+
+    private _toDay?: number
+    get toDay(): number | undefined {
+        return this._toDay
+    }
+
+    private _disabled?: boolean | string
+    get disabled(): boolean | undefined {
+        if (typeof this._disabled === "string") {
+            return getFlag(this._disabled)
+        }
+        return this._disabled
+    }
+
+    private _hidden: boolean | string
+    get hidden(): boolean {
+        if (this.fromDay && this.fromDay > TimeManager.currentDay) {
+            return true
+        }
+        if (!this.isDeadline) {
+            return true
+        }
+        if (typeof this._hidden === "string") {
+            return getFlag(this._hidden)
+        }
+        return this._hidden
+    }
+
+    private _iconElement?: GraphicItemType
+    get iconElement(): GraphicItemType | undefined {
+        return this._iconElement
+    }
+
+    private _onRun: (activity: ActivityModel) => void
+    get onRun() {
+        return this._onRun
+    }
+
+    isDeadline(): boolean {
+        if (this.toDay && this.toDay <= TimeManager.currentDay) {
+            return true
+        }
+        return false
+    }
+
+    export(): ActivityProps {
+        return {
+            name: this._name,
+            fromHour: this._fromHour,
+            toHour: this._toHour,
+            fromDay: this._fromDay,
+            toDay: this._toDay,
+            disabled: this._disabled,
+            hidden: this._hidden,
+            iconElement: this._iconElement,
+        }
     }
 }

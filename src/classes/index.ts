@@ -1,1 +1,1 @@
-export { default as ActivitySynchronizedModel } from './Activity';
+export { default as ActivityModel, ActivityProps } from './Activity';
