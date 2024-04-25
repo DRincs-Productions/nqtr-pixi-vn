@@ -104,6 +104,12 @@ export default class RoomBaseModel<TLocation extends LocationBaseModel = Locatio
         let addedActivityIds = this.getStorageProperty<string[]>(`addedActivityIds`) || []
         return this.defaultActivityIds.concat(addedActivityIds)
     }
+    get activities(): ActivityRoom[] {
+        let activities = this.activityIds.map(id => {
+            return this.getActivity(id)
+        })
+        return activities.filter(activity => activity !== undefined)
+    }
     getActivityMemory(id: string): object | undefined {
         let roomMemories = this.getStorageProperty<RoomActivityMemory>("activities_memory") || {}
         let roomMemory = roomMemories[id] || {}
@@ -141,28 +147,36 @@ export default class RoomBaseModel<TLocation extends LocationBaseModel = Locatio
         addedActivityIds.push(activity.id)
         this.setStorageProperty("addedActivityIds", addedActivityIds)
     }
-    removeActivity(activity: ActivityModel) {
-        if (this.defaultActivityIds.includes(activity.id)) {
-            console.warn(`[NQTR] Activity with id ${activity.id} is a default activity, so it can't be removed. It will be hidden instead.`)
-            let activityToEdit = this.getActivity(activity.id)
+    removeActivity(activity: ActivityModel | string) {
+        let activityId = typeof activity === "string" ? activity : activity.id
+        if (this.defaultActivityIds.includes(activityId)) {
+            console.warn(`[NQTR] Activity with id ${activityId} is a default activity, so it can't be removed. It will be hidden instead.`)
+            let activityToEdit = this.getActivity(activityId)
             if (!activityToEdit) {
-                console.error(`[NQTR] Activity with id ${activity.id} not found, so it can't be hidden.`)
+                console.error(`[NQTR] Activity with id ${activityId} not found, so it can't be hidden.`)
                 return
             }
             activityToEdit.hidden = true
             return
         }
         let addedActivityIds = this.getStorageProperty<string[]>(`addedActivityIds`) || []
-        let index = addedActivityIds.indexOf(activity.id)
+        let index = addedActivityIds.indexOf(activityId)
         if (index === -1) {
-            console.error(`[NQTR] Activity with id ${activity.id} not found, so it can't be removed.`)
+            console.error(`[NQTR] Activity with id ${activityId} not found, so it can't be removed.`)
             return
         }
         addedActivityIds.splice(index, 1)
         this.setStorageProperty("addedActivityIds", addedActivityIds)
         let roomMemories = this.getStorageProperty<RoomActivityMemory>("activities_memory") || {}
-        delete roomMemories[activity.id]
+        delete roomMemories[activityId]
         this.setStorageProperty("activities_memory", roomMemories)
+    }
+    clearExpiredActions() {
+        this.activities.forEach(activity => {
+            if (activity.isDeadline()) {
+                this.removeActivity(activity.id)
+            }
+        })
     }
 
     private defaultDisabled: boolean | string
