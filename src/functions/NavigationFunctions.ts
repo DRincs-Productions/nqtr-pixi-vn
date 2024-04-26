@@ -2,7 +2,7 @@ import { GameStorageManager } from "@drincs/pixi-vn";
 import { LocationBaseModel, MapBaseModel, RoomBaseModel } from "../classes/navigation";
 import { getRoomById } from "../decorators/RoomDecorator";
 
-const CURRENT_ROOM_MEMORY_KEY = '___nqtr_current_room_memory___';
+const CURRENT_ROOM_MEMORY_KEY = '___nqtr-current_room_memory___';
 
 export function setCurrentRoom<TRoom extends RoomBaseModel = RoomBaseModel>(room: TRoom) {
     let roomRegistrated = getRoomById(room.id);
