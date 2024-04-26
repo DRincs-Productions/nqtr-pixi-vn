@@ -1,5 +1,5 @@
 import { GameStorageManager } from "@drincs/pixi-vn";
-import { RoomBaseModel } from "../classes/navigation";
+import { LocationBaseModel, MapBaseModel, RoomBaseModel } from "../classes/navigation";
 import { getRoomById } from "../decorators/RoomDecorator";
 
 const CURRENT_ROOM_MEMORY_KEY = '___nqtr_current_room_memory___';
@@ -25,4 +25,20 @@ export function getCurrentRoom<TRoom extends RoomBaseModel = RoomBaseModel>(): T
         return
     }
     return room
+}
+
+export function getCurrenrLocation<TLocation extends LocationBaseModel = LocationBaseModel>(): TLocation | undefined {
+    let room = getCurrentRoom<RoomBaseModel<TLocation>>();
+    if (!room) {
+        return
+    }
+    return room.location
+}
+
+export function getCueerntMap<TMap extends MapBaseModel = MapBaseModel>(): TMap | undefined {
+    let location = getCurrenrLocation<LocationBaseModel<TMap>>();
+    if (!location) {
+        return
+    }
+    return location.map
 }
