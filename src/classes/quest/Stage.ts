@@ -2,7 +2,7 @@ import { StoredClassModel } from "@drincs/pixi-vn";
 import { QuestsRequiredType } from "../../types/QuestsRequired";
 import Goal, { IGoal } from "./Goal";
 
-const STAGE_CATEGORY = "__NQTR-Stage__"
+const STAGE_CATEGORY = "__nqtr-stage__"
 
 export interface StageBaseModelProps {
     goals?: Goal[]

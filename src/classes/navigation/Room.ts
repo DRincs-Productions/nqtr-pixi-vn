@@ -5,7 +5,7 @@ import ActivityModel, { ActivityProps } from "../Activity";
 import { ActivityRoom } from "./ActivityRoom";
 import LocationBaseModel from "./Location";
 
-export const ROOM_CATEGORY = "__NQTR-Room__"
+export const ROOM_CATEGORY = "__nqtr-room__"
 
 interface RoomActivityMemory { [key: string]: ActivityProps }
 

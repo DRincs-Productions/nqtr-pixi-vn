@@ -1,7 +1,7 @@
 import { getFlag, StoredClassModel } from "@drincs/pixi-vn"
 import { GraphicItemType } from "../../types/GraphicItem"
 
-const MAP_CATEGORY = "__NQTR-Map__"
+const MAP_CATEGORY = "__nqtr-map__"
 
 export interface MapBaseModelProps<TMap extends MapBaseModel = MapBaseModel> {
     /**

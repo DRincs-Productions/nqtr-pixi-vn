@@ -1,7 +1,7 @@
 import { StoredClassModel } from "@drincs/pixi-vn";
 import StageBaseModel from "./Stage";
 
-const QUEST_CATEGORY = "__NQTR-Quest__"
+const QUEST_CATEGORY = "__nqtr-quest__"
 
 export interface QuestBaseModelProps {
     name?: string

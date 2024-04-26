@@ -4,7 +4,7 @@ import TimeManager from "../managers/TimeManager";
 import { GraphicItemType } from "../types/GraphicItem";
 import { RoomBaseModel } from "./navigation";
 
-const COMMITMENT_CATEGORY = "__NQTR-Commitment__"
+const COMMITMENT_CATEGORY = "__nqtr-commitment__"
 
 export interface CommitmentBaseModelProps {
     /**

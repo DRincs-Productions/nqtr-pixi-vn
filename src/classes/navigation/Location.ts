@@ -3,7 +3,7 @@ import { GraphicItemType } from "../../types/GraphicItem";
 import MapBaseModel from "./Map";
 import RoomBaseModel from "./Room";
 
-const LOCATION_CATEGORY = "__NQTR-Location__"
+const LOCATION_CATEGORY = "__nqtr-location__"
 
 export interface LocationBaseModelProps {
     /**
