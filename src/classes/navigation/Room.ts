@@ -140,8 +140,14 @@ export default class RoomBaseModel<TLocation extends LocationBaseModel = Locatio
     }
     addActivity(activity: ActivityModel) {
         if (this.activityIds.includes(activity.id)) {
-            console.error(`[NQTR] Activity with id ${activity.id} already exists in room ${this.id}, so it will be ignored.`)
-            return
+            let currentActivity = this.getActivity(activity.id)
+            if (currentActivity && currentActivity.isExpired()) {
+                this.removeActivity(activity.id)
+                return
+            } else {
+                console.error(`[NQTR] Activity with id ${activity.id} already exists in room ${this.id}, so it will be ignored.`)
+                return
+            }
         }
         let addedActivityIds = this.getStorageProperty<string[]>(`addedActivityIds`) || []
         addedActivityIds.push(activity.id)
