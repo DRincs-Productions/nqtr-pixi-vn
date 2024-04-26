@@ -115,7 +115,7 @@ export abstract class ActivityStoredAbstract {
         if (this.fromDay && this.fromDay > TimeManager.currentDay) {
             return true
         }
-        if (!this.isDeadline) {
+        if (!this.isExpired) {
             return true
         }
         let value = this.getStorageProperty<boolean>("hidden") || this.defaultHidden
@@ -138,7 +138,7 @@ export abstract class ActivityStoredAbstract {
         return this._onRun
     }
 
-    isDeadline(): boolean {
+    isExpired(): boolean {
         if (this.toDay && this.toDay <= TimeManager.currentDay) {
             return true
         }

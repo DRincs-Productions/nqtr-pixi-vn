@@ -171,9 +171,9 @@ export default class RoomBaseModel<TLocation extends LocationBaseModel = Locatio
         delete roomMemories[activityId]
         this.setStorageProperty("activities_memory", roomMemories)
     }
-    clearExpiredActions() {
+    clearExpiredActivities() {
         this.activities.forEach(activity => {
-            if (activity.isDeadline()) {
+            if (activity.isExpired()) {
                 this.removeActivity(activity.id)
             }
         })
