@@ -17,18 +17,22 @@ export function getCurrentCommitments<TCommitment extends CommitmentBaseModel = 
 
 export function getCommitmentByCharacter<TCommitment extends CommitmentBaseModel = CommitmentBaseModel, TCharacter extends CharacterBaseModel = CharacterBaseModel>(character: TCharacter): TCommitment | undefined {
     getTemporaryCommitments<TCommitment>().reverse().forEach(c => {
-        c.characters.forEach(ch => {
-            if (ch.id === character.id) {
-                return c
-            }
-        })
+        if (!c.hidden) {
+            c.characters.forEach(ch => {
+                if (ch.id === character.id) {
+                    return c
+                }
+            })
+        }
     })
     getFixedCommitments<TCommitment>().reverse().forEach(c => {
-        c.characters.forEach(ch => {
-            if (ch.id === character.id) {
-                return c
-            }
-        })
+        if (!c.hidden) {
+            c.characters.forEach(ch => {
+                if (ch.id === character.id) {
+                    return c
+                }
+            })
+        }
     })
     return undefined
 }

@@ -12,13 +12,25 @@ export interface CommitmentBaseModelProps {
      */
     name?: string
     /**
-     * The start hour
+     * The hour when the commitment starts. If the commitment is not started yet, it will be hidden.
+     * If you set 3, the commitment will be hidden into hours 1 and 2, and will be shown from hour 3.
      */
-    startHour?: number
+    fromHour?: number
     /**
-     * The end hour
+     * The hour when the commitment ends. If the commitment is ended yet, it will be hidden.
+     * If you set 3, the commitment will be shown into hours 1 and 2 and will be hidden from hour 3.
      */
-    endHour?: number
+    toHour?: number
+    /**
+     * The day when the commitment starts. If the commitment is not started yet, it will be hidden.
+     * If you set 3, the commitment will be hidden into days 1 and 2, and will be shown from day 3.
+     */
+    fromDay?: number
+    /**
+     * The day when the commitment ends. If the commitment is ended yet, it will be deleted or hidden.
+     * If you set 3, the commitment will be shown into days 1 and 2 and will be deleted or hidden from day 3.
+     */
+    toDay?: number
     /**
      * The image. It can be a string, an HTMLElement or a Pixi'VN Canvas Item.
      * Or an object to manage multiple image types. For example to have a image based on time.
@@ -34,10 +46,6 @@ export interface CommitmentBaseModelProps {
      */
     image?: GraphicItemType | { [key: string]: GraphicItemType }
     /**
-     * The end day
-     */
-    endDay?: number
-    /**
      * Execution type. If is "automatic" the onRun() runned automatically when the palayer is in the room. If is "interaction" the player must interact with the character to run the onRun() function.
      */
     executionType?: ExecutionTypeEnum
@@ -52,6 +60,10 @@ export interface CommitmentBaseModelProps {
      * If it is disabled this commitment will not be taken into consideration. So the characters will not be in the room, but will be busy with other commitments.
      */
     disabled?: boolean | string
+    /**
+     * Whether is hidden. You can also pass a Pixi'VN flag name.
+     */
+    hidden?: boolean | string
 }
 
 export default class CommitmentBaseModel<TCharacter extends CharacterBaseModel = CharacterBaseModel, TRoom extends RoomBaseModel = RoomBaseModel> extends StoredClassModel {
@@ -60,13 +72,15 @@ export default class CommitmentBaseModel<TCharacter extends CharacterBaseModel =
         this._characters = Array.isArray(character) ? character : [character]
         this._room = room
         this._name = props.name || ""
-        this._startHour = props.startHour
-        this._endHour = props.endHour
+        this.defaultFromHour = props.fromHour
+        this.defaultToHour = props.toHour
+        this.defaultFromDay = props.fromDay
+        this.defaultToDay = props.toDay
         this._image = props.image
-        this._endDay = props.endDay
         this._executionType = props.executionType || ExecutionTypeEnum.INTERACTION
         this._onRun = props.onRun
         this.defaultDisabled = props.disabled || false
+        this.defaultHidden = props.hidden || false
     }
 
     private _characters: TCharacter[]
@@ -84,24 +98,41 @@ export default class CommitmentBaseModel<TCharacter extends CharacterBaseModel =
         return this._name
     }
 
-    private _startHour?: number
-    get startHour(): number {
-        return this._startHour || TimeManager.minDayHour
+    private defaultFromHour?: number
+    get fromHour(): number {
+        return this.getStorageProperty<number>("fromHour") || this.defaultFromHour || TimeManager.minDayHour
+    }
+    set fromHour(value: number | undefined) {
+        this.setStorageProperty("fromHour", value)
     }
 
-    private _endHour?: number
-    get endHour(): number {
-        return this._endHour || (TimeManager.maxDayHour + 1)
+    private defaultToHour?: number
+    get toHour(): number {
+        return this.getStorageProperty<number>("toHour") || this.defaultToHour || (TimeManager.maxDayHour + 1)
+    }
+    set toHour(value: number | undefined) {
+        this.setStorageProperty("toHour", value)
+    }
+
+    private defaultFromDay?: number
+    get fromDay(): number | undefined {
+        return this.getStorageProperty<number>("fromDay") || this.defaultFromDay
+    }
+    set fromDay(value: number | undefined) {
+        this.setStorageProperty("fromDay", value)
+    }
+
+    private defaultToDay?: number
+    get toDay(): number | undefined {
+        return this.getStorageProperty<number>("toDay") || this.defaultToDay
+    }
+    set toDay(value: number | undefined) {
+        this.setStorageProperty("toDay", value)
     }
 
     private _image?: GraphicItemType | { [key: string]: GraphicItemType }
     get image(): GraphicItemType | { [key: string]: GraphicItemType } | undefined {
         return this._image
-    }
-
-    private _endDay?: number
-    get endDay(): number | undefined {
-        return this._endDay
     }
 
     private _executionType: ExecutionTypeEnum
@@ -129,5 +160,33 @@ export default class CommitmentBaseModel<TCharacter extends CharacterBaseModel =
     }
     set disabled(value: boolean | string) {
         this.setStorageProperty("disabled", value)
+    }
+
+    private defaultHidden: boolean | string
+    get hidden(): boolean {
+        if (this.fromDay && this.fromDay > TimeManager.currentDay) {
+            return true
+        }
+        if (!TimeManager.nowIsBetween(this.fromHour, this.toHour)) {
+            return true
+        }
+        if (!this.isExpired) {
+            return true
+        }
+        let value = this.getStorageProperty<boolean>("hidden") || this.defaultHidden
+        if (typeof value === "string") {
+            return getFlag(value)
+        }
+        return value
+    }
+    set hidden(value: boolean | string) {
+        this.setStorageProperty("hidden", value)
+    }
+
+    isExpired(): boolean {
+        if (this.toDay && this.toDay <= TimeManager.currentDay) {
+            return true
+        }
+        return false
     }
 }
