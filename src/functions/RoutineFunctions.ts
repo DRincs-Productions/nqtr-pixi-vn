@@ -1,8 +1,15 @@
 import { CharacterBaseModel, getAllCharacters } from "@drincs/pixi-vn";
 import CommitmentBaseModel from "../classes/Commitment";
 import { getFixedCommitments, getTemporaryCommitments } from "../decorators";
+import { registeredCommitments } from "../decorators/CommitmentDecorator";
 
-export function clearExpiredRoutine() { }
+export function clearExpiredRoutine() {
+    Object.entries(registeredCommitments).forEach(([_, commitment]) => {
+        if (commitment.isExpired()) {
+            delete registeredCommitments[commitment.id]
+        }
+    })
+}
 
 export function getCurrentCommitments<TCommitment extends CommitmentBaseModel = CommitmentBaseModel>(): TCommitment[] {
     let commitments: TCommitment[] = []
