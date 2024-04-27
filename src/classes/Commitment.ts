@@ -67,9 +67,9 @@ export interface CommitmentBaseModelProps {
 }
 
 export default class CommitmentBaseModel<TCharacter extends CharacterBaseModel = CharacterBaseModel, TRoom extends RoomBaseModel = RoomBaseModel> extends StoredClassModel {
-    constructor(id: string, character: TCharacter | TCharacter[], room: TRoom, props: CommitmentBaseModelProps) {
+    constructor(id: string, character: TCharacter | TCharacter[] | undefined, room: TRoom, props: CommitmentBaseModelProps) {
         super(COMMITMENT_CATEGORY, id)
-        this._characters = Array.isArray(character) ? character : [character]
+        this._characters = character ? Array.isArray(character) ? character : [character] : []
         this._room = room
         this._name = props.name || ""
         this.defaultFromHour = props.fromHour
