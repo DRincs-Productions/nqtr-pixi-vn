@@ -11,18 +11,19 @@ export function clearExpiredRoutine() {
     })
 }
 
-// TODO: In the case of group commitments, it does not check whether the other characters are available for this commitment
 export function getCurrentCommitments<TCommitment extends CommitmentBaseModel = CommitmentBaseModel>(): TCommitment[] {
     let character_commitments: { [character: string]: TCommitment } = {}
     let oltherCommitments: TCommitment[] = []
     getTemporaryCommitments<TCommitment>().reverse().forEach(c => {
         if (!c.hidden) {
             if (c.characters.length > 1) {
-                c.characters.forEach(ch => {
-                    if (!character_commitments[ch.id]) {
+                // all the characters don't already have commitments
+                let allAvailable = c.characters.every(ch => !character_commitments[ch.id])
+                if (allAvailable) {
+                    c.characters.forEach(ch => {
                         character_commitments[ch.id] = c
-                    }
-                })
+                    })
+                }
             }
             else {
                 oltherCommitments.push(c)
