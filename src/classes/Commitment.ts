@@ -38,7 +38,7 @@ export interface CommitmentBaseModelProps {
      */
     endDay?: number
     /**
-     * Execution type. If is "automatic" the onInteraction() runned automatically when the palayer is in the room. If is "interaction" the player must interact with the character to run the onInteraction() function.
+     * Execution type. If is "automatic" the onRun() runned automatically when the palayer is in the room. If is "interaction" the player must interact with the character to run the onRun() function.
      */
     executionType?: ExecutionTypeEnum
     /**
@@ -46,7 +46,7 @@ export interface CommitmentBaseModelProps {
      * @param commitment 
      * @returns 
      */
-    onInteraction?: (commitment: CommitmentBaseModel) => void
+    onRun?: (commitment: CommitmentBaseModel) => void
     /**
      * Whether is disabled. You can also pass a Pixi'VN flag name.
      * If it is disabled this commitment will not be taken into consideration. So the characters will not be in the room, but will be busy with other commitments.
@@ -65,7 +65,7 @@ export default class CommitmentBaseModel<TCharacter extends CharacterBaseModel =
         this._image = props.image
         this._endDay = props.endDay
         this._executionType = props.executionType || ExecutionTypeEnum.INTERACTION
-        this._onInteraction = props.onInteraction
+        this._onRun = props.onRun
         this.defaultDisabled = props.disabled || false
     }
 
@@ -109,13 +109,13 @@ export default class CommitmentBaseModel<TCharacter extends CharacterBaseModel =
         return this._executionType
     }
 
-    private _onInteraction?: (commitment: CommitmentBaseModel) => void
-    onInteraction() {
-        if (!this._onInteraction) {
-            console.warn("[NQTR] onInteraction() is not defined for commitmen, so it will not run.", this)
+    private _onRun?: (commitment: CommitmentBaseModel) => void
+    onRun() {
+        if (!this._onRun) {
+            console.warn("[NQTR] onRun() is not defined for commitmen, so it will not run.", this)
         }
         else {
-            this._onInteraction(this)
+            this._onRun(this)
         }
     }
 
