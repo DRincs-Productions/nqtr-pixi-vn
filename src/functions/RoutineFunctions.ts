@@ -22,6 +22,7 @@ export function getCurrentCommitments<TCommitment extends CommitmentBaseModel = 
     return commitments
 }
 
+// TODO: In the case of group commitments, it does not check whether the other characters are available for this commitment
 export function getCommitmentByCharacter<TCommitment extends CommitmentBaseModel = CommitmentBaseModel, TCharacter extends CharacterBaseModel = CharacterBaseModel>(character: TCharacter): TCommitment | undefined {
     getTemporaryCommitments<TCommitment>().reverse().forEach(c => {
         if (!c.hidden) {
