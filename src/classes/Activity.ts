@@ -115,6 +115,9 @@ export abstract class ActivityStoredAbstract {
         if (this.fromDay && this.fromDay > TimeManager.currentDay) {
             return true
         }
+        if (!TimeManager.nowIsBetween(this.fromHour, this.toHour)) {
+            return true
+        }
         if (!this.isExpired) {
             return true
         }
