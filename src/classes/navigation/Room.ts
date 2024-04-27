@@ -1,7 +1,9 @@
 import { getFlag, StoredClassModel } from "@drincs/pixi-vn";
 import { getActivityById } from "../../decorators";
+import { getCurrentCommitments } from "../../functions/RoutineFunctions";
 import { GraphicItemType } from "../../types/GraphicItem";
 import ActivityModel, { ActivityProps } from "../Activity";
+import CommitmentBaseModel from "../Commitment";
 import { ActivityRoom } from "./ActivityRoom";
 import LocationBaseModel from "./Location";
 
@@ -212,5 +214,10 @@ export default class RoomBaseModel<TLocation extends LocationBaseModel = Locatio
     private _iconElement?: GraphicItemType
     get iconElement(): GraphicItemType | undefined {
         return this._iconElement
+    }
+
+    getRoutine<TCommitment extends CommitmentBaseModel = CommitmentBaseModel>(): TCommitment[] {
+        let commitments = getCurrentCommitments<TCommitment>()
+        return commitments.filter(c => c.room.id === this.id)
     }
 }
