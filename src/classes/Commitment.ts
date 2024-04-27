@@ -1,4 +1,4 @@
-import { CharacterModelBase, getFlag, StoredClassModel } from "@drincs/pixi-vn";
+import { CharacterBaseModel, getFlag, StoredClassModel } from "@drincs/pixi-vn";
 import { ExecutionTypeEnum } from "../enums/ExecutionTypeEnum";
 import TimeManager from "../managers/TimeManager";
 import { GraphicItemType } from "../types/GraphicItem";
@@ -54,7 +54,7 @@ export interface CommitmentBaseModelProps {
     disabled?: boolean | string
 }
 
-export default class CommitmentBaseModel<TCharacter extends CharacterModelBase = CharacterModelBase, TRoom extends RoomBaseModel = RoomBaseModel> extends StoredClassModel {
+export default class CommitmentBaseModel<TCharacter extends CharacterBaseModel = CharacterBaseModel, TRoom extends RoomBaseModel = RoomBaseModel> extends StoredClassModel {
     constructor(id: string, character: TCharacter | TCharacter[], room: TRoom, props: CommitmentBaseModelProps) {
         super(COMMITMENT_CATEGORY, id)
         this._characters = Array.isArray(character) ? character : [character]
