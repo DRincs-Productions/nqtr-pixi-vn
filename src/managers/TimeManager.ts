@@ -10,11 +10,11 @@ export interface TimeSettings {
     /**
      * Minimum hour of the day (default: 0)
      */
-    minDayHour?: number
+    minDayHours?: number
     /**
      * Maximum hour of the day (default: 24)
      */
-    maxDayHour?: number
+    maxDayHours?: number
     /**
      * Default time spent (default: 1)
      */
@@ -63,13 +63,13 @@ export default class TimeManager {
     private constructor() { }
     private static editSettings(settings: TimeSettings) {
         let data: any = {}
-        if (typeof settings.minDayHour === 'number') {
-            data['minDayHour'] = settings.minDayHour
+        if (typeof settings.minDayHours === 'number') {
+            data['minDayHours'] = settings.minDayHours
         }
-        if (typeof settings.maxDayHour === 'number') {
-            data['maxDayHour'] = settings.maxDayHour
+        if (typeof settings.maxDayHours === 'number') {
+            data['maxDayHours'] = settings.maxDayHours
         }
-        if (typeof settings.minDayHour === 'number') {
+        if (typeof settings.minDayHours === 'number') {
             data['defaultTimeSpent'] = settings.defaultTimeSpent
         }
         if (Array.isArray(settings.timeSlots)) {
@@ -107,19 +107,19 @@ export default class TimeManager {
     static set settings(value: TimeSettings) {
         TimeManager.editSettings(value)
     }
-    static get minDayHour(): number {
+    static get minDayHours(): number {
         let result = 0
         let settings = GameStorageManager.getVariable<TimeSettings>(TIME_SETTINGS_KEY)
-        if (settings && settings.hasOwnProperty('minDayHour')) {
-            result = settings.minDayHour || 0
+        if (settings && settings.hasOwnProperty('minDayHours')) {
+            result = settings.minDayHours || 0
         }
         return result
     }
-    static get maxDayHour(): number {
+    static get maxDayHours(): number {
         let result = 24
         let settings = GameStorageManager.getVariable<TimeSettings>(TIME_SETTINGS_KEY)
-        if (settings && settings.hasOwnProperty('maxDayHour')) {
-            result = settings.maxDayHour || 24
+        if (settings && settings.hasOwnProperty('maxDayHours')) {
+            result = settings.maxDayHours || 24
         }
         return result
     }
@@ -169,7 +169,7 @@ export default class TimeManager {
         if (data.hasOwnProperty('currentHour') && typeof data.currentHour === 'number') {
             return data.currentHour
         }
-        return TimeManager.minDayHour
+        return TimeManager.minDayHours
     }
     static set currentHour(value: number | undefined) {
         let data = GameStorageManager.getVariable<ITimeData>(TIME_DATA_KEY) || {}
@@ -219,9 +219,9 @@ export default class TimeManager {
 
     static newHour(timeSpent: number = TimeManager.defaultTimeSpent): number {
         let newHour = TimeManager.currentHour + timeSpent
-        if (newHour >= TimeManager.maxDayHour) {
+        if (newHour >= TimeManager.maxDayHours) {
             TimeManager.newDay()
-            newHour = TimeManager.minDayHour + (newHour - TimeManager.maxDayHour)
+            newHour = TimeManager.minDayHours + (newHour - TimeManager.maxDayHours)
         }
         TimeManager.currentHour = newHour
         return newHour
