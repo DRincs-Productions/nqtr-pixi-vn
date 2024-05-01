@@ -164,6 +164,9 @@ export default class TimeManager {
         return result
     }
 
+    /**
+     * Get the current hour
+     */
     static get currentHour(): number {
         let data = GameStorageManager.getVariable<ITimeData>(TIME_DATA_KEY) || {}
         if (data.hasOwnProperty('currentHour') && typeof data.currentHour === 'number') {
@@ -180,7 +183,9 @@ export default class TimeManager {
         }
         GameStorageManager.setVariable(TIME_DATA_KEY, data)
     }
-
+    /**
+     * Get the current day
+     */
     static get currentDay(): number {
         let data = GameStorageManager.getVariable<ITimeData>(TIME_DATA_KEY) || {}
         if (data.hasOwnProperty('currentDay') && typeof data.currentDay === 'number') {
@@ -231,21 +236,33 @@ export default class TimeManager {
         return 0
     }
 
-    static newHour(timeSpent: number = TimeManager.defaultTimeSpent): number {
+    /**
+     * This function will increase the current hour by the given time spent.
+     * If the new hour is greater than or equal to the max day hours, then it will increase the day and set the new hour.
+     * @param timeSpent is the time spent in hours (default: TimeManager.defaultTimeSpent)
+     * @returns TimeManager.currentHour
+     */
+    static increaseHour(timeSpent: number = TimeManager.defaultTimeSpent): number {
         let newHour = TimeManager.currentHour + timeSpent
         if (newHour >= TimeManager.maxDayHours) {
-            TimeManager.newDay()
+            TimeManager.increaseDay()
             newHour = TimeManager.minDayHours + (newHour - TimeManager.maxDayHours)
         }
         TimeManager.currentHour = newHour
-        return newHour
+        return TimeManager.currentHour
     }
 
-    static newDay(newDayHour: number = TimeManager.minDayHours, days: number = 1): number {
+    /**
+     * This function will increase the current day by the given days.
+     * @param newDayHour is the hour of the new day (default: TimeManager.minDayHours)
+     * @param days is the number of days to increase (default: 1)
+     * @returns TimeManager.currentDay
+     */
+    static increaseDay(newDayHour: number = TimeManager.minDayHours, days: number = 1): number {
         let newDay = TimeManager.currentDay + days
         TimeManager.currentDay = newDay
         TimeManager.currentHour = newDayHour
-        return newDay
+        return TimeManager.currentDay
     }
 
     static nowIsBetween(fromHour: number, toHour: number): boolean {
