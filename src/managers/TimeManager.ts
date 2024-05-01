@@ -97,6 +97,13 @@ export default class TimeManager {
         }
         GameStorageManager.setVariable(TIME_SETTINGS_KEY, data)
     }
+    static get settings(): TimeSettings {
+        let settings = GameStorageManager.getVariable<TimeSettings>(TIME_SETTINGS_KEY) || {}
+        return settings
+    }
+    static set settings(value: TimeSettings) {
+        TimeManager.editSettings(value)
+    }
     static get minDayHour(): number {
         let result = 0
         let settings = GameStorageManager.getVariable<TimeSettings>(TIME_SETTINGS_KEY)
