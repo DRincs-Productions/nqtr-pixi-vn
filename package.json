@@ -1,7 +1,7 @@
 {
   "name": "@drincs/nqtr",
-  "version": "0.0.1",
-  "description": "Navigation Quest Time Routine System for Pixi'VN",
+  "version": "0.0.2",
+  "description": "A complete system introducing the concepts of location, time and event, producing the framework of a not-quite-point-and-click adventure game.",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
