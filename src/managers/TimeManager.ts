@@ -207,14 +207,22 @@ export default class TimeManager {
      * If the current day is greater than or equal to the weekend start day, then it will return true.
      */
     static get isWeekend(): boolean {
-        return TimeManager.weekDayNumber >= TimeManager.weekendStartDay
+        return TimeManager.currentWeekDayNumber >= TimeManager.weekendStartDay
     }
-    static get weekDayNumber(): number {
+    /**
+     * Get the current week day number (1-TimeManager.weekLength).
+     * For example, if the week length is 7 and the current day is 10, then the result will be 4.
+     */
+    static get currentWeekDayNumber(): number {
         let result = TimeManager.currentDay % TimeManager.weekLength
         return result + 1
     }
-    static get weekDayName(): string | undefined {
-        let weekDayNumber = TimeManager.weekDayNumber - 1
+    /**
+     * Get the current week day name. If the week days names are not defined, then it will return undefined.
+     * For example, if the week days names are ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'] and the current day is 10, then the result will be 'Thursday'.
+     */
+    static get currentDayName(): string | undefined {
+        let weekDayNumber = TimeManager.currentWeekDayNumber - 1
         if (weekDayNumber >= TimeManager.weekDaysNames.length) {
             console.warn(`[NQTR] Week day name is not defined for day ${weekDayNumber}`, TimeManager.weekDaysNames)
             return undefined
