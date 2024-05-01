@@ -203,8 +203,9 @@ export default class TimeManager {
         }
         GameStorageManager.setVariable(TIME_DATA_KEY, data)
     }
-
-
+    /**
+     * If the current day is greater than or equal to the weekend start day, then it will return true.
+     */
     static get isWeekend(): boolean {
         return TimeManager.weekDayNumber >= TimeManager.weekendStartDay
     }
@@ -220,7 +221,19 @@ export default class TimeManager {
         }
         return TimeManager.weekDaysNames[weekDayNumber]
     }
-
+    /**
+     * Get the current TimeManager.timeSlots index.
+     * You can use this property to create "Image that changes based on the time period":
+     * @example
+     * ```ts
+     * import { TimeManager } from '@drincs/nqtr';
+     * 
+     * function changeBackground() {
+     *     return (
+     *         <img src={`background-${TimeManager.currentTimeSlot}.png`} />
+     *     )
+     * }
+     */
     static get currentTimeSlots(): number {
         if (TimeManager.timeSlots.length === 0) {
             console.warn('[NQTR] Time slots are not defined')
