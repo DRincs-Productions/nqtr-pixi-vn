@@ -31,13 +31,18 @@
   "keywords": [
     "game",
     "js",
+    "navigation",
     "novel",
     "pixi",
     "pixi-vn",
+    "quest",
+    "routine",
+    "time",
     "visual",
-    "visual-novel"
+    "visual-novel",
+    "vn"
   ],
-  "dependencies": {
+  "peerDependencies": {
     "@drincs/pixi-vn": "^0.3.0"
   }
 }
