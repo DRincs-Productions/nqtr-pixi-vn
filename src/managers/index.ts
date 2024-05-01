@@ -1,2 +1,2 @@
-export { default as GameStepManager, ITimeSettings } from './TimeManager';
+export { ITimeSettings, default as TimeManager } from './TimeManager';
 
