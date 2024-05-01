@@ -26,7 +26,7 @@ export interface ITimeStlot {
 
 export default class TimeManager {
     private constructor() { }
-    static set initialize(settings: ITimeSettings) {
+    static set editSettings(settings: ITimeSettings) {
         let data: any = {}
         if (typeof settings.minDayHour === 'number') {
             data['minDayHour'] = settings.minDayHour
