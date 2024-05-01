@@ -265,6 +265,12 @@ export default class TimeManager {
         return TimeManager.currentDay
     }
 
+    /**
+     * This function will check if the current hour is between the given hours.
+     * @param fromHour the starting hour. If the TimeManager.currentHour is equal to this hour, the function will return true.
+     * @param toHour the ending hour.
+     * @returns true if the current hour is between the given hours, otherwise false.
+     */
     static nowIsBetween(fromHour: number, toHour: number): boolean {
         let currentHour = TimeManager.currentHour
         if (fromHour < toHour) {
