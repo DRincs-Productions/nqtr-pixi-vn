@@ -67,5 +67,6 @@ export function getTemporaryCommitments<TCommitment extends CommitmentBaseModel 
     if (!commitmentsIds) {
         return []
     }
-    return commitmentsIds.map(id => getCommitmentById<TCommitment>(id)).filter(commitment => commitment !== undefined)
+    let commitments = commitmentsIds.map(id => getCommitmentById<TCommitment>(id)).filter(commitment => commitment !== undefined)
+    return commitments as TCommitment[]
 }
