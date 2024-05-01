@@ -3,7 +3,7 @@ import { GameStorageManager } from "@drincs/pixi-vn";
 const TIME_SETTINGS_KEY = '___nqtr-time_manager_settings___';
 const TIME_DATA_KEY = '___nqtr-time_manager_data___';
 
-export interface ITimeSettings {
+export interface TimeSettings {
     minDayHour?: number
     maxDayHour?: number
     defaultTimeSpent?: number
@@ -26,7 +26,7 @@ export interface ITimeStlot {
 
 export default class TimeManager {
     private constructor() { }
-    static set editSettings(settings: ITimeSettings) {
+    static set editSettings(settings: TimeSettings) {
         let data: any = {}
         if (typeof settings.minDayHour === 'number') {
             data['minDayHour'] = settings.minDayHour
@@ -64,7 +64,7 @@ export default class TimeManager {
     }
     static get minDayHour(): number {
         let result = 0
-        let settings = GameStorageManager.getVariable<ITimeSettings>(TIME_SETTINGS_KEY)
+        let settings = GameStorageManager.getVariable<TimeSettings>(TIME_SETTINGS_KEY)
         if (settings && settings.hasOwnProperty('minDayHour')) {
             result = settings.minDayHour || 0
         }
@@ -72,7 +72,7 @@ export default class TimeManager {
     }
     static get maxDayHour(): number {
         let result = 24
-        let settings = GameStorageManager.getVariable<ITimeSettings>(TIME_SETTINGS_KEY)
+        let settings = GameStorageManager.getVariable<TimeSettings>(TIME_SETTINGS_KEY)
         if (settings && settings.hasOwnProperty('maxDayHour')) {
             result = settings.maxDayHour || 24
         }
@@ -80,7 +80,7 @@ export default class TimeManager {
     }
     static get defaultTimeSpent(): number {
         let result = 1
-        let settings = GameStorageManager.getVariable<ITimeSettings>(TIME_SETTINGS_KEY)
+        let settings = GameStorageManager.getVariable<TimeSettings>(TIME_SETTINGS_KEY)
         if (settings && settings.hasOwnProperty('defaultTimeSpent')) {
             result = settings.defaultTimeSpent || 1
         }
@@ -88,7 +88,7 @@ export default class TimeManager {
     }
     static get newDayHour(): number {
         let result = 0
-        let settings = GameStorageManager.getVariable<ITimeSettings>(TIME_SETTINGS_KEY)
+        let settings = GameStorageManager.getVariable<TimeSettings>(TIME_SETTINGS_KEY)
         if (settings && settings.hasOwnProperty('newDayHour')) {
             result = settings.newDayHour || 0
         }
@@ -96,7 +96,7 @@ export default class TimeManager {
     }
     static get timeSlots(): ITimeStlot[] {
         let result: ITimeStlot[] = []
-        let settings = GameStorageManager.getVariable<ITimeSettings>(TIME_SETTINGS_KEY)
+        let settings = GameStorageManager.getVariable<TimeSettings>(TIME_SETTINGS_KEY)
         if (settings && settings.hasOwnProperty('timeSlots')) {
             result = settings.timeSlots || []
         }
@@ -104,7 +104,7 @@ export default class TimeManager {
     }
     static get weekLength(): number {
         let result = 7
-        let settings = GameStorageManager.getVariable<ITimeSettings>(TIME_SETTINGS_KEY)
+        let settings = GameStorageManager.getVariable<TimeSettings>(TIME_SETTINGS_KEY)
         if (settings && settings.hasOwnProperty('weekLength')) {
             result = settings.weekLength || 7
         }
@@ -112,7 +112,7 @@ export default class TimeManager {
     }
     static get weekendStartDay(): number {
         let result = TimeManager.weekLength - 1
-        let settings = GameStorageManager.getVariable<ITimeSettings>(TIME_SETTINGS_KEY)
+        let settings = GameStorageManager.getVariable<TimeSettings>(TIME_SETTINGS_KEY)
         if (settings && settings.hasOwnProperty('weekendStartDay')) {
             result = settings.weekendStartDay || TimeManager.weekLength - 1
         }
@@ -120,7 +120,7 @@ export default class TimeManager {
     }
     static get weekDaysNames(): string[] {
         let result: string[] = []
-        let settings = GameStorageManager.getVariable<ITimeSettings>(TIME_SETTINGS_KEY)
+        let settings = GameStorageManager.getVariable<TimeSettings>(TIME_SETTINGS_KEY)
         if (settings && settings.hasOwnProperty('weekDaysNames')) {
             result = settings.weekDaysNames || result
         }
