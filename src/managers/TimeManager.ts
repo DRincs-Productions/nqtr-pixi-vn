@@ -3,6 +3,9 @@ import { GameStorageManager } from "@drincs/pixi-vn";
 const TIME_SETTINGS_KEY = '___nqtr-time_manager_settings___';
 const TIME_DATA_KEY = '___nqtr-time_manager_data___';
 
+/**
+ * Time Settings, which can be set using `TimeManager.editSettings`
+ */
 export interface TimeSettings {
     /**
      * Minimum hour of the day (default: 0)
@@ -58,7 +61,10 @@ export interface ITimeStlot {
 
 export default class TimeManager {
     private constructor() { }
-    static set editSettings(settings: TimeSettings) {
+    /**
+     * Edit time settings. Is very important to set the settings before using the nqtr library, bacause more of the features are based on the time settings.
+     */
+    static editSettings(settings: TimeSettings) {
         let data: any = {}
         if (typeof settings.minDayHour === 'number') {
             data['minDayHour'] = settings.minDayHour
