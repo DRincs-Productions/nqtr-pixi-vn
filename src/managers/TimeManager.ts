@@ -241,9 +241,10 @@ export default class TimeManager {
         return newHour
     }
 
-    static newDay(days: number = 1): number {
+    static newDay(newDayHour: number = TimeManager.minDayHours, days: number = 1): number {
         let newDay = TimeManager.currentDay + days
         TimeManager.currentDay = newDay
+        TimeManager.currentHour = newDayHour
         return newDay
     }
 
