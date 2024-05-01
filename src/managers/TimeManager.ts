@@ -26,41 +26,41 @@ export interface ITimeStlot {
 
 export default class TimeManager {
     private constructor() { }
-    static set editSettings(value: ITimeSettings) {
-        let settings: any = {}
-        if (typeof value.minDayHour === 'number') {
-            settings['minDayHour'] = value.minDayHour
+    static set initialize(settings: ITimeSettings) {
+        let data: any = {}
+        if (typeof settings.minDayHour === 'number') {
+            data['minDayHour'] = settings.minDayHour
         }
-        if (typeof value.maxDayHour === 'number') {
-            settings['maxDayHour'] = value.maxDayHour
+        if (typeof settings.maxDayHour === 'number') {
+            data['maxDayHour'] = settings.maxDayHour
         }
-        if (typeof value.minDayHour === 'number') {
-            settings['defaultTimeSpent'] = value.defaultTimeSpent
+        if (typeof settings.minDayHour === 'number') {
+            data['defaultTimeSpent'] = settings.defaultTimeSpent
         }
-        if (Array.isArray(value.timeSlots)) {
-            settings['timeSlots'] = value.timeSlots
+        if (Array.isArray(settings.timeSlots)) {
+            data['timeSlots'] = settings.timeSlots
         }
-        if (typeof value.weekLength === 'number') {
-            settings['weekLength'] = value.weekLength
+        if (typeof settings.weekLength === 'number') {
+            data['weekLength'] = settings.weekLength
         }
-        if (typeof value.newDayHour === 'number') {
-            settings['newDayHour'] = value.newDayHour
+        if (typeof settings.newDayHour === 'number') {
+            data['newDayHour'] = settings.newDayHour
         }
-        if (typeof value.weekendStartDay === 'number') {
-            let weekLength = value.weekLength || TimeManager.weekLength
-            if (value.weekendStartDay >= weekLength) {
+        if (typeof settings.weekendStartDay === 'number') {
+            let weekLength = settings.weekLength || TimeManager.weekLength
+            if (settings.weekendStartDay >= weekLength) {
                 console.warn(`[NQTR] Weekend start day should be less than week length ${weekLength}`)
             }
-            settings['weekendStartDay'] = value.weekendStartDay
+            data['weekendStartDay'] = settings.weekendStartDay
         }
-        if (Array.isArray(value.weekDaysNames)) {
-            let weekLength = value.weekLength || TimeManager.weekLength
-            if (value.weekDaysNames.length !== weekLength) {
+        if (Array.isArray(settings.weekDaysNames)) {
+            let weekLength = settings.weekLength || TimeManager.weekLength
+            if (settings.weekDaysNames.length !== weekLength) {
                 console.warn(`[NQTR] Week days names should be equal to week length ${weekLength}`)
             }
-            settings['weekDaysNames'] = value.weekDaysNames
+            data['weekDaysNames'] = settings.weekDaysNames
         }
-        GameStorageManager.setVariable(TIME_SETTINGS_KEY, settings)
+        GameStorageManager.setVariable(TIME_SETTINGS_KEY, data)
     }
     static get minDayHour(): number {
         let result = 0
