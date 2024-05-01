@@ -4,12 +4,26 @@ const TIME_SETTINGS_KEY = '___nqtr-time_manager_settings___';
 const TIME_DATA_KEY = '___nqtr-time_manager_data___';
 
 export interface TimeSettings {
+    /**
+     * Minimum hour of the day (default: 0)
+     */
     minDayHour?: number
+    /**
+     * Maximum hour of the day (default: 24)
+     */
     maxDayHour?: number
+    /**
+     * Default time spent (default: 1)
+     */
     defaultTimeSpent?: number
+    /**
+     * Time slots (default: [])
+     */
     timeSlots?: ITimeStlot[]
+    /**
+     * Week length (default: 7)
+     */
     weekLength?: number
-    newDayHour?: number
     weekendStartDay?: number
     weekDaysNames?: string[]
 }
@@ -42,9 +56,6 @@ export default class TimeManager {
         }
         if (typeof settings.weekLength === 'number') {
             data['weekLength'] = settings.weekLength
-        }
-        if (typeof settings.newDayHour === 'number') {
-            data['newDayHour'] = settings.newDayHour
         }
         if (typeof settings.weekendStartDay === 'number') {
             let weekLength = settings.weekLength || TimeManager.weekLength
@@ -83,14 +94,6 @@ export default class TimeManager {
         let settings = GameStorageManager.getVariable<TimeSettings>(TIME_SETTINGS_KEY)
         if (settings && settings.hasOwnProperty('defaultTimeSpent')) {
             result = settings.defaultTimeSpent || 1
-        }
-        return result
-    }
-    static get newDayHour(): number {
-        let result = 0
-        let settings = GameStorageManager.getVariable<TimeSettings>(TIME_SETTINGS_KEY)
-        if (settings && settings.hasOwnProperty('newDayHour')) {
-            result = settings.newDayHour || 0
         }
         return result
     }
