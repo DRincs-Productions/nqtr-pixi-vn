@@ -216,6 +216,20 @@ export default class TimeManager {
         return TimeManager.weekDaysNames[weekDayNumber]
     }
 
+    static get currentTimeSlots(): number {
+        if (TimeManager.timeSlots.length === 0) {
+            console.warn('[NQTR] Time slots are not defined')
+            return 0
+        }
+        TimeManager.timeSlots.forEach((slot, index) => {
+            if (TimeManager.timeSlots.length > index + 1) {
+                if (TimeManager.nowIsBetween(slot.startHour, TimeManager.timeSlots[index + 1].startHour)) {
+                    return index
+                }
+            }
+        })
+        return 0
+    }
 
     static newHour(timeSpent: number = TimeManager.defaultTimeSpent): number {
         let newHour = TimeManager.currentHour + timeSpent
