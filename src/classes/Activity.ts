@@ -68,7 +68,7 @@ export abstract class ActivityStoredAbstract {
 
     private defaultFromHour?: number
     get fromHour(): number {
-        return this.getStorageProperty<number>("fromHour") || this.defaultFromHour || TimeManager.minDayHour
+        return this.getStorageProperty<number>("fromHour") || this.defaultFromHour || TimeManager.minDayHours
     }
     set fromHour(value: number | undefined) {
         this.setStorageProperty("fromHour", value)
@@ -76,7 +76,7 @@ export abstract class ActivityStoredAbstract {
 
     private defaultToHour?: number
     get toHour(): number {
-        return this.getStorageProperty<number>("toHour") || this.defaultToHour || (TimeManager.maxDayHour + 1)
+        return this.getStorageProperty<number>("toHour") || this.defaultToHour || (TimeManager.maxDayHours + 1)
     }
     set toHour(value: number | undefined) {
         this.setStorageProperty("toHour", value)
