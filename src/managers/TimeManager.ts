@@ -63,6 +63,7 @@ export default class TimeManager {
     private constructor() { }
     /**
      * Edit time settings. Is very important to set the settings before using the nqtr library, bacause more of the features are based on the time settings.
+     * @param settings Time settings
      */
     static editSettings(settings: TimeSettings) {
         let data: any = {}
@@ -97,10 +98,16 @@ export default class TimeManager {
         }
         GameStorageManager.setVariable(TIME_SETTINGS_KEY, data)
     }
+    /**
+     * Get time settings
+     */
     static get settings(): TimeSettings {
         let settings = GameStorageManager.getVariable<TimeSettings>(TIME_SETTINGS_KEY) || {}
         return settings
     }
+    /**
+     * Set time settings
+     */
     static set settings(value: TimeSettings) {
         TimeManager.editSettings(value)
     }
