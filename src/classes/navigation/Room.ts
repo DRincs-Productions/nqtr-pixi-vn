@@ -82,7 +82,7 @@ export default class RoomBaseModel<TLocation extends LocationBaseModel = Locatio
     }
 
     private defaultActivityIds: string[]
-    get defaultActivities(): ActivityRoom[] {
+    get defaultActivities(): ActivityRoom<this>[] {
         let roomMemories = this.getStorageProperty<RoomActivityMemory>("activities_memory") || {}
         let activities = this.defaultActivityIds.map(id => {
             let activity = getActivityById(id)
@@ -98,26 +98,26 @@ export default class RoomBaseModel<TLocation extends LocationBaseModel = Locatio
                 }
             }
             return new ActivityRoom(id, this, activity.onRun, memory)
-        })
-        return activities.filter(activity => activity !== undefined)
+        }).filter(activity => activity !== undefined)
+        return activities as ActivityRoom<this>[]
     }
 
     get activityIds(): string[] {
         let addedActivityIds = this.getStorageProperty<string[]>(`addedActivityIds`) || []
         return this.defaultActivityIds.concat(addedActivityIds)
     }
-    get activities(): ActivityRoom[] {
+    get activities(): ActivityRoom<this>[] {
         let activities = this.activityIds.map(id => {
             return this.getActivity(id)
-        })
-        return activities.filter(activity => activity !== undefined)
+        }).filter(activity => activity !== undefined)
+        return activities as ActivityRoom<this>[]
     }
     getActivityMemory(id: string): object | undefined {
         let roomMemories = this.getStorageProperty<RoomActivityMemory>("activities_memory") || {}
         let roomMemory = roomMemories[id] || {}
         return roomMemory
     }
-    getActivity(id: string): ActivityRoom | undefined {
+    getActivity(id: string): ActivityRoom<this> | undefined {
         if (!this.activityIds.includes(id)) {
             console.error(`[NQTR] Activity with id ${id} not found in room ${this.id}`)
             return undefined
