@@ -47,6 +47,22 @@ export interface MapBaseModelProps<TMap extends MapBaseModel = MapBaseModel> {
     hidden?: boolean | string
 }
 
+/**
+ * The base model of a map. I suggest you extend this class to create your own map model.
+ * @example
+ * ```typescript
+ * export const mainMap = new MapBaseModel('main_map', {
+ *     name: 'Main Map',
+ *     image: "https://image.jpg",
+ *     neighboringMaps: {
+ *         "north": northMap,
+ *         "south": southMap,
+ *         "east": eastMap,
+ *         "west": westMap
+ *     }
+ * });
+ * ```
+ */
 export default class MapBaseModel extends StoredClassModel {
     /**
      * @param id The id of the map, it must be unique.
@@ -61,14 +77,22 @@ export default class MapBaseModel extends StoredClassModel {
     }
 
     private defaultName: string
+    /**
+     * The name of the map.
+     * If you set undefined, it will return the default name.
+     */
     get name(): string {
         return this.getStorageProperty<string>("name") || this.defaultName
     }
-    set name(value: string) {
+    set name(value: string | undefined) {
         this.setStorageProperty("name", value)
     }
 
     private defaultImage?: GraphicItemType | { [key: string]: GraphicItemType }
+    /**
+     * The image of the map. It can be a string, an Element or a Pixi'VN Canvas Item.
+     * If you set undefined, it will return the default image.
+     */
     get image(): GraphicItemType | { [key: string]: GraphicItemType } | undefined {
         return this.getStorageProperty<GraphicItemType>("image") || this.defaultImage
     }
@@ -77,6 +101,9 @@ export default class MapBaseModel extends StoredClassModel {
     }
 
     private defaultDisabled: boolean | string
+    /**
+     * Whether is disabled. If it is a string, it is a Pixi'VN flag name.
+     */
     get disabled(): boolean {
         let value = this.getStorageProperty<boolean>("disabled") || this.defaultDisabled
         if (typeof value === "string") {
@@ -89,6 +116,9 @@ export default class MapBaseModel extends StoredClassModel {
     }
 
     private defaultHidden: boolean | string
+    /**
+     * Whether is hidden. If it is a string, it is a Pixi'VN flag name.
+     */
     get hidden(): boolean {
         let value = this.getStorageProperty<boolean>("hidden") || this.defaultHidden
         if (typeof value === "string") {
@@ -100,6 +130,10 @@ export default class MapBaseModel extends StoredClassModel {
         this.setStorageProperty("hidden", value)
     }
 
+    /**
+     * Get all locations in the map.
+     * @returns The locations in the map.
+     */
     getLocations<TLocation extends LocationBaseModel = LocationBaseModel>(): TLocation[] {
         return getLocationsByMap<TLocation>(this)
     }
