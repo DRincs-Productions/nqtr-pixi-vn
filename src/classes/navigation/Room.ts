@@ -100,18 +100,20 @@ export default class RoomBaseModel<TLocation extends LocationBaseModel = Locatio
 
     private defaultName: string
     /**
-     * The name
+     * The name.
+     * If you set undefined, it will return the default name.
      */
     get name(): string {
         return this.getStorageProperty<string>("name") || this.defaultName
     }
-    set name(value: string) {
+    set name(value: string | undefined) {
         this.setStorageProperty("name", value)
     }
 
     private defaultImage?: GraphicItemType | { [key: string]: GraphicItemType }
     /**
      * The image. It can be a string, an Element or a Pixi'VN Canvas Item.
+     * If you set undefined, it will return the default image.
      */
     get image(): GraphicItemType | { [key: string]: GraphicItemType } | undefined {
         return this.getStorageProperty<GraphicItemType>("image") || this.defaultImage
