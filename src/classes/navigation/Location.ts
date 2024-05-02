@@ -1,5 +1,5 @@
 import { getFlag, StoredClassModel } from "@drincs/pixi-vn";
-import { getRoomByLocation } from "../../decorators/RoomDecorator";
+import { getRoomsByLocation } from "../../decorators/RoomDecorator";
 import { GraphicItemType } from "../../types/GraphicItem";
 import MapBaseModel from "./Map";
 import RoomBaseModel from "./Room";
@@ -39,23 +39,23 @@ export default class LocationBaseModel<TMap extends MapBaseModel = MapBaseModel>
         this._iconElement = props.iconElement
         this._map = map
     }
-    getEntrance<TRoom extends RoomBaseModel = RoomBaseModel>(): TRoom | undefined {
-        let rooms = getRoomByLocation<TRoom>(this)
-        if (rooms.length === 0) {
-            return
-        }
-        return rooms.find(room => room.isEntrance) || rooms[0]
-    }
 
     private defaultName: string
+    /**
+     * The name of the location.
+     * If you set undefined, it will return the default name.
+     */
     get name(): string {
         return this.getStorageProperty<string>("name") || this.defaultName
     }
-    set name(value: string) {
+    set name(value: string | undefined) {
         this.setStorageProperty("name", value)
     }
 
     private defaultDisabled: boolean | string
+    /**
+     * Whether is disabled. If it is a string, it is a Pixi'VN flag name.
+     */
     get disabled(): boolean {
         let value = this.getStorageProperty<boolean>("disabled") || this.defaultDisabled
         if (typeof value === "string") {
@@ -68,6 +68,9 @@ export default class LocationBaseModel<TMap extends MapBaseModel = MapBaseModel>
     }
 
     private defaultHidden: boolean | string
+    /**
+     * Whether is hidden. If it is a string, it is a Pixi'VN flag name.
+     */
     get hidden(): boolean {
         let value = this.getStorageProperty<boolean>("hidden") || this.defaultHidden
         if (typeof value === "string") {
@@ -80,12 +83,48 @@ export default class LocationBaseModel<TMap extends MapBaseModel = MapBaseModel>
     }
 
     private _iconElement?: GraphicItemType
+    /**
+     * The icon element. Can be a string or an Element or a Pixi'VN CanvasItem
+     */
     get iconElement(): GraphicItemType | undefined {
         return this._iconElement
     }
 
     private _map: TMap
+    /**
+     * The map where the location is.
+     */
     get map(): TMap {
         return this._map
+    }
+
+    /**
+     * Get the entrance room of the location.
+     * You can cast the room to a specific type that extends RoomBaseModel.
+     * @returns The entrance room or the first room if there is no entrance.
+     * @example
+     * ```typescript
+     * const entranceHome = new RoomBaseModel("entrance-home", home, { isEntrance: true })
+     * saveRoom(entranceHome)
+     * const home = new LocationBaseModel("home", map, { name: "Home" })
+     * 
+     * const entrance = home.getEntrance() // entrance === entranceHome
+     * ```
+     */
+    getEntrance<TRoom extends RoomBaseModel = RoomBaseModel>(): TRoom | undefined {
+        let rooms = this.getRooms<TRoom>()
+        if (rooms.length === 0) {
+            return
+        }
+        return rooms.find(room => room.isEntrance) || rooms[0]
+    }
+
+    /**
+     * Get all rooms in the location.
+     * You can cast the rooms to a specific type that extends RoomBaseModel.
+     * @returns The rooms in the location.
+     */
+    getRooms<TRoom extends RoomBaseModel = RoomBaseModel>(): TRoom[] {
+        return getRoomsByLocation<TRoom>(this)
     }
 }

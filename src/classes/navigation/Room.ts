@@ -54,6 +54,7 @@ export interface RoomBaseModelProps {
 
 /**
  * The base model of a room. I suggest you extend this class to create your own room model.
+ * You must use the saveRoom function to save the room in the registered rooms.
  * @example
  * ```ts
  * export const mcRoom = new RoomBaseModel('mc_room', mcHome, {
@@ -62,6 +63,7 @@ export interface RoomBaseModelProps {
  *     image: "https://image.jpg",
  *     isEntrance: false,
  * })
+ * saveRoom(mcRoom)
  * ```
  */
 export default class RoomBaseModel<TLocation extends LocationBaseModel = LocationBaseModel> extends StoredClassModel {
