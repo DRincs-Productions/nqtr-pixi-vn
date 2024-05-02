@@ -46,6 +46,10 @@ export interface RoomBaseModelProps {
      * The icon element. Can be a string or an HTMLElement or a Pixi'VN CanvasItem
      */
     iconElement?: GraphicItemType
+    /**
+     * Whether is an entrance room, so when the player enters in the location, it will be the first room to be shown.
+     */
+    isEntrance?: boolean
 }
 
 export default class RoomBaseModel<TLocation extends LocationBaseModel = LocationBaseModel> extends StoredClassModel {
@@ -58,11 +62,17 @@ export default class RoomBaseModel<TLocation extends LocationBaseModel = Locatio
         this.defaultDisabled = props.disabled || false
         this.defaultHidden = props.hidden || false
         this._iconElement = props.iconElement
+        this._isEntrance = props.isEntrance
     }
 
     private _location: TLocation
     get location(): TLocation {
         return this._location
+    }
+
+    private _isEntrance?: boolean
+    get isEntrance(): boolean {
+        return this._isEntrance || false
     }
 
     private defaultName: string

@@ -1,4 +1,4 @@
-import { RoomBaseModel } from "../classes/navigation"
+import { LocationBaseModel, RoomBaseModel } from "../classes/navigation"
 
 export const registeredRooms: { [id: string]: RoomBaseModel } = {}
 
@@ -26,4 +26,8 @@ export function getRoomById<TRoom extends RoomBaseModel = RoomBaseModel>(id: str
         console.error(`[NQTR] Error while getting Room ${id}`, e)
         return
     }
+}
+
+export function getRoomByLocation<TRoom extends RoomBaseModel = RoomBaseModel>(location: LocationBaseModel): TRoom[] {
+    return Object.values(registeredRooms).filter(room => room.location === location) as TRoom[]
 }

@@ -1,4 +1,5 @@
 import { getFlag, StoredClassModel } from "@drincs/pixi-vn";
+import { getRoomByLocation } from "../../decorators/RoomDecorator";
 import { GraphicItemType } from "../../types/GraphicItem";
 import MapBaseModel from "./Map";
 import RoomBaseModel from "./Room";
@@ -25,21 +26,20 @@ export interface LocationBaseModelProps {
 }
 
 export default class LocationBaseModel<TMap extends MapBaseModel = MapBaseModel> extends StoredClassModel {
-    constructor(id: string, map: TMap, entrance: RoomBaseModel, props: LocationBaseModelProps) {
+    constructor(id: string, map: TMap, props: LocationBaseModelProps) {
         super(LOCATION_CATEGORY, id)
-        if (entrance.location.id !== id) {
-            throw new Error(`[NQTR] Entrance room ${entrance.id} is not in location ${id}`)
-        }
-        this._entrance = entrance
         this.defaultName = props.name || ""
         this.defaultDisabled = props.disabled || false
         this.defaultHidden = props.hidden || false
         this._iconElement = props.iconElement
         this._map = map
     }
-    private _entrance: RoomBaseModel
-    get entrance(): RoomBaseModel {
-        return this._entrance
+    getEntrance<TRoom extends RoomBaseModel = RoomBaseModel>(): TRoom | undefined {
+        let rooms = getRoomByLocation<TRoom>(this)
+        if (rooms.length === 0) {
+            return
+        }
+        return rooms.find(room => room.isEntrance) || rooms[0]
     }
 
     private defaultName: string
