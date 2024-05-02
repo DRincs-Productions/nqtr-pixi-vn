@@ -46,7 +46,7 @@ export interface MapBaseModelProps<TMap extends MapBaseModel = MapBaseModel> {
 }
 
 export default class MapBaseModel extends StoredClassModel {
-    constructor(id: string, props: MapBaseModelProps) {
+    constructor(id: string, props: MapBaseModelProps = {}) {
         super(MAP_CATEGORY, id)
         this.defaultName = props.name || ""
         this.defaultImage = props.image

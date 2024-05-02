@@ -26,7 +26,7 @@ export interface LocationBaseModelProps {
 }
 
 export default class LocationBaseModel<TMap extends MapBaseModel = MapBaseModel> extends StoredClassModel {
-    constructor(id: string, map: TMap, props: LocationBaseModelProps) {
+    constructor(id: string, map: TMap, props: LocationBaseModelProps = {}) {
         super(LOCATION_CATEGORY, id)
         this.defaultName = props.name || ""
         this.defaultDisabled = props.disabled || false

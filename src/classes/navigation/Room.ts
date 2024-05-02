@@ -53,7 +53,7 @@ export interface RoomBaseModelProps {
 }
 
 export default class RoomBaseModel<TLocation extends LocationBaseModel = LocationBaseModel> extends StoredClassModel {
-    constructor(id: string, location: TLocation, props: RoomBaseModelProps) {
+    constructor(id: string, location: TLocation, props: RoomBaseModelProps = {}) {
         super(ROOM_CATEGORY, id)
         this._location = location
         this.defaultName = props.name || ""
