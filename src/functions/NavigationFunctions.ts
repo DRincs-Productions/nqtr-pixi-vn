@@ -4,11 +4,21 @@ import { getRoomById } from "../decorators/RoomDecorator";
 
 const CURRENT_ROOM_MEMORY_KEY = '___nqtr-current_room_memory___';
 
-export function setCurrentRoom<TRoom extends RoomBaseModel = RoomBaseModel>(room: TRoom) {
-    let roomRegistrated = getRoomById(room.id);
-    if (!roomRegistrated) {
-        console.error(`[NQTR] The room ${room.id} is not registered, so it can't be set as current room`);
-        return;
+export function setCurrentRoom<TRoom extends RoomBaseModel = RoomBaseModel>(room: TRoom | LocationBaseModel) {
+    if (room instanceof LocationBaseModel) {
+        let entrance = room.getEntrance<TRoom>();
+        if (!entrance) {
+            console.error(`[NQTR] The location ${room.id} has no entrance room`);
+            return;
+        }
+        room = entrance;
+    }
+    else {
+        let roomRegistrated = getRoomById(room.id);
+        if (!roomRegistrated) {
+            console.error(`[NQTR] The room ${room.id} is not registered, so it can't be set as current room`);
+            return;
+        }
     }
     localStorage.setItem(CURRENT_ROOM_MEMORY_KEY, room.id);
 }

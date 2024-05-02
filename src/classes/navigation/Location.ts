@@ -124,6 +124,7 @@ export default class LocationBaseModel<TMap extends MapBaseModel = MapBaseModel>
     getEntrance<TRoom extends RoomBaseModel = RoomBaseModel>(): TRoom | undefined {
         let rooms = this.getRooms<TRoom>()
         if (rooms.length === 0) {
+            console.error(`[NQTR] The location ${this.id} has no rooms`)
             return
         }
         return rooms.find(room => room.isEntrance) || rooms[0]
