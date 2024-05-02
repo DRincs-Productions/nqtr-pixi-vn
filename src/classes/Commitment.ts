@@ -32,7 +32,7 @@ export interface CommitmentBaseModelProps {
      */
     toDay?: number
     /**
-     * The image. It can be a string, an HTMLElement or a Pixi'VN Canvas Item.
+     * The image. It can be a string, an Element or a Pixi'VN Canvas Item.
      * Or an object to manage multiple image types. For example to have a image based on time.
      * @example
      * ```ts

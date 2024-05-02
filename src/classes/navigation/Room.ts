@@ -17,7 +17,7 @@ export interface RoomBaseModelProps {
      */
     name?: string
     /**
-     * The image. It can be a string, an HTMLElement or a Pixi'VN Canvas Item.
+     * The image. It can be a string, an Element or a Pixi'VN Canvas Item.
      * Or an object to manage multiple image types. For example to have a image based on time.
      * @example
      * ```ts
@@ -43,7 +43,7 @@ export interface RoomBaseModelProps {
      */
     hidden?: boolean | string
     /**
-     * The icon element. Can be a string or an HTMLElement or a Pixi'VN CanvasItem
+     * The icon element. Can be a string or an Element or a Pixi'VN CanvasItem
      */
     iconElement?: GraphicItemType
     /**
