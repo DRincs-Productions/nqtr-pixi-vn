@@ -52,6 +52,18 @@ export interface RoomBaseModelProps {
     isEntrance?: boolean
 }
 
+/**
+ * The base model of a room. I suggest you extend this class to create your own room model.
+ * @example
+ * ```ts
+ * export const mcRoom = new RoomBaseModel('mc_room', mcHome, {
+ *     name: "MC Room",
+ *     iconElement: "https://icon.jpg",
+ *     image: "https://image.jpg",
+ *     isEntrance: false,
+ * })
+ * ```
+ */
 export default class RoomBaseModel<TLocation extends LocationBaseModel = LocationBaseModel> extends StoredClassModel {
     /**
      * @param id The id of the room, it must be unique.
@@ -71,16 +83,25 @@ export default class RoomBaseModel<TLocation extends LocationBaseModel = Locatio
     }
 
     private _location: TLocation
+    /**
+     * The location where the room is.
+     */
     get location(): TLocation {
         return this._location
     }
 
     private _isEntrance?: boolean
+    /**
+     * Whether is an entrance room, so when the player enters in the location, it will be the first room to be shown.
+     */
     get isEntrance(): boolean {
         return this._isEntrance || false
     }
 
     private defaultName: string
+    /**
+     * The name
+     */
     get name(): string {
         return this.getStorageProperty<string>("name") || this.defaultName
     }
@@ -89,6 +110,9 @@ export default class RoomBaseModel<TLocation extends LocationBaseModel = Locatio
     }
 
     private defaultImage?: GraphicItemType | { [key: string]: GraphicItemType }
+    /**
+     * The image. It can be a string, an Element or a Pixi'VN Canvas Item.
+     */
     get image(): GraphicItemType | { [key: string]: GraphicItemType } | undefined {
         return this.getStorageProperty<GraphicItemType>("image") || this.defaultImage
     }
@@ -97,6 +121,9 @@ export default class RoomBaseModel<TLocation extends LocationBaseModel = Locatio
     }
 
     private defaultActivityIds: string[]
+    /**
+     * The activities that are available in this room.
+     */
     get defaultActivities(): ActivityRoom<this>[] {
         let roomMemories = this.getStorageProperty<RoomActivityMemory>("activities_memory") || {}
         let activities = this.defaultActivityIds.map(id => {
@@ -117,21 +144,34 @@ export default class RoomBaseModel<TLocation extends LocationBaseModel = Locatio
         return activities as ActivityRoom<this>[]
     }
 
-    get activityIds(): string[] {
+    private get activityIds(): string[] {
         let addedActivityIds = this.getStorageProperty<string[]>(`addedActivityIds`) || []
         return this.defaultActivityIds.concat(addedActivityIds)
     }
+    /**
+     * The activities that are available in this room.
+     */
     get activities(): ActivityRoom<this>[] {
         let activities = this.activityIds.map(id => {
             return this.getActivity(id)
         }).filter(activity => activity !== undefined)
         return activities as ActivityRoom<this>[]
     }
+    /**
+     * Get the memory of an activity. This function can be used into olther libraries to get the memory of the activity.
+     * @param id The id of the activity.
+     * @returns The memory of the activity.
+     */
     getActivityMemory(id: string): object | undefined {
         let roomMemories = this.getStorageProperty<RoomActivityMemory>("activities_memory") || {}
         let roomMemory = roomMemories[id] || {}
         return roomMemory
     }
+    /**
+     * Get the activity by id.
+     * @param id The id of the activity.
+     * @returns The room activity.
+     */
     getActivity(id: string): ActivityRoom<this> | undefined {
         if (!this.activityIds.includes(id)) {
             console.error(`[NQTR] Activity with id ${id} not found in room ${this.id}`)
@@ -150,11 +190,20 @@ export default class RoomBaseModel<TLocation extends LocationBaseModel = Locatio
         }
         return new ActivityRoom(id, this, activity.onRun, roomMemory)
     }
+    /**
+     * Set the memory of an activity. This function can be used into olther libraries to set the memory of the activity.
+     * @param id The id of the activity.
+     * @param memory The memory of the activity.
+     */
     setActivity(activity: ActivityRoom) {
         let roomMemories = this.getStorageProperty<RoomActivityMemory>("activities_memory") || {}
         roomMemories[activity.id] = activity.export()
         this.setStorageProperty("activities_memory", roomMemories)
     }
+    /**
+     * Add an activity to the room.
+     * @param activity The activity to add.
+     */
     addActivity(activity: ActivityModel) {
         if (this.activityIds.includes(activity.id)) {
             let currentActivity = this.getActivity(activity.id)
@@ -170,6 +219,10 @@ export default class RoomBaseModel<TLocation extends LocationBaseModel = Locatio
         addedActivityIds.push(activity.id)
         this.setStorageProperty("addedActivityIds", addedActivityIds)
     }
+    /**
+     * Remove an activity from the room.
+     * @param activity The activity to remove.
+     */
     removeActivity(activity: ActivityModel | string) {
         let activityId = typeof activity === "string" ? activity : activity.id
         if (this.defaultActivityIds.includes(activityId)) {
@@ -194,6 +247,9 @@ export default class RoomBaseModel<TLocation extends LocationBaseModel = Locatio
         delete roomMemories[activityId]
         this.setStorageProperty("activities_memory", roomMemories)
     }
+    /**
+     * Clear all expired activities.
+     */
     clearExpiredActivities() {
         this.activities.forEach(activity => {
             if (activity.isExpired()) {
@@ -203,6 +259,9 @@ export default class RoomBaseModel<TLocation extends LocationBaseModel = Locatio
     }
 
     private defaultDisabled: boolean | string
+    /**
+     * Whether is disabled. If it is a string, it is a Pixi'VN flag name.
+     */
     get disabled(): boolean {
         let value = this.getStorageProperty<boolean>("disabled") || this.defaultDisabled
         if (typeof value === "string") {
@@ -215,6 +274,9 @@ export default class RoomBaseModel<TLocation extends LocationBaseModel = Locatio
     }
 
     private defaultHidden: boolean | string
+    /**
+     * Whether is hidden. If it is a string, it is a Pixi'VN flag name.
+     */
     get hidden(): boolean {
         let value = this.getStorageProperty<boolean>("hidden") || this.defaultHidden
         if (typeof value === "string") {
@@ -226,11 +288,18 @@ export default class RoomBaseModel<TLocation extends LocationBaseModel = Locatio
         this.setStorageProperty("hidden", value)
     }
 
+    /**
+     * The icon element. Can be a string or an Element or a Pixi'VN CanvasItem
+     */
     private _iconElement?: GraphicItemType
     get iconElement(): GraphicItemType | undefined {
         return this._iconElement
     }
 
+    /**
+     * Get the character commitments of the room.
+     * @returns The character commitments of the room.
+     */
     getRoutine<TCommitment extends CommitmentBaseModel = CommitmentBaseModel>(): TCommitment[] {
         let commitments = getCurrentCommitments<TCommitment>()
         return commitments.filter(c => c.room.id === this.id)
