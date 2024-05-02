@@ -46,6 +46,10 @@ export interface MapBaseModelProps<TMap extends MapBaseModel = MapBaseModel> {
 }
 
 export default class MapBaseModel extends StoredClassModel {
+    /**
+     * @param id The id of the map, it must be unique.
+     * @param props The properties of the map. 
+     */
     constructor(id: string, props: MapBaseModelProps = {}) {
         super(MAP_CATEGORY, id)
         this.defaultName = props.name || ""

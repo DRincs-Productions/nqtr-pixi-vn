@@ -26,6 +26,11 @@ export interface LocationBaseModelProps {
 }
 
 export default class LocationBaseModel<TMap extends MapBaseModel = MapBaseModel> extends StoredClassModel {
+    /**
+     * @param id The id of the location, it must be unique.
+     * @param map The map where the location is.
+     * @param props The properties of the location.
+     */
     constructor(id: string, map: TMap, props: LocationBaseModelProps = {}) {
         super(LOCATION_CATEGORY, id)
         this.defaultName = props.name || ""

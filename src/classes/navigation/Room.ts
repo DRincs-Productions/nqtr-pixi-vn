@@ -53,6 +53,11 @@ export interface RoomBaseModelProps {
 }
 
 export default class RoomBaseModel<TLocation extends LocationBaseModel = LocationBaseModel> extends StoredClassModel {
+    /**
+     * @param id The id of the room, it must be unique.
+     * @param location The location where the room is.
+     * @param props The properties of the room.
+     */
     constructor(id: string, location: TLocation, props: RoomBaseModelProps = {}) {
         super(ROOM_CATEGORY, id)
         this._location = location
