@@ -22,9 +22,19 @@ export interface LocationBaseModelProps {
     /**
      * The icon element. Can be a string or an Element or a Pixi'VN CanvasItem
      */
-    iconElement?: GraphicItemType
+    icon?: GraphicItemType
 }
 
+/**
+ * The base model of a location. I suggest you extend this class to create your own location model.
+ * @example
+ * ```typescript
+ * export const mcHome = new LocationBaseModel('mc_home', mainMap, {
+ *     name: 'MC Home',
+ *     icon: "https://icon.jpg",
+ * });
+ * ```
+ */
 export default class LocationBaseModel<TMap extends MapBaseModel = MapBaseModel> extends StoredClassModel {
     /**
      * @param id The id of the location, it must be unique.
@@ -36,7 +46,7 @@ export default class LocationBaseModel<TMap extends MapBaseModel = MapBaseModel>
         this.defaultName = props.name || ""
         this.defaultDisabled = props.disabled || false
         this.defaultHidden = props.hidden || false
-        this._iconElement = props.iconElement
+        this._icon = props.icon
         this._map = map
     }
 
@@ -82,12 +92,12 @@ export default class LocationBaseModel<TMap extends MapBaseModel = MapBaseModel>
         this.setStorageProperty("hidden", value)
     }
 
-    private _iconElement?: GraphicItemType
+    private _icon?: GraphicItemType
     /**
      * The icon element. Can be a string or an Element or a Pixi'VN CanvasItem
      */
-    get iconElement(): GraphicItemType | undefined {
-        return this._iconElement
+    get icon(): GraphicItemType | undefined {
+        return this._icon
     }
 
     private _map: TMap

@@ -38,7 +38,7 @@ export interface ActivityProps {
     /**
      * The icon element. Can be a string or an Element or a Pixi'VN CanvasItem
      */
-    iconElement?: GraphicItemType
+    icon?: GraphicItemType
 }
 
 export abstract class ActivityStoredAbstract {
@@ -50,7 +50,7 @@ export abstract class ActivityStoredAbstract {
         this.defaultToDay = props.toDay
         this.defaultDisabled = props.disabled || false
         this.defaultHidden = props.hidden || false
-        this._iconElement = props.iconElement
+        this._icon = props.icon
         this._onRun = onRun
     }
 
@@ -131,9 +131,9 @@ export abstract class ActivityStoredAbstract {
         this.setStorageProperty("hidden", value)
     }
 
-    private _iconElement?: GraphicItemType
-    get iconElement(): GraphicItemType | undefined {
-        return this._iconElement
+    private _icon?: GraphicItemType
+    get icon(): GraphicItemType | undefined {
+        return this._icon
     }
 
     private _onRun: (activity: ActivityModel) => void
@@ -157,7 +157,7 @@ export abstract class ActivityStoredAbstract {
             toDay: this.getStorageProperty<number>("toDay") || this.defaultToDay,
             disabled: this.getStorageProperty<boolean>("disabled") || this.defaultDisabled,
             hidden: this.getStorageProperty<boolean>("hidden") || this.defaultHidden,
-            iconElement: this._iconElement
+            icon: this._icon
         }
     }
 }
@@ -172,7 +172,7 @@ export default class ActivityModel {
         this._toDay = props.toDay
         this._disabled = props.disabled || false
         this._hidden = props.hidden || false
-        this._iconElement = props.iconElement
+        this._icon = props.icon
         this._onRun = onRun
     }
 
@@ -228,9 +228,9 @@ export default class ActivityModel {
         return this._hidden
     }
 
-    private _iconElement?: GraphicItemType
-    get iconElement(): GraphicItemType | undefined {
-        return this._iconElement
+    private _icon?: GraphicItemType
+    get icon(): GraphicItemType | undefined {
+        return this._icon
     }
 
     private _onRun: (activity: ActivityModel) => void
@@ -254,7 +254,7 @@ export default class ActivityModel {
             toDay: this._toDay,
             disabled: this._disabled,
             hidden: this._hidden,
-            iconElement: this._iconElement,
+            icon: this._icon,
         }
     }
 }

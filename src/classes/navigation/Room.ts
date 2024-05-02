@@ -45,7 +45,7 @@ export interface RoomBaseModelProps {
     /**
      * The icon element. Can be a string or an Element or a Pixi'VN CanvasItem
      */
-    iconElement?: GraphicItemType
+    icon?: GraphicItemType
     /**
      * Whether is an entrance room, so when the player enters in the location, it will be the first room to be shown.
      */
@@ -59,7 +59,7 @@ export interface RoomBaseModelProps {
  * ```ts
  * export const mcRoom = new RoomBaseModel('mc_room', mcHome, {
  *     name: "MC Room",
- *     iconElement: "https://icon.jpg",
+ *     icon: "https://icon.jpg",
  *     image: "https://image.jpg",
  *     isEntrance: false,
  * })
@@ -80,7 +80,7 @@ export default class RoomBaseModel<TLocation extends LocationBaseModel = Locatio
         this.defaultActivityIds = props.defaultActivities?.map(activity => activity.id) || []
         this.defaultDisabled = props.disabled || false
         this.defaultHidden = props.hidden || false
-        this._iconElement = props.iconElement
+        this._icon = props.icon
         this._isEntrance = props.isEntrance
     }
 
@@ -295,9 +295,9 @@ export default class RoomBaseModel<TLocation extends LocationBaseModel = Locatio
     /**
      * The icon element. Can be a string or an Element or a Pixi'VN CanvasItem
      */
-    private _iconElement?: GraphicItemType
-    get iconElement(): GraphicItemType | undefined {
-        return this._iconElement
+    private _icon?: GraphicItemType
+    get icon(): GraphicItemType | undefined {
+        return this._icon
     }
 
     /**
