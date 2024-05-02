@@ -1,4 +1,4 @@
-import { LocationBaseModel, RoomBaseModel } from "../classes/navigation"
+import { LocationBaseModel, MapBaseModel, RoomBaseModel } from "../classes/navigation"
 
 export const registeredRooms: { [id: string]: RoomBaseModel } = {}
 
@@ -44,5 +44,38 @@ export function getRoomById<TRoom extends RoomBaseModel = RoomBaseModel>(id: str
  * @returns The rooms in the location.
  */
 export function getRoomsByLocation<TRoom extends RoomBaseModel = RoomBaseModel>(location: LocationBaseModel): TRoom[] {
-    return Object.values(registeredRooms).filter(room => room.location === location) as TRoom[]
+    return Object.values(registeredRooms).filter(room => room.location.id === location.id) as TRoom[]
+}
+
+/**
+ * Get all locations in the registered rooms.
+ * @returns All locations in the registered rooms.
+ */
+export function getAllLocations<TLocation extends LocationBaseModel = LocationBaseModel>(): TLocation[] {
+    let result: { [id: string]: TLocation } = {}
+    Object.values(registeredRooms).forEach(room => {
+        result[room.location.id] = room.location as TLocation
+    })
+    return Object.values(result)
+}
+
+/**
+ * Get all locations in a map.
+ * @param map The map where the locations are.
+ * @returns The locations in the map.
+ */
+export function getLocationsByMap<TLocation extends LocationBaseModel = LocationBaseModel>(map: MapBaseModel): TLocation[] {
+    return getAllLocations<TLocation>().filter(location => location.map.id === map.id) as TLocation[]
+}
+
+/**
+ * Get all maps in the registered rooms.
+ * @returns All maps in the registered rooms.
+ */
+export function getAllMaps<TMap extends MapBaseModel = MapBaseModel>(): TMap[] {
+    let result: { [id: string]: TMap } = {}
+    Object.values(registeredRooms).forEach(room => {
+        result[room.location.map.id] = room.location.map as TMap
+    })
+    return Object.values(result)
 }

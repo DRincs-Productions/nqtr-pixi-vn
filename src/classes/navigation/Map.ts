@@ -1,5 +1,7 @@
 import { getFlag, StoredClassModel } from "@drincs/pixi-vn"
+import { getLocationsByMap } from "../../decorators/RoomDecorator"
 import { GraphicItemType } from "../../types/GraphicItem"
+import LocationBaseModel from "./Location"
 
 const MAP_CATEGORY = "__nqtr-map__"
 
@@ -96,5 +98,9 @@ export default class MapBaseModel extends StoredClassModel {
     }
     set hidden(value: boolean | string) {
         this.setStorageProperty("hidden", value)
+    }
+
+    getLocations<TLocation extends LocationBaseModel = LocationBaseModel>(): TLocation[] {
+        return getLocationsByMap<TLocation>(this)
     }
 }
