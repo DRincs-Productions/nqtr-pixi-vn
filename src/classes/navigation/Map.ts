@@ -8,6 +8,7 @@ const MAP_CATEGORY = "__nqtr-map__"
 export interface MapBaseModelProps<TMap extends MapBaseModel = MapBaseModel> {
     /**
      * The name
+     * @default ""
      */
     name?: string
     /**
@@ -39,10 +40,12 @@ export interface MapBaseModelProps<TMap extends MapBaseModel = MapBaseModel> {
     neighboringMaps?: { [key: string]: TMap }
     /**
      * Whether is disabled. You can also pass a Pixi'VN flag name.
+     * @default false
      */
     disabled?: boolean | string
     /**
      * Whether is hidden. You can also pass a Pixi'VN flag name.
+     * @default false
      */
     hidden?: boolean | string
 }

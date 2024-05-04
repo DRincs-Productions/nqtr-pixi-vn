@@ -14,6 +14,7 @@ interface RoomActivityMemory { [key: string]: ActivityProps }
 export interface RoomBaseModelProps {
     /**
      * The name
+     * @default ""
      */
     name?: string
     /**
@@ -36,10 +37,12 @@ export interface RoomBaseModelProps {
     defaultActivities?: ActivityModel[],
     /**
      * Whether is disabled. You can also pass a Pixi'VN flag name.
+     * @default false
      */
     disabled?: boolean | string
     /**
      * Whether is hidden. You can also pass a Pixi'VN flag name.
+     * @default false
      */
     hidden?: boolean | string
     /**
