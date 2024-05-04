@@ -24,6 +24,7 @@ export interface LocationBaseModelProps {
     hidden?: boolean | string
     /**
      * The icon element. Can be a string or an Element or a Pixi'VN CanvasItem
+     * @default undefined
      */
     icon?: GraphicItemType
 }
@@ -56,7 +57,7 @@ export default class LocationBaseModel<TMap extends MapBaseModel = MapBaseModel>
     private defaultName: string
     /**
      * The name of the location.
-     * If you set undefined, it will return the default name.
+     * If you set undefined, it will return the initial value of name.
      */
     get name(): string {
         return this.getStorageProperty<string>("name") || this.defaultName

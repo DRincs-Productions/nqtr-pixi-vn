@@ -23,6 +23,7 @@ export interface MapBaseModelProps<TMap extends MapBaseModel = MapBaseModel> {
      *    "night": "night-background.jpg"
      * }
      * ```
+     * @default undefined
      */
     image?: GraphicItemType | { [key: string]: GraphicItemType }
     /**
@@ -36,6 +37,7 @@ export interface MapBaseModelProps<TMap extends MapBaseModel = MapBaseModel> {
      *    "west": birminghamMap
      * }
      * ```
+     * @default {}
      */
     neighboringMaps?: { [key: string]: TMap }
     /**
@@ -82,7 +84,7 @@ export default class MapBaseModel extends StoredClassModel {
     private defaultName: string
     /**
      * The name of the map.
-     * If you set undefined, it will return the default name.
+     * If you set undefined, it will return the initial value of name.
      */
     get name(): string {
         return this.getStorageProperty<string>("name") || this.defaultName
@@ -94,7 +96,7 @@ export default class MapBaseModel extends StoredClassModel {
     private defaultImage?: GraphicItemType | { [key: string]: GraphicItemType }
     /**
      * The image of the map. It can be a string, an Element or a Pixi'VN Canvas Item.
-     * If you set undefined, it will return the default image.
+     * If you set undefined, it will return the initial value of image.
      */
     get image(): GraphicItemType | { [key: string]: GraphicItemType } | undefined {
         return this.getStorageProperty<GraphicItemType>("image") || this.defaultImage
@@ -131,6 +133,17 @@ export default class MapBaseModel extends StoredClassModel {
     }
     set hidden(value: boolean | string) {
         this.setStorageProperty("hidden", value)
+    }
+
+    private _neighboringMaps?: { [key: string]: MapBaseModel }
+    /**
+     * The neighboring maps that are available in this map.
+     */
+    get neighboringMaps(): { [key: string]: MapBaseModel } {
+        return this._neighboringMaps || {}
+    }
+    set neighboringMaps(value: { [key: string]: MapBaseModel } | undefined) {
+        this._neighboringMaps = value
     }
 
     /**

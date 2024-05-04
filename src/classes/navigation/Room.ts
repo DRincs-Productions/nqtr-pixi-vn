@@ -29,10 +29,12 @@ export interface RoomBaseModelProps {
      *    "night": "night-background.jpg"
      * }
      * ```
+     * @default undefined
      */
     image?: GraphicItemType | { [key: string]: GraphicItemType }
     /**
      * The activities that are available in this room.
+     * @default []
      */
     defaultActivities?: ActivityModel[],
     /**
@@ -47,10 +49,12 @@ export interface RoomBaseModelProps {
     hidden?: boolean | string
     /**
      * The icon element. Can be a string or an Element or a Pixi'VN CanvasItem
+     * @default undefined
      */
     icon?: GraphicItemType
     /**
      * Whether is an entrance room, so when the player enters in the location, it will be the first room to be shown.
+     * @default false
      */
     isEntrance?: boolean
 }
@@ -106,7 +110,7 @@ export default class RoomBaseModel<TLocation extends LocationBaseModel = Locatio
     private defaultName: string
     /**
      * The name.
-     * If you set undefined, it will return the default name.
+     * If you set undefined, it will return the initial value of name.
      */
     get name(): string {
         return this.getStorageProperty<string>("name") || this.defaultName
@@ -118,7 +122,7 @@ export default class RoomBaseModel<TLocation extends LocationBaseModel = Locatio
     private defaultImage?: GraphicItemType | { [key: string]: GraphicItemType }
     /**
      * The image. It can be a string, an Element or a Pixi'VN Canvas Item.
-     * If you set undefined, it will return the default image.
+     * If you set undefined, it will return the initial value of image.
      */
     get image(): GraphicItemType | { [key: string]: GraphicItemType } | undefined {
         return this.getStorageProperty<GraphicItemType>("image") || this.defaultImage

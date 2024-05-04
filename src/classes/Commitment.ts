@@ -27,11 +27,13 @@ export interface CommitmentBaseModelProps {
     /**
      * The day when the commitment starts. If the commitment is not started yet, it will be hidden.
      * If you set 3, the commitment will be hidden into days 1 and 2, and will be shown from day 3.
+     * @default undefined
      */
     fromDay?: number
     /**
      * The day when the commitment ends. If the commitment is ended yet, it will be deleted or hidden.
      * If you set 3, the commitment will be shown into days 1 and 2 and will be deleted or hidden from day 3.
+     * @default undefined
      */
     toDay?: number
     /**
@@ -46,6 +48,7 @@ export interface CommitmentBaseModelProps {
      *    "night": "night-background.jpg"
      * }
      * ```
+     * @default undefined
      */
     image?: GraphicItemType | { [key: string]: GraphicItemType }
     /**
@@ -57,6 +60,7 @@ export interface CommitmentBaseModelProps {
      * Is a function that is called when the player interacts with the character.
      * @param commitment 
      * @returns 
+     * @default undefined
      */
     onRun?: (commitment: CommitmentBaseModel) => void
     /**
@@ -138,7 +142,7 @@ export default class CommitmentBaseModel<TCharacter extends CharacterBaseModel =
     private defaultFromHour?: number
     /**
      * The hour when the commitment starts. If the commitment is not started yet, it will be hidden.
-     * If you set undefined, it will return the default fromHour.
+     * If you set undefined, it will return the initial value of fromHour.
      */
     get fromHour(): number {
         return this.getStorageProperty<number>("fromHour") || this.defaultFromHour || TimeManager.minDayHours
@@ -150,7 +154,7 @@ export default class CommitmentBaseModel<TCharacter extends CharacterBaseModel =
     private defaultToHour?: number
     /**
      * The hour when the commitment ends. If the commitment is ended yet, it will be hidden.
-     * If you set undefined, it will return the default toHour.
+     * If you set undefined, it will return the initial value of toHour.
      */
     get toHour(): number {
         return this.getStorageProperty<number>("toHour") || this.defaultToHour || (TimeManager.maxDayHours + 1)
@@ -162,7 +166,7 @@ export default class CommitmentBaseModel<TCharacter extends CharacterBaseModel =
     private defaultFromDay?: number
     /**
      * The day when the commitment starts. If the commitment is not started yet, it will be hidden.
-     * If you set undefined, it will return the default fromDay.
+     * If you set undefined, it will return the initial value of fromDay.
      */
     get fromDay(): number | undefined {
         return this.getStorageProperty<number>("fromDay") || this.defaultFromDay
@@ -174,7 +178,7 @@ export default class CommitmentBaseModel<TCharacter extends CharacterBaseModel =
     private defaultToDay?: number
     /**
      * The day when the commitment ends. If the commitment is ended yet, it will be deleted or hidden.
-     * If you set undefined, it will return the default toDay.
+     * If you set undefined, it will return the initial value of toDay.
      */
     get toDay(): number | undefined {
         return this.getStorageProperty<number>("toDay") || this.defaultToDay
