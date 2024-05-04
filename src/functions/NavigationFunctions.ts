@@ -20,7 +20,7 @@ export function setCurrentRoom<TRoom extends RoomBaseModel = RoomBaseModel>(room
             return;
         }
     }
-    localStorage.setItem(CURRENT_ROOM_MEMORY_KEY, room.id);
+    GameStorageManager.setVariable(CURRENT_ROOM_MEMORY_KEY, room.id);
 }
 
 export function getCurrentRoom<TRoom extends RoomBaseModel = RoomBaseModel>(): TRoom | undefined {
