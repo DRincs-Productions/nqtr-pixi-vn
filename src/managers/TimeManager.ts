@@ -242,7 +242,7 @@ export default class TimeManager {
      *     )
      * }
      */
-    static get currentTimeSlots(): number {
+    static get currentTimeSlot(): number {
         if (TimeManager.timeSlots.length === 0) {
             console.warn('[NQTR] Time slots are not defined')
             return 0
