@@ -1,2 +1,2 @@
-export { default as TimeManager, TimeSettings } from './TimeManager';
+export { default as TimeManager } from './TimeManager';
 
