@@ -25,7 +25,7 @@ export interface MapBaseModelProps<TMap extends MapBaseModel = MapBaseModel> {
      * ```
      * @default undefined
      */
-    image?: GraphicItemType | { [key: string]: GraphicItemType }
+    image?: GraphicItemType | Record<any, GraphicItemType> | object
     /**
      * The neighboring maps that are available in this map.
      * @example
@@ -93,15 +93,15 @@ export default class MapBaseModel extends StoredClassModel {
         this.setStorageProperty("name", value)
     }
 
-    private defaultImage?: GraphicItemType | { [key: string]: GraphicItemType }
+    private defaultImage?: GraphicItemType | Record<any, GraphicItemType> | object
     /**
      * The image of the map. It can be a string, an Element or a Pixi'VN Canvas Item.
      * If you set undefined, it will return the initial value of image.
      */
-    get image(): GraphicItemType | { [key: string]: GraphicItemType } | undefined {
+    get image(): GraphicItemType | Record<any, GraphicItemType> | object | undefined {
         return this.getStorageProperty<GraphicItemType>("image") || this.defaultImage
     }
-    set image(value: GraphicItemType | { [key: string]: GraphicItemType } | undefined) {
+    set image(value: GraphicItemType | Record<any, GraphicItemType> | object | undefined) {
         this.setStorageProperty("image", value)
     }
 

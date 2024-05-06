@@ -50,7 +50,7 @@ export interface CommitmentBaseModelProps {
      * ```
      * @default undefined
      */
-    image?: GraphicItemType | { [key: string]: GraphicItemType }
+    image?: GraphicItemType | Record<any, GraphicItemType> | object
     /**
      * Execution type. If is "automatic" the onRun() runned automatically when the palayer is in the room. If is "interaction" the player must interact with the character to run the onRun() function.
      * @default ExecutionTypeEnum.INTERACTION
@@ -187,11 +187,11 @@ export default class CommitmentBaseModel<TCharacter extends CharacterBaseModel =
         this.setStorageProperty("toDay", value)
     }
 
-    private _image?: GraphicItemType | { [key: string]: GraphicItemType }
+    private _image?: GraphicItemType | Record<any, GraphicItemType> | object
     /**
      * The image. It can be a string, an Element or a Pixi'VN Canvas Item.
      */
-    get image(): GraphicItemType | { [key: string]: GraphicItemType } | undefined {
+    get image(): GraphicItemType | Record<any, GraphicItemType> | object | undefined {
         return this._image
     }
 
