@@ -1,6 +1,6 @@
 {
   "name": "@drincs/nqtr",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "A complete system introducing the concepts of location, time and event, producing the framework of a not-quite-point-and-click adventure game.",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -42,7 +42,7 @@
     "visual-novel",
     "vn"
   ],
-  "peerDependencies": {
-    "@drincs/pixi-vn": "0.4.0"
+  "dependencies": {
+    "@drincs/pixi-vn": "^0.4.2"
   }
 }
