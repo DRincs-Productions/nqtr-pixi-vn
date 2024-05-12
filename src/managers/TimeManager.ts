@@ -197,13 +197,14 @@ export default class TimeManager {
             console.warn('[NQTR] Time slots are not defined')
             return 0
         }
-        TimeManager.timeSlots.forEach((slot, index) => {
+        for (let index = 0; index < TimeManager.timeSlots.length; index++) {
+            let slot = TimeManager.timeSlots[index]
             if (TimeManager.timeSlots.length > index + 1) {
                 if (TimeManager.nowIsBetween(slot.startHour, TimeManager.timeSlots[index + 1].startHour)) {
                     return index
                 }
             }
-        })
+        }
         return 0
     }
 
