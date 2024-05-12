@@ -50,7 +50,7 @@ export interface ActivityProps {
 }
 
 export abstract class ActivityStoredAbstract {
-    constructor(onRun: (activity: ActivityModel) => void, props: ActivityProps) {
+    constructor(onRun: (activity: ActivityStoredAbstract) => void, props: ActivityProps) {
         this.defaultName = props.name
         this.defaultFromHour = props.fromHour
         this.defaultToHour = props.toHour
@@ -144,9 +144,9 @@ export abstract class ActivityStoredAbstract {
         return this._icon
     }
 
-    private _onRun: (activity: ActivityModel) => void
-    get onRun() {
-        return this._onRun
+    private _onRun: (activity: ActivityStoredAbstract) => void
+    get onRun(): () => void {
+        return () => this._onRun(this)
     }
 
     isExpired(): boolean {
@@ -242,8 +242,8 @@ export default class ActivityModel {
     }
 
     private _onRun: (activity: ActivityModel) => void
-    get onRun() {
-        return this._onRun
+    get onRun(): () => void {
+        return () => this._onRun(this)
     }
 
     isDeadline(): boolean {
