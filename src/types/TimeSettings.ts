@@ -8,19 +8,23 @@ export type ITimeStlot = {
  */
 export type TimeSettings = {
     /**
-     * Minimum hour of the day (default: 0)
+     * Minimum hour of the day
+     * @default 0
      */
     minDayHours?: number
     /**
-     * Maximum hour of the day (default: 24)
+     * Maximum hour of the day
+     * @default 24
      */
     maxDayHours?: number
     /**
-     * Default time spent (default: 1)
+     * Default time spent
+     * @default 1
      */
     defaultTimeSpent?: number
     /**
-     * Time slots (default: [])
+     * Time slots
+     * @default []
      * @example
      * ```ts
      * [
@@ -32,15 +36,18 @@ export type TimeSettings = {
      */
     timeSlots?: ITimeStlot[]
     /**
-     * Week length (default: 7)
+     * Week length
+     * @default 7
      */
     weekLength?: number
     /**
-     * Weekend start day. For example, if the real life weekend starts on Saturday, then the value should be 6 (default: weekLength - 1)
+     * Weekend start day. For example, if the real life weekend starts on Saturday, then the value should be 6
+     * @default weekLength - 1
      */
     weekendStartDay?: number
     /**
-     * Week days names (default: [])
+     * Week days names
+     * @default []
      * @example
      * ```ts
      * ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
