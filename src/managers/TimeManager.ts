@@ -46,6 +46,7 @@ export default class TimeManager {
     }
     /**
      * Get time settings
+     * @default {}
      */
     static get settings(): TimeSettings {
         let settings = GameStorageManager.getVariable<TimeSettings>(TIME_SETTINGS_KEY) || {}
@@ -170,12 +171,13 @@ export default class TimeManager {
     /**
      * Get the current week day name. If the week days names are not defined, then it will return undefined.
      * For example, if the week days names are ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'] and the current day is 10, then the result will be 'Thursday'.
+     * @default ""
      */
-    static get currentDayName(): string | undefined {
+    static get currentDayName(): string {
         let weekDayNumber = TimeManager.currentWeekDayNumber - 1
         if (weekDayNumber >= TimeManager.weekDaysNames.length) {
             console.warn(`[NQTR] Week day name is not defined for day ${weekDayNumber}`, TimeManager.weekDaysNames)
-            return undefined
+            return ""
         }
         return TimeManager.weekDaysNames[weekDayNumber]
     }
