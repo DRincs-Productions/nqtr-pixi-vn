@@ -42,7 +42,7 @@
     "visual-novel",
     "vn"
   ],
-  "dependencies": {
-    "@drincs/pixi-vn": "^0.4.2"
+  "peerDependencies": {
+    "@drincs/pixi-vn": ">=0.3.0"
   }
 }
