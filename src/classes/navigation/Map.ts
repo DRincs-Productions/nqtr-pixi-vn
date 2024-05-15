@@ -31,15 +31,15 @@ export interface MapBaseModelProps<TMap extends MapBaseModel = MapBaseModel> {
      * @example
      * ```ts
      * {
-     *    "north": atlantaMap,
-     *    "south": miamiMap,
-     *    "east": savannahMap,
-     *    "west": birminghamMap
+     *    "north": "atlanta_map_id",
+     *    "south": "miami_map_id",
+     *    "east": "new_york_map_id",
+     *    "west": "los_angeles_map_id"
      * }
      * ```
      * @default {}
      */
-    neighboringMaps?: { [key: string]: TMap }
+    neighboringMaps?: { [key: string]: string }
     /**
      * Whether is disabled. You can also pass a Pixi'VN flag name.
      * @default false
