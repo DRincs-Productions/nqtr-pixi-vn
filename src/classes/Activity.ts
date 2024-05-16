@@ -76,6 +76,9 @@ export abstract class ActivityStoredAbstract {
     abstract get id(): string
 
     private defaultName?: string
+    /**
+     * The name
+     */
     get name(): string {
         return this.getStorageProperty<string>("name") || this.defaultName || ""
     }
@@ -84,6 +87,9 @@ export abstract class ActivityStoredAbstract {
     }
 
     private defaultFromHour?: number
+    /**
+     * The hour when the activity starts. If the activity is not started yet, it will be hidden.
+     */
     get fromHour(): number {
         return this.getStorageProperty<number>("fromHour") || this.defaultFromHour || TimeManager.minDayHours
     }
@@ -92,6 +98,9 @@ export abstract class ActivityStoredAbstract {
     }
 
     private defaultToHour?: number
+    /**
+     * The hour when the activity ends. If the activity is ended yet, it will be hidden.
+     */
     get toHour(): number {
         return this.getStorageProperty<number>("toHour") || this.defaultToHour || (TimeManager.maxDayHours + 1)
     }
@@ -100,6 +109,9 @@ export abstract class ActivityStoredAbstract {
     }
 
     private defaultFromDay?: number
+    /**
+     * The day when the activity starts. If the activity is not started yet, it will be hidden.
+     */
     get fromDay(): number | undefined {
         return this.getStorageProperty<number>("fromDay") || this.defaultFromDay
     }
@@ -108,6 +120,9 @@ export abstract class ActivityStoredAbstract {
     }
 
     private defaultToDay?: number
+    /**
+     * The day when the activity ends. If the activity is ended yet, it will be deleted or hidden.
+     */
     get toDay(): number | undefined {
         return this.getStorageProperty<number>("toDay") || this.defaultToDay
     }
@@ -116,6 +131,9 @@ export abstract class ActivityStoredAbstract {
     }
 
     private defaultDisabled: boolean | string
+    /**
+     * Whether is disabled.
+     */
     get disabled(): boolean {
         let value = this.getStorageProperty<boolean>("disabled") || this.defaultDisabled
         if (typeof value === "string") {
@@ -128,6 +146,9 @@ export abstract class ActivityStoredAbstract {
     }
 
     private defaultHidden: boolean | string
+    /**
+     * Whether is hidden. If the activity is not started yet, it will be hidden.
+     */
     get hidden(): boolean {
         if (this.fromDay && this.fromDay > TimeManager.currentDay) {
             return true
@@ -149,15 +170,25 @@ export abstract class ActivityStoredAbstract {
     }
 
     private _icon?: GraphicItemType
+    /**
+     * The icon element.
+     */
     get icon(): GraphicItemType | undefined {
         return this._icon
     }
 
     private _onRun: (activity: ActivityStoredAbstract) => void
+    /**
+     * The function that is called when the activity is runned.
+     */
     get onRun(): () => void {
         return () => this._onRun(this)
     }
 
+    /**
+     * Whether the activity is a deadline.
+     * @returns Whether the activity is a deadline.
+     */
     isExpired(): boolean {
         if (this.toDay && this.toDay <= TimeManager.currentDay) {
             return true
@@ -165,6 +196,10 @@ export abstract class ActivityStoredAbstract {
         return false
     }
 
+    /**
+     * Export the activity properties.
+     * @returns The activity properties.
+     */
     export(): ActivityProps {
         return {
             name: this.getStorageProperty<string>("name") || this.defaultName,
@@ -202,36 +237,57 @@ export default class ActivityModel {
     }
 
     private _id: string
+    /**
+     * The activity id, that is unique.
+     */
     get id(): string {
         return this._id
     }
 
     private _name?: string
+    /**
+     * The name
+     */
     get name(): string | undefined {
         return this._name
     }
 
     private _fromHour?: number
+    /**
+     * The hour when the activity starts. If the activity is not started yet, it will be hidden.
+     */
     get fromHour(): number | undefined {
         return this._fromHour
     }
 
     private _toHour?: number
+    /**
+     * The hour when the activity ends. If the activity is ended yet, it will be hidden.
+     */
     get toHour(): number | undefined {
         return this._toHour
     }
 
     private _fromDay?: number
+    /**
+     * The day when the activity starts. If the activity is not started yet, it will be hidden.
+     */
     get fromDay(): number | undefined {
         return this._fromDay
     }
 
     private _toDay?: number
+    /**
+     * The day when the activity ends. If the activity is ended yet, it will be deleted or hidden.
+     */
     get toDay(): number | undefined {
         return this._toDay
     }
 
     private _disabled?: boolean | string
+    /**
+     * Whether is disabled.
+     */
     get disabled(): boolean | undefined {
         if (typeof this._disabled === "string") {
             return getFlag(this._disabled)
@@ -240,6 +296,9 @@ export default class ActivityModel {
     }
 
     private _hidden: boolean | string
+    /**
+     * Whether is hidden. If the activity is not started yet, it will be hidden.
+     */
     get hidden(): boolean {
         if (this.fromDay && this.fromDay > TimeManager.currentDay) {
             return true
@@ -254,15 +313,25 @@ export default class ActivityModel {
     }
 
     private _icon?: GraphicItemType
+    /**
+     * The icon element.
+     */
     get icon(): GraphicItemType | undefined {
         return this._icon
     }
 
     private _onRun: OnRunActivityEvent<ActivityModel>
+    /**
+     * The function that is called when the activity is runned.
+     */
     get onRun(): () => void {
         return () => this._onRun(this)
     }
 
+    /**
+     * Whether the activity is a deadline.
+     * @returns Whether the activity is a deadline.
+     */
     isDeadline(): boolean {
         if (this.toDay && this.toDay <= TimeManager.currentDay) {
             return true
@@ -270,6 +339,10 @@ export default class ActivityModel {
         return false
     }
 
+    /**
+     * Export the activity properties.
+     * @returns The activity properties.
+     */
     export(): ActivityProps {
         return {
             name: this._name,
