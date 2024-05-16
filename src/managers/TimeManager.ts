@@ -207,7 +207,7 @@ export default class TimeManager {
                 }
             }
         }
-        return 0
+        return TimeManager.timeSlots.length - 1
     }
 
     /**
