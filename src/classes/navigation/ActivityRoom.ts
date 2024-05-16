@@ -1,8 +1,8 @@
-import { ActivityProps, ActivityStoredAbstract } from "../Activity";
+import { ActivityProps, ActivityStoredAbstract, OnRunActivityEvent } from "../Activity";
 import RoomBaseModel from "./Room";
 
 export class ActivityRoom<TRoom extends RoomBaseModel = RoomBaseModel> extends ActivityStoredAbstract {
-    constructor(id: string, room: TRoom, onRun: (activity: ActivityStoredAbstract) => void, props: ActivityProps) {
+    constructor(id: string, room: TRoom, onRun: OnRunActivityEvent<ActivityStoredAbstract>, props: ActivityProps) {
         super(onRun, props)
         this._id = id
         this._room = room

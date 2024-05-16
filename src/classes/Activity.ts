@@ -49,8 +49,17 @@ export interface ActivityProps {
     icon?: GraphicItemType
 }
 
+/**
+ * The function that is called when the activity is runned.
+ */
+export type OnRunActivityEvent<T> = (activity: T, yourParams?: { [key: string]: any }) => void
+
 export abstract class ActivityStoredAbstract {
-    constructor(onRun: (activity: ActivityStoredAbstract) => void, props: ActivityProps) {
+    /**
+     * @param onRun The function that is called when the activity is runned. Have 2 parameters: the runned activity and the yourParams object, that is an object with the parameters that you want to pass to the onRun function.
+     * @param props The activity properties.
+     */
+    constructor(onRun: OnRunActivityEvent<ActivityStoredAbstract>, props: ActivityProps) {
         this.defaultName = props.name
         this.defaultFromHour = props.fromHour
         this.defaultToHour = props.toHour
@@ -170,8 +179,16 @@ export abstract class ActivityStoredAbstract {
     }
 }
 
+/**
+ * The activity model.
+ */
 export default class ActivityModel {
-    constructor(id: string, onRun: (activity: ActivityModel) => void, props: ActivityProps) {
+    /**
+     * @param id The activity id, that must be unique.
+     * @param onRun The function that is called when the activity is runned. Have 2 parameters: the runned activity and the yourParams object, that is an object with the parameters that you want to pass to the onRun function.
+     * @param props The activity properties.
+     */
+    constructor(id: string, onRun: OnRunActivityEvent<ActivityModel>, props: ActivityProps) {
         this._id = id
         this._name = props.name
         this._fromHour = props.fromHour
@@ -241,7 +258,7 @@ export default class ActivityModel {
         return this._icon
     }
 
-    private _onRun: (activity: ActivityModel) => void
+    private _onRun: OnRunActivityEvent<ActivityModel>
     get onRun(): () => void {
         return () => this._onRun(this)
     }
