@@ -5,5 +5,6 @@ export * from './decorators';
 export * from './enums';
 export * from './functions';
 export * from './managers';
+export * from './override';
 export * from './types';
 
