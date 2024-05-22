@@ -2,12 +2,12 @@ import { CharacterBaseModel, getFlag, StoredClassModel } from "@drincs/pixi-vn";
 import { ExecutionTypeEnum } from "../enums/ExecutionTypeEnum";
 import TimeManager from "../managers/TimeManager";
 import { OnRenderGraphicItemProps } from "../override";
-import GraphicItemType from "../override/GraphicItem";
+import GraphicItemType from "../override/GraphicItemType";
 import { RoomBaseModel } from "./navigation";
 
 const COMMITMENT_CATEGORY = "__nqtr-commitment__"
 
-export interface CommitmentBaseModelProps {
+export interface CommitmentBaseModelProps<TCharacter extends CharacterBaseModel = CharacterBaseModel, TRoom extends RoomBaseModel = RoomBaseModel> {
     /**
      * The name
      * @default ""
@@ -51,7 +51,7 @@ export interface CommitmentBaseModelProps {
      * ```
      * @default undefined
      */
-    renderImage?: GraphicItemType | ((props: OnRenderGraphicItemProps) => GraphicItemType)
+    renderImage?: GraphicItemType | ((commitment: CommitmentBaseModel<TCharacter, TRoom>, props?: OnRenderGraphicItemProps) => GraphicItemType)
     /**
      * Execution type. If is "automatic" the onRun() runned automatically when the palayer is in the room. If is "interaction" the player must interact with the character to run the onRun() function.
      * @default ExecutionTypeEnum.INTERACTION
@@ -100,7 +100,7 @@ export default class CommitmentBaseModel<TCharacter extends CharacterBaseModel =
      * @param room The room where the commitment is.
      * @param props The properties of the commitment.
      */
-    constructor(id: string, character: TCharacter | TCharacter[] | undefined, room: TRoom, props: CommitmentBaseModelProps) {
+    constructor(id: string, character: TCharacter | TCharacter[] | undefined, room: TRoom, props: CommitmentBaseModelProps<TCharacter, TRoom>) {
         super(COMMITMENT_CATEGORY, id)
         this._characters = character ? Array.isArray(character) ? character : [character] : []
         this._room = room
@@ -188,15 +188,19 @@ export default class CommitmentBaseModel<TCharacter extends CharacterBaseModel =
         this.setStorageProperty("toDay", value)
     }
 
-    private _renderImage?: GraphicItemType | ((props: OnRenderGraphicItemProps) => GraphicItemType)
+    private _renderImage?: GraphicItemType | ((commitment: CommitmentBaseModel<TCharacter, TRoom>, props?: OnRenderGraphicItemProps) => GraphicItemType)
     /**
      * The function for rendering the image of the room.
      */
-    get renderImage(): ((props: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
+    get renderImage(): ((props?: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
         if (typeof this._renderImage !== "function") {
             return (props?: OnRenderGraphicItemProps) => this._renderImage as GraphicItemType
         }
-        return this._renderImage as ((props: OnRenderGraphicItemProps) => GraphicItemType)
+        if (this.renderImage !== undefined) {
+            return (props?: OnRenderGraphicItemProps) => {
+                return (this.renderImage as any)(this, props)
+            }
+        }
     }
 
     private _executionType: ExecutionTypeEnum

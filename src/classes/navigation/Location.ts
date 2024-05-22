@@ -1,13 +1,13 @@
 import { getFlag, StoredClassModel } from "@drincs/pixi-vn";
 import { getRoomsByLocation } from "../../decorators/RoomDecorator";
 import { OnRenderGraphicItemProps } from "../../override";
-import GraphicItemType from "../../override/GraphicItem";
+import GraphicItemType from "../../override/GraphicItemType";
 import MapBaseModel from "./Map";
 import RoomBaseModel from "./Room";
 
 const LOCATION_CATEGORY = "__nqtr-location__"
 
-export interface LocationBaseModelProps {
+export interface LocationBaseModelProps<TMap extends MapBaseModel = MapBaseModel> {
     /**
      * The name
      * @default ""
@@ -27,7 +27,7 @@ export interface LocationBaseModelProps {
      * The icon element. Can be a string or an Element or a Pixi'VN CanvasItem
      * @default undefined
      */
-    renderIcon?: GraphicItemType | ((props: OnRenderGraphicItemProps) => GraphicItemType)
+    renderIcon?: GraphicItemType | ((location: LocationBaseModel<TMap>, props?: OnRenderGraphicItemProps) => GraphicItemType)
 }
 
 /**
@@ -46,7 +46,7 @@ export default class LocationBaseModel<TMap extends MapBaseModel = MapBaseModel>
      * @param map The map where the location is.
      * @param props The properties of the location.
      */
-    constructor(id: string, map: TMap, props: LocationBaseModelProps = {}) {
+    constructor(id: string, map: TMap, props: LocationBaseModelProps<TMap> = {}) {
         super(LOCATION_CATEGORY, id)
         this.defaultName = props.name || ""
         this.defaultDisabled = props.disabled || false
@@ -97,15 +97,19 @@ export default class LocationBaseModel<TMap extends MapBaseModel = MapBaseModel>
         this.setStorageProperty("hidden", value)
     }
 
-    private _renderIcon?: GraphicItemType | ((props: OnRenderGraphicItemProps) => GraphicItemType)
+    private _renderIcon?: GraphicItemType | ((location: LocationBaseModel<TMap>, props?: OnRenderGraphicItemProps) => GraphicItemType)
     /**
      * The function for rendering the icon of the location.
      */
-    get renderIcon(): ((props: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
+    get renderIcon(): ((props?: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
         if (typeof this._renderIcon !== "function") {
             return (props?: OnRenderGraphicItemProps) => this._renderIcon as GraphicItemType
         }
-        return this._renderIcon as ((props: OnRenderGraphicItemProps) => GraphicItemType)
+        if (this._renderIcon !== undefined) {
+            return (props?: OnRenderGraphicItemProps) => {
+                return (this._renderIcon as any)(this, props)
+            }
+        }
     }
 
     private _map: TMap

@@ -2,7 +2,7 @@ import { OnRunActivityProps } from '@drincs/nqtr/dist/override';
 import { getFlag } from "@drincs/pixi-vn";
 import TimeManager from "../managers/TimeManager";
 import { OnRenderGraphicItemProps } from '../override';
-import GraphicItemType from "../override/GraphicItem";
+import GraphicItemType from "../override/GraphicItemType";
 
 export interface ActivityProps {
     /**
@@ -48,7 +48,7 @@ export interface ActivityProps {
      * The icon element. Can be a string or an Element or a Pixi'VN CanvasItem
      * @default undefined
      */
-    renderIcon?: GraphicItemType | ((props: OnRenderGraphicItemProps) => GraphicItemType)
+    renderIcon?: GraphicItemType | ((activity: ActivityStoredAbstract, props?: OnRenderGraphicItemProps) => GraphicItemType)
 }
 
 /**
@@ -171,15 +171,19 @@ export abstract class ActivityStoredAbstract {
         this.setStorageProperty("hidden", value)
     }
 
-    private _renderIcon?: GraphicItemType | ((props: OnRenderGraphicItemProps) => GraphicItemType)
+    private _renderIcon?: GraphicItemType | ((activity: ActivityStoredAbstract, props?: OnRenderGraphicItemProps) => GraphicItemType)
     /**
      * The function for rendering the icon of the activity.
      */
-    get renderIcon(): ((props: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
+    get renderIcon(): ((props?: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
         if (typeof this._renderIcon !== "function") {
             return (props?: OnRenderGraphicItemProps) => this._renderIcon as GraphicItemType
         }
-        return this._renderIcon as ((props: OnRenderGraphicItemProps) => GraphicItemType)
+        if (this._renderIcon !== undefined) {
+            return (props?: OnRenderGraphicItemProps) => {
+                return (this._renderIcon as any)(this, props)
+            }
+        }
     }
 
     private _onRun: (activity: ActivityStoredAbstract, props?: OnRunActivityProps) => void
@@ -317,15 +321,19 @@ export default class ActivityModel {
         return this._hidden
     }
 
-    private _renderIcon?: GraphicItemType | ((props: OnRenderGraphicItemProps) => GraphicItemType)
+    private _renderIcon?: GraphicItemType | ((activity: ActivityStoredAbstract, props?: OnRenderGraphicItemProps) => GraphicItemType)
     /**
      * The function for rendering the icon of the activity.
      */
-    get renderIcon(): ((props: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
+    get renderIcon(): ((props?: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
         if (typeof this._renderIcon !== "function") {
             return (props?: OnRenderGraphicItemProps) => this._renderIcon as GraphicItemType
         }
-        return this._renderIcon as ((props: OnRenderGraphicItemProps) => GraphicItemType)
+        if (this._renderIcon !== undefined) {
+            return (props?: OnRenderGraphicItemProps) => {
+                return (this._renderIcon as any)(this, props)
+            }
+        }
     }
 
     private _onRun: OnRunActivityEvent<ActivityModel>

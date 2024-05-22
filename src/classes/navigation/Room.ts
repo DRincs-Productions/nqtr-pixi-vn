@@ -2,7 +2,7 @@ import { getFlag, StoredClassModel } from "@drincs/pixi-vn";
 import { getActivityById } from "../../decorators";
 import { getCurrentCommitments } from "../../functions/RoutineFunctions";
 import { OnRenderGraphicItemProps } from "../../override";
-import GraphicItemType from "../../override/GraphicItem";
+import GraphicItemType from "../../override/GraphicItemType";
 import ActivityModel, { ActivityProps } from "../Activity";
 import CommitmentBaseModel from "../Commitment";
 import { ActivityRoom } from "./ActivityRoom";
@@ -12,7 +12,7 @@ export const ROOM_CATEGORY = "__nqtr-room__"
 
 interface RoomActivityMemory { [key: string]: ActivityProps }
 
-export interface RoomBaseModelProps {
+export interface RoomBaseModelProps<TLocation extends LocationBaseModel = LocationBaseModel> {
     /**
      * The name
      * @default ""
@@ -32,7 +32,7 @@ export interface RoomBaseModelProps {
      * ```
      * @default undefined
      */
-    renderImage?: GraphicItemType | ((props: OnRenderGraphicItemProps) => GraphicItemType)
+    renderImage?: GraphicItemType | ((room: RoomBaseModel<TLocation>, props?: OnRenderGraphicItemProps) => GraphicItemType)
     /**
      * The activities that are available in this room.
      * @default []
@@ -52,7 +52,7 @@ export interface RoomBaseModelProps {
      * The icon element. Can be a string or an Element or a Pixi'VN CanvasItem
      * @default undefined
      */
-    renderIcon?: GraphicItemType | ((props: OnRenderGraphicItemProps) => GraphicItemType)
+    renderIcon?: GraphicItemType | ((room: RoomBaseModel<TLocation>, props?: OnRenderGraphicItemProps) => GraphicItemType)
     /**
      * Whether is an entrance room, so when the player enters in the location, it will be the first room to be shown.
      * @default false
@@ -80,11 +80,11 @@ export default class RoomBaseModel<TLocation extends LocationBaseModel = Locatio
      * @param location The location where the room is.
      * @param props The properties of the room.
      */
-    constructor(id: string, location: TLocation, props: RoomBaseModelProps = {}) {
+    constructor(id: string, location: TLocation, props: RoomBaseModelProps<TLocation> = {}) {
         super(ROOM_CATEGORY, id)
         this._location = location
         this.defaultName = props.name || ""
-        this._renderImege = props.renderImage
+        this._renderImage = props.renderImage
         this.defaultActivityIds = props.defaultActivities?.map(activity => activity.id) || []
         this.defaultDisabled = props.disabled || false
         this.defaultHidden = props.hidden || false
@@ -120,15 +120,19 @@ export default class RoomBaseModel<TLocation extends LocationBaseModel = Locatio
         this.setStorageProperty("name", value)
     }
 
-    private _renderImege?: GraphicItemType | ((props: OnRenderGraphicItemProps) => GraphicItemType)
+    private _renderImage?: GraphicItemType | ((room: RoomBaseModel<TLocation>, props?: OnRenderGraphicItemProps) => GraphicItemType)
     /**
      * The function for rendering the image of the room.
      */
-    get renderImage(): ((props: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
-        if (typeof this._renderImege !== "function") {
-            return (props?: OnRenderGraphicItemProps) => this._renderImege as GraphicItemType
+    get renderImage(): ((props?: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
+        if (typeof this._renderImage !== "function") {
+            return (props?: OnRenderGraphicItemProps) => this._renderImage as GraphicItemType
         }
-        return this._renderImege as ((props: OnRenderGraphicItemProps) => GraphicItemType)
+        if (this.renderImage !== undefined) {
+            return (props?: OnRenderGraphicItemProps) => {
+                return (this.renderImage as any)(this, props)
+            }
+        }
     }
 
     private defaultActivityIds: string[]
@@ -299,15 +303,19 @@ export default class RoomBaseModel<TLocation extends LocationBaseModel = Locatio
         this.setStorageProperty("hidden", value)
     }
 
-    private _renderIcon?: GraphicItemType | ((props: OnRenderGraphicItemProps) => GraphicItemType)
+    private _renderIcon?: GraphicItemType | ((room: RoomBaseModel<TLocation>, props?: OnRenderGraphicItemProps) => GraphicItemType)
     /**
      * The function for rendering the icon of the room.
      */
-    get renderIcon(): ((props: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
+    get renderIcon(): ((props?: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
         if (typeof this._renderIcon !== "function") {
             return (props?: OnRenderGraphicItemProps) => this._renderIcon as GraphicItemType
         }
-        return this._renderIcon as ((props: OnRenderGraphicItemProps) => GraphicItemType)
+        if (this._renderIcon !== undefined) {
+            return (props?: OnRenderGraphicItemProps) => {
+                return (this._renderIcon as any)(this, props)
+            }
+        }
     }
 
     /**

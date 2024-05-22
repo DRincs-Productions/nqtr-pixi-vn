@@ -1,7 +1,7 @@
 import { getFlag, StoredClassModel } from "@drincs/pixi-vn"
 import { getLocationsByMap } from "../../decorators/RoomDecorator"
 import { OnRenderGraphicItemProps } from "../../override"
-import GraphicItemType from "../../override/GraphicItem"
+import GraphicItemType from "../../override/GraphicItemType"
 import LocationBaseModel from "./Location"
 
 const MAP_CATEGORY = "__nqtr-map__"
@@ -26,7 +26,7 @@ export interface MapBaseModelProps {
      * ```
      * @default undefined
      */
-    renderImage?: GraphicItemType | ((props: OnRenderGraphicItemProps) => GraphicItemType)
+    renderImage?: GraphicItemType | ((map: MapBaseModel, props?: OnRenderGraphicItemProps) => GraphicItemType)
     /**
      * The neighboring maps that are available in this map.
      * @example
@@ -77,7 +77,7 @@ export default class MapBaseModel extends StoredClassModel {
     constructor(id: string, props: MapBaseModelProps = {}) {
         super(MAP_CATEGORY, id)
         this.defaultName = props.name || ""
-        this._renderImege = props.renderImage
+        this._renderImage = props.renderImage
         this.defaultDisabled = props.disabled || false
         this.defaultHidden = props.hidden || false
     }
@@ -94,15 +94,19 @@ export default class MapBaseModel extends StoredClassModel {
         this.setStorageProperty("name", value)
     }
 
-    private _renderImege?: GraphicItemType | ((props: OnRenderGraphicItemProps) => GraphicItemType)
+    private _renderImage?: GraphicItemType | ((map: MapBaseModel, props?: OnRenderGraphicItemProps) => GraphicItemType)
     /**
      * The function for rendering the image of the map.
      */
-    get renderImage(): ((props: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
-        if (typeof this._renderImege !== "function") {
-            return (props?: OnRenderGraphicItemProps) => this._renderImege as GraphicItemType
+    get renderImage(): ((props?: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
+        if (typeof this._renderImage !== "function") {
+            return (props?: OnRenderGraphicItemProps) => this._renderImage as GraphicItemType
         }
-        return this._renderImege as ((props: OnRenderGraphicItemProps) => GraphicItemType)
+        if (this.renderImage !== undefined) {
+            return (props?: OnRenderGraphicItemProps) => {
+                return (this.renderImage as any)(this, props)
+            }
+        }
     }
 
     private defaultDisabled: boolean | string
