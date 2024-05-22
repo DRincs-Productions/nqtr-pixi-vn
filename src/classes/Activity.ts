@@ -1,5 +1,6 @@
 import { getFlag } from "@drincs/pixi-vn";
 import TimeManager from "../managers/TimeManager";
+import { OnRunActivityProps } from "../override";
 import { GraphicItemType } from "../types/GraphicItem";
 
 export interface ActivityProps {
@@ -52,7 +53,7 @@ export interface ActivityProps {
 /**
  * The function that is called when the activity is runned.
  */
-export type OnRunActivityEvent<T> = (activity: T, yourParams?: { [key: string]: any }) => void
+export type OnRunActivityEvent<T> = (activity: T, props?: OnRunActivityProps) => void
 
 export abstract class ActivityStoredAbstract {
     /**

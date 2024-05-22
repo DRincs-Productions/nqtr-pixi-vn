@@ -60,10 +60,10 @@ export interface MapBaseModelProps<TMap extends MapBaseModel = MapBaseModel> {
  *     name: 'Main Map',
  *     image: "https://image.jpg",
  *     neighboringMaps: {
- *         "north": northMap,
- *         "south": southMap,
- *         "east": eastMap,
- *         "west": westMap
+ *         "north": "atlanta_map_id",
+ *         "south": "miami_map_id",
+ *         "east": "new_york_map_id",
+ *         "west": "los_angeles_map_id"
  *     }
  * });
  * ```
@@ -135,14 +135,23 @@ export default class MapBaseModel extends StoredClassModel {
         this.setStorageProperty("hidden", value)
     }
 
-    private _neighboringMaps?: { [key: string]: MapBaseModel }
+    private _neighboringMaps?: { [key: string]: string }
     /**
      * The neighboring maps that are available in this map.
+     * @example
+     * ```ts
+     * {
+     *     "north": "atlanta_map_id",
+     *     "south": "miami_map_id",
+     *     "east": "new_york_map_id",
+     *     "west": "los_angeles_map_id"
+     * }
+     * ```
      */
-    get neighboringMaps(): { [key: string]: MapBaseModel } {
+    get neighboringMaps(): { [key: string]: string } {
         return this._neighboringMaps || {}
     }
-    set neighboringMaps(value: { [key: string]: MapBaseModel } | undefined) {
+    set neighboringMaps(value: { [key: string]: string } | undefined) {
         this._neighboringMaps = value
     }
 
