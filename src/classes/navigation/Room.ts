@@ -1,7 +1,8 @@
 import { getFlag, StoredClassModel } from "@drincs/pixi-vn";
 import { getActivityById } from "../../decorators";
 import { getCurrentCommitments } from "../../functions/RoutineFunctions";
-import { GraphicItemType } from "../../types/GraphicItem";
+import { OnRenderGraphicItemProps } from "../../override";
+import GraphicItemType from "../../override/GraphicItem";
 import ActivityModel, { ActivityProps } from "../Activity";
 import CommitmentBaseModel from "../Commitment";
 import { ActivityRoom } from "./ActivityRoom";
@@ -31,7 +32,7 @@ export interface RoomBaseModelProps {
      * ```
      * @default undefined
      */
-    image?: GraphicItemType | Record<any, GraphicItemType> | object
+    renderImage?: GraphicItemType | ((props: OnRenderGraphicItemProps) => GraphicItemType)
     /**
      * The activities that are available in this room.
      * @default []
@@ -51,7 +52,7 @@ export interface RoomBaseModelProps {
      * The icon element. Can be a string or an Element or a Pixi'VN CanvasItem
      * @default undefined
      */
-    icon?: GraphicItemType
+    renderIcon?: GraphicItemType | ((props: OnRenderGraphicItemProps) => GraphicItemType)
     /**
      * Whether is an entrance room, so when the player enters in the location, it will be the first room to be shown.
      * @default false
@@ -83,11 +84,11 @@ export default class RoomBaseModel<TLocation extends LocationBaseModel = Locatio
         super(ROOM_CATEGORY, id)
         this._location = location
         this.defaultName = props.name || ""
-        this.defaultImage = props.image
+        this._renderImege = props.renderImage
         this.defaultActivityIds = props.defaultActivities?.map(activity => activity.id) || []
         this.defaultDisabled = props.disabled || false
         this.defaultHidden = props.hidden || false
-        this._icon = props.icon
+        this._renderIcon = props.renderIcon
         this._isEntrance = props.isEntrance
     }
 
@@ -119,16 +120,15 @@ export default class RoomBaseModel<TLocation extends LocationBaseModel = Locatio
         this.setStorageProperty("name", value)
     }
 
-    private defaultImage?: GraphicItemType | Record<any, GraphicItemType> | object
+    private _renderImege?: GraphicItemType | ((props: OnRenderGraphicItemProps) => GraphicItemType)
     /**
-     * The image. It can be a string, an Element or a Pixi'VN Canvas Item.
-     * If you set undefined, it will return the initial value of image.
+     * The function for rendering the image of the room.
      */
-    get image(): GraphicItemType | Record<any, GraphicItemType> | object | undefined {
-        return this.getStorageProperty<GraphicItemType>("image") || this.defaultImage
-    }
-    set image(value: GraphicItemType | Record<any, GraphicItemType> | object | undefined) {
-        this.setStorageProperty("image", value)
+    get renderImage(): ((props: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
+        if (typeof this._renderImege !== "function") {
+            return (props?: OnRenderGraphicItemProps) => this._renderImege as GraphicItemType
+        }
+        return this._renderImege as ((props: OnRenderGraphicItemProps) => GraphicItemType)
     }
 
     private defaultActivityIds: string[]
@@ -299,12 +299,15 @@ export default class RoomBaseModel<TLocation extends LocationBaseModel = Locatio
         this.setStorageProperty("hidden", value)
     }
 
+    private _renderIcon?: GraphicItemType | ((props: OnRenderGraphicItemProps) => GraphicItemType)
     /**
-     * The icon element. Can be a string or an Element or a Pixi'VN CanvasItem
+     * The function for rendering the icon of the room.
      */
-    private _icon?: GraphicItemType
-    get icon(): GraphicItemType | undefined {
-        return this._icon
+    get renderIcon(): ((props: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
+        if (typeof this._renderIcon !== "function") {
+            return (props?: OnRenderGraphicItemProps) => this._renderIcon as GraphicItemType
+        }
+        return this._renderIcon as ((props: OnRenderGraphicItemProps) => GraphicItemType)
     }
 
     /**

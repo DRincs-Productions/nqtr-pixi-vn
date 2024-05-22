@@ -1,7 +1,8 @@
 import { OnRunActivityProps } from '@drincs/nqtr/dist/override';
 import { getFlag } from "@drincs/pixi-vn";
 import TimeManager from "../managers/TimeManager";
-import { GraphicItemType } from "../types/GraphicItem";
+import { OnRenderGraphicItemProps } from '../override';
+import GraphicItemType from "../override/GraphicItem";
 
 export interface ActivityProps {
     /**
@@ -47,7 +48,7 @@ export interface ActivityProps {
      * The icon element. Can be a string or an Element or a Pixi'VN CanvasItem
      * @default undefined
      */
-    icon?: GraphicItemType
+    renderIcon?: GraphicItemType | ((props: OnRenderGraphicItemProps) => GraphicItemType)
 }
 
 /**
@@ -68,7 +69,7 @@ export abstract class ActivityStoredAbstract {
         this.defaultToDay = props.toDay
         this.defaultDisabled = props.disabled || false
         this.defaultHidden = props.hidden || false
-        this._icon = props.icon
+        this._renderIcon = props.renderIcon
         this._onRun = (props) => onRun(this, props)
     }
 
@@ -170,12 +171,15 @@ export abstract class ActivityStoredAbstract {
         this.setStorageProperty("hidden", value)
     }
 
-    private _icon?: GraphicItemType
+    private _renderIcon?: GraphicItemType | ((props: OnRenderGraphicItemProps) => GraphicItemType)
     /**
-     * The icon element.
+     * The function for rendering the icon of the activity.
      */
-    get icon(): GraphicItemType | undefined {
-        return this._icon
+    get renderIcon(): ((props: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
+        if (typeof this._renderIcon !== "function") {
+            return (props?: OnRenderGraphicItemProps) => this._renderIcon as GraphicItemType
+        }
+        return this._renderIcon as ((props: OnRenderGraphicItemProps) => GraphicItemType)
     }
 
     private _onRun: (activity: ActivityStoredAbstract, props?: OnRunActivityProps) => void
@@ -210,7 +214,7 @@ export abstract class ActivityStoredAbstract {
             toDay: this.getStorageProperty<number>("toDay") || this.defaultToDay,
             disabled: this.getStorageProperty<boolean>("disabled") || this.defaultDisabled,
             hidden: this.getStorageProperty<boolean>("hidden") || this.defaultHidden,
-            icon: this._icon
+            renderIcon: this._renderIcon
         }
     }
 }
@@ -233,7 +237,7 @@ export default class ActivityModel {
         this._toDay = props.toDay
         this._disabled = props.disabled || false
         this._hidden = props.hidden || false
-        this._icon = props.icon
+        this._renderIcon = props.renderIcon
         this._onRun = (props) => onRun(this, props)
     }
 
@@ -313,12 +317,15 @@ export default class ActivityModel {
         return this._hidden
     }
 
-    private _icon?: GraphicItemType
+    private _renderIcon?: GraphicItemType | ((props: OnRenderGraphicItemProps) => GraphicItemType)
     /**
-     * The icon element.
+     * The function for rendering the icon of the activity.
      */
-    get icon(): GraphicItemType | undefined {
-        return this._icon
+    get renderIcon(): ((props: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
+        if (typeof this._renderIcon !== "function") {
+            return (props?: OnRenderGraphicItemProps) => this._renderIcon as GraphicItemType
+        }
+        return this._renderIcon as ((props: OnRenderGraphicItemProps) => GraphicItemType)
     }
 
     private _onRun: OnRunActivityEvent<ActivityModel>
@@ -353,7 +360,7 @@ export default class ActivityModel {
             toDay: this._toDay,
             disabled: this._disabled,
             hidden: this._hidden,
-            icon: this._icon,
+            renderIcon: this._renderIcon,
         }
     }
 }

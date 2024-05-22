@@ -1,7 +1,8 @@
 import { CharacterBaseModel, getFlag, StoredClassModel } from "@drincs/pixi-vn";
 import { ExecutionTypeEnum } from "../enums/ExecutionTypeEnum";
 import TimeManager from "../managers/TimeManager";
-import { GraphicItemType } from "../types/GraphicItem";
+import { OnRenderGraphicItemProps } from "../override";
+import GraphicItemType from "../override/GraphicItem";
 import { RoomBaseModel } from "./navigation";
 
 const COMMITMENT_CATEGORY = "__nqtr-commitment__"
@@ -50,7 +51,7 @@ export interface CommitmentBaseModelProps {
      * ```
      * @default undefined
      */
-    image?: GraphicItemType | Record<any, GraphicItemType> | object
+    renderImage?: GraphicItemType | ((props: OnRenderGraphicItemProps) => GraphicItemType)
     /**
      * Execution type. If is "automatic" the onRun() runned automatically when the palayer is in the room. If is "interaction" the player must interact with the character to run the onRun() function.
      * @default ExecutionTypeEnum.INTERACTION
@@ -108,7 +109,7 @@ export default class CommitmentBaseModel<TCharacter extends CharacterBaseModel =
         this.defaultToHour = props.toHour
         this.defaultFromDay = props.fromDay
         this.defaultToDay = props.toDay
-        this._image = props.image
+        this._renderImage = props.renderImage
         this._executionType = props.executionType || ExecutionTypeEnum.INTERACTION
         this._onRun = props.onRun
         this.defaultDisabled = props.disabled || false
@@ -131,11 +132,11 @@ export default class CommitmentBaseModel<TCharacter extends CharacterBaseModel =
         return this._room
     }
 
-    private _name: GraphicItemType
+    private _name: string
     /**
      * The name
      */
-    get name(): GraphicItemType {
+    get name(): string {
         return this._name
     }
 
@@ -187,12 +188,15 @@ export default class CommitmentBaseModel<TCharacter extends CharacterBaseModel =
         this.setStorageProperty("toDay", value)
     }
 
-    private _image?: GraphicItemType | Record<any, GraphicItemType> | object
+    private _renderImage?: GraphicItemType | ((props: OnRenderGraphicItemProps) => GraphicItemType)
     /**
-     * The image. It can be a string, an Element or a Pixi'VN Canvas Item.
+     * The function for rendering the image of the room.
      */
-    get image(): GraphicItemType | Record<any, GraphicItemType> | object | undefined {
-        return this._image
+    get renderImage(): ((props: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
+        if (typeof this._renderImage !== "function") {
+            return (props?: OnRenderGraphicItemProps) => this._renderImage as GraphicItemType
+        }
+        return this._renderImage as ((props: OnRenderGraphicItemProps) => GraphicItemType)
     }
 
     private _executionType: ExecutionTypeEnum

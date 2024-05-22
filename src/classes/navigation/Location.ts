@@ -1,6 +1,7 @@
 import { getFlag, StoredClassModel } from "@drincs/pixi-vn";
 import { getRoomsByLocation } from "../../decorators/RoomDecorator";
-import { GraphicItemType } from "../../types/GraphicItem";
+import { OnRenderGraphicItemProps } from "../../override";
+import GraphicItemType from "../../override/GraphicItem";
 import MapBaseModel from "./Map";
 import RoomBaseModel from "./Room";
 
@@ -26,7 +27,7 @@ export interface LocationBaseModelProps {
      * The icon element. Can be a string or an Element or a Pixi'VN CanvasItem
      * @default undefined
      */
-    icon?: GraphicItemType
+    renderIcon?: GraphicItemType | ((props: OnRenderGraphicItemProps) => GraphicItemType)
 }
 
 /**
@@ -50,7 +51,7 @@ export default class LocationBaseModel<TMap extends MapBaseModel = MapBaseModel>
         this.defaultName = props.name || ""
         this.defaultDisabled = props.disabled || false
         this.defaultHidden = props.hidden || false
-        this._icon = props.icon
+        this._renderIcon = props.renderIcon
         this._map = map
     }
 
@@ -96,12 +97,15 @@ export default class LocationBaseModel<TMap extends MapBaseModel = MapBaseModel>
         this.setStorageProperty("hidden", value)
     }
 
-    private _icon?: GraphicItemType
+    private _renderIcon?: GraphicItemType | ((props: OnRenderGraphicItemProps) => GraphicItemType)
     /**
-     * The icon element. Can be a string or an Element or a Pixi'VN CanvasItem
+     * The function for rendering the icon of the location.
      */
-    get icon(): GraphicItemType | undefined {
-        return this._icon
+    get renderIcon(): ((props: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
+        if (typeof this._renderIcon !== "function") {
+            return (props?: OnRenderGraphicItemProps) => this._renderIcon as GraphicItemType
+        }
+        return this._renderIcon as ((props: OnRenderGraphicItemProps) => GraphicItemType)
     }
 
     private _map: TMap

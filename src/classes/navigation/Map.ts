@@ -1,11 +1,12 @@
 import { getFlag, StoredClassModel } from "@drincs/pixi-vn"
 import { getLocationsByMap } from "../../decorators/RoomDecorator"
-import { GraphicItemType } from "../../types/GraphicItem"
+import { OnRenderGraphicItemProps } from "../../override"
+import GraphicItemType from "../../override/GraphicItem"
 import LocationBaseModel from "./Location"
 
 const MAP_CATEGORY = "__nqtr-map__"
 
-export interface MapBaseModelProps<TMap extends MapBaseModel = MapBaseModel> {
+export interface MapBaseModelProps {
     /**
      * The name
      * @default ""
@@ -25,7 +26,7 @@ export interface MapBaseModelProps<TMap extends MapBaseModel = MapBaseModel> {
      * ```
      * @default undefined
      */
-    image?: GraphicItemType | Record<any, GraphicItemType> | object
+    renderImage?: GraphicItemType | ((props: OnRenderGraphicItemProps) => GraphicItemType)
     /**
      * The neighboring maps that are available in this map.
      * @example
@@ -76,7 +77,7 @@ export default class MapBaseModel extends StoredClassModel {
     constructor(id: string, props: MapBaseModelProps = {}) {
         super(MAP_CATEGORY, id)
         this.defaultName = props.name || ""
-        this.defaultImage = props.image
+        this._renderImege = props.renderImage
         this.defaultDisabled = props.disabled || false
         this.defaultHidden = props.hidden || false
     }
@@ -93,16 +94,15 @@ export default class MapBaseModel extends StoredClassModel {
         this.setStorageProperty("name", value)
     }
 
-    private defaultImage?: GraphicItemType | Record<any, GraphicItemType> | object
+    private _renderImege?: GraphicItemType | ((props: OnRenderGraphicItemProps) => GraphicItemType)
     /**
-     * The image of the map. It can be a string, an Element or a Pixi'VN Canvas Item.
-     * If you set undefined, it will return the initial value of image.
+     * The function for rendering the image of the map.
      */
-    get image(): GraphicItemType | Record<any, GraphicItemType> | object | undefined {
-        return this.getStorageProperty<GraphicItemType>("image") || this.defaultImage
-    }
-    set image(value: GraphicItemType | Record<any, GraphicItemType> | object | undefined) {
-        this.setStorageProperty("image", value)
+    get renderImage(): ((props: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
+        if (typeof this._renderImege !== "function") {
+            return (props?: OnRenderGraphicItemProps) => this._renderImege as GraphicItemType
+        }
+        return this._renderImege as ((props: OnRenderGraphicItemProps) => GraphicItemType)
     }
 
     private defaultDisabled: boolean | string
