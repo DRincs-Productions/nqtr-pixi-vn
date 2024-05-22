@@ -174,17 +174,16 @@ export abstract class ActivityStoredAbstract {
      * The function for rendering the icon of the activity.
      */
     get renderIcon(): ((props?: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
-        if (!this._renderIcon) {
+        let render = this._renderIcon
+        if (render === undefined) {
             return undefined
         }
-        if (typeof this._renderIcon !== "function") {
-            return (props?: OnRenderGraphicItemProps) => this._renderIcon as GraphicItemType
-        }
-        if (this._renderIcon !== undefined) {
+        if (typeof render === "function") {
             return (props?: OnRenderGraphicItemProps) => {
-                return (this._renderIcon as any)(this, props)
+                return render(this, props)
             }
         }
+        return (props?: OnRenderGraphicItemProps) => render
     }
 
     private _onRun: (activity: ActivityStoredAbstract, props?: OnRunActivityProps) => void
@@ -322,22 +321,21 @@ export default class ActivityModel {
         return this._hidden
     }
 
-    private _renderIcon?: GraphicItemType | ((activity: ActivityStoredAbstract, props?: OnRenderGraphicItemProps) => GraphicItemType)
+    private _renderIcon?: GraphicItemType | ((activity: ActivityModel, props?: OnRenderGraphicItemProps) => GraphicItemType)
     /**
      * The function for rendering the icon of the activity.
      */
     get renderIcon(): ((props?: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
-        if (!this._renderIcon) {
+        let render = this._renderIcon
+        if (render === undefined) {
             return undefined
         }
-        if (typeof this._renderIcon !== "function") {
-            return (props?: OnRenderGraphicItemProps) => this._renderIcon as GraphicItemType
-        }
-        if (this._renderIcon !== undefined) {
+        if (typeof render === "function") {
             return (props?: OnRenderGraphicItemProps) => {
-                return (this._renderIcon as any)(this, props)
+                return render(this, props)
             }
         }
+        return (props?: OnRenderGraphicItemProps) => render
     }
 
     private _onRun: OnRunActivityEvent<ActivityModel>

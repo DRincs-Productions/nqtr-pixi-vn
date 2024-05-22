@@ -101,17 +101,16 @@ export default class LocationBaseModel<TMap extends MapBaseModel = MapBaseModel>
      * The function for rendering the icon of the location.
      */
     get renderIcon(): ((props?: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
-        if (!this._renderIcon) {
+        let render = this._renderIcon
+        if (render === undefined) {
             return undefined
         }
-        if (typeof this._renderIcon !== "function") {
-            return (props?: OnRenderGraphicItemProps) => this._renderIcon as GraphicItemType
-        }
-        if (this._renderIcon !== undefined) {
+        if (typeof render === "function") {
             return (props?: OnRenderGraphicItemProps) => {
-                return (this._renderIcon as any)(this, props)
+                return render(this, props)
             }
         }
+        return (props?: OnRenderGraphicItemProps) => render
     }
 
     private _map: TMap

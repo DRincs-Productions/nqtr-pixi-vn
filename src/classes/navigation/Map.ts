@@ -98,17 +98,16 @@ export default class MapBaseModel extends StoredClassModel {
      * The function for rendering the image of the map.
      */
     get renderImage(): ((props?: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
-        if (!this._renderImage) {
+        let render = this._renderImage
+        if (render === undefined) {
             return undefined
         }
-        if (typeof this._renderImage !== "function") {
-            return (props?: OnRenderGraphicItemProps) => this._renderImage as GraphicItemType
-        }
-        if (this.renderImage !== undefined) {
+        if (typeof render === "function") {
             return (props?: OnRenderGraphicItemProps) => {
-                return (this.renderImage as any)(this, props)
+                return render(this, props)
             }
         }
+        return (props?: OnRenderGraphicItemProps) => render
     }
 
     private defaultDisabled: boolean | string
