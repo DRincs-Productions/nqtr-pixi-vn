@@ -192,6 +192,9 @@ export default class CommitmentBaseModel<TCharacter extends CharacterBaseModel =
      * The function for rendering the image of the room.
      */
     get renderImage(): ((props?: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
+        if (!this._renderImage) {
+            return undefined
+        }
         if (typeof this._renderImage !== "function") {
             return (props?: OnRenderGraphicItemProps) => this._renderImage as GraphicItemType
         }

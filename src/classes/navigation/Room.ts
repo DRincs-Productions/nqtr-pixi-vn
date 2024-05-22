@@ -124,6 +124,9 @@ export default class RoomBaseModel<TLocation extends LocationBaseModel = Locatio
      * The function for rendering the image of the room.
      */
     get renderImage(): ((props?: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
+        if (!this._renderIcon) {
+            return undefined
+        }
         if (typeof this._renderImage !== "function") {
             return (props?: OnRenderGraphicItemProps) => this._renderImage as GraphicItemType
         }
@@ -307,6 +310,9 @@ export default class RoomBaseModel<TLocation extends LocationBaseModel = Locatio
      * The function for rendering the icon of the room.
      */
     get renderIcon(): ((props?: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
+        if (!this._renderIcon) {
+            return undefined
+        }
         if (typeof this._renderIcon !== "function") {
             return (props?: OnRenderGraphicItemProps) => this._renderIcon as GraphicItemType
         }

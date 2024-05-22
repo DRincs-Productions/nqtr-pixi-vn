@@ -174,6 +174,9 @@ export abstract class ActivityStoredAbstract {
      * The function for rendering the icon of the activity.
      */
     get renderIcon(): ((props?: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
+        if (!this._renderIcon) {
+            return undefined
+        }
         if (typeof this._renderIcon !== "function") {
             return (props?: OnRenderGraphicItemProps) => this._renderIcon as GraphicItemType
         }
@@ -324,6 +327,9 @@ export default class ActivityModel {
      * The function for rendering the icon of the activity.
      */
     get renderIcon(): ((props?: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
+        if (!this._renderIcon) {
+            return undefined
+        }
         if (typeof this._renderIcon !== "function") {
             return (props?: OnRenderGraphicItemProps) => this._renderIcon as GraphicItemType
         }
