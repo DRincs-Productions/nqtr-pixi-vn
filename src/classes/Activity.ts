@@ -178,12 +178,12 @@ export abstract class ActivityStoredAbstract {
         return this._icon
     }
 
-    private _onRun: (activity: ActivityStoredAbstract) => void
+    private _onRun: (activity: ActivityStoredAbstract, props?: OnRunActivityProps) => void
     /**
      * The function that is called when the activity is runned.
      */
-    get onRun(): () => void {
-        return () => this._onRun(this)
+    get onRun(): (props?: OnRunActivityProps) => void {
+        return (props) => this._onRun(this, props)
     }
 
     /**
