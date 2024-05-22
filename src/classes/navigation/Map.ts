@@ -1,7 +1,6 @@
+import { GraphicItemType, OnRenderGraphicItemProps } from "@drincs/nqtr/dist/override"
 import { getFlag, StoredClassModel } from "@drincs/pixi-vn"
 import { getLocationsByMap } from "../../decorators/RoomDecorator"
-import { OnRenderGraphicItemProps } from "../../override"
-import GraphicItemType from "../../override/GraphicItemType"
 import LocationBaseModel from "./Location"
 
 const MAP_CATEGORY = "__nqtr-map__"

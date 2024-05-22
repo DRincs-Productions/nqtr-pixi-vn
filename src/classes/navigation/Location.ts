@@ -1,7 +1,6 @@
+import { GraphicItemType, OnRenderGraphicItemProps } from "@drincs/nqtr/dist/override";
 import { getFlag, StoredClassModel } from "@drincs/pixi-vn";
 import { getRoomsByLocation } from "../../decorators/RoomDecorator";
-import { OnRenderGraphicItemProps } from "../../override";
-import GraphicItemType from "../../override/GraphicItemType";
 import MapBaseModel from "./Map";
 import RoomBaseModel from "./Room";
 

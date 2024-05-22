@@ -1,8 +1,6 @@
-import { OnRunActivityProps } from '@drincs/nqtr/dist/override';
+import { GraphicItemType, OnRenderGraphicItemProps, OnRunActivityProps } from '@drincs/nqtr/dist/override';
 import { getFlag } from "@drincs/pixi-vn";
 import TimeManager from "../managers/TimeManager";
-import { OnRenderGraphicItemProps } from '../override';
-import GraphicItemType from "../override/GraphicItemType";
 
 export interface ActivityProps {
     /**
