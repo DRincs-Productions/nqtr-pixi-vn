@@ -339,6 +339,9 @@ export default class ActivityModel {
     }
 
     private _onRun: OnRunActivityEvent<ActivityModel>
+    get _initialOnRun(): OnRunActivityEvent<ActivityStoredAbstract> {
+        return this._onRun as any
+    }
     /**
      * The function that is called when the activity is runned.
      */

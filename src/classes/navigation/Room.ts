@@ -155,7 +155,7 @@ export default class RoomBaseModel<TLocation extends LocationBaseModel = Locatio
                     ...roomMemories[id]
                 }
             }
-            return new ActivityRoom(id, this, activity.onRun, memory)
+            return new ActivityRoom(id, this, activity._initialOnRun, memory)
         }).filter(activity => activity !== undefined)
         return activities as ActivityRoom<this>[]
     }
@@ -204,7 +204,7 @@ export default class RoomBaseModel<TLocation extends LocationBaseModel = Locatio
             ...activity.export(),
             ...roomMemory
         }
-        return new ActivityRoom(id, this, activity.onRun, roomMemory)
+        return new ActivityRoom(id, this, activity._initialOnRun, roomMemory)
     }
     /**
      * Set the memory of an activity. This function can be used into olther libraries to set the memory of the activity.
