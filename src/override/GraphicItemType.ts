@@ -1,6 +1,5 @@
+import { GraphicHTMLElement, GraphicItemInterface } from "@drincs/nqtr/dist/override";
 import { CanvasBase } from "@drincs/pixi-vn";
-import GraphicHTMLElement from "./GraphicHTMLElement";
-import GraphicItemInterface from "./GraphicItemInterface";
 
 /**
  * Grafic item type.
