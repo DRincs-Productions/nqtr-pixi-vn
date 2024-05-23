@@ -11,4 +11,4 @@
  * }
  * ```
  */
-export default interface GraphicHTMLElement extends HTMLElement { }
+export default interface GraphicHTMLElement extends HTMLElement, JSX.Element { }
