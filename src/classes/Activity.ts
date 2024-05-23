@@ -68,7 +68,7 @@ export abstract class ActivityStoredAbstract {
         this.defaultDisabled = props.disabled || false
         this.defaultHidden = props.hidden || false
         this._renderIcon = props.renderIcon
-        this._onRun = (props) => onRun(this, props)
+        this._onRun = onRun
     }
 
     abstract setStorageProperty<T>(propertyName: string, value: T | undefined): void;
@@ -191,7 +191,7 @@ export abstract class ActivityStoredAbstract {
      * The function that is called when the activity is runned.
      */
     get onRun(): (props?: OnRunActivityProps) => void {
-        return (props) => this._onRun(this, props)
+        return (props) => { return this._onRun(this, props) }
     }
 
     /**
