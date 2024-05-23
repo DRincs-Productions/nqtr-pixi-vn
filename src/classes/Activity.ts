@@ -242,7 +242,7 @@ export default class ActivityModel {
         this._disabled = props.disabled || false
         this._hidden = props.hidden || false
         this._renderIcon = props.renderIcon
-        this._onRun = (props) => onRun(this, props)
+        this._onRun = onRun
     }
 
     private _id: string
