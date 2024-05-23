@@ -7,8 +7,8 @@
  * // nqtr.types.ts
  * // react
  * declare module '@drincs/nqtr/dist/override' {
- *     interface GraphicHTMLElement extends React.ReactNode {} 
+ *     interface GraphicHTMLElement extends ReactElement<any, any> {} 
  * }
  * ```
  */
-export default interface GraphicHTMLElement extends HTMLElement, JSX.Element { }
+export default interface GraphicHTMLElement extends HTMLElement { }
