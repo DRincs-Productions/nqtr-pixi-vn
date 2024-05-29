@@ -1,4 +1,3 @@
-export { default as GraphicHTMLElement } from './GraphicHTMLElement';
 export { default as GraphicItemInterface } from './GraphicItemInterface';
 export { default as GraphicItemType } from './GraphicItemType';
 export { default as OnRenderGraphicItemProps } from './OnRenderGraphicItemProps';
