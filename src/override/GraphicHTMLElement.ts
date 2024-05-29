@@ -1,14 +1,6 @@
-
 /**
  * Grafic item type.
- * You can override this interface to add your JS Framework Element (For example: React, Vue, Angular, etc).
- * @example
- * ```typescript
- * // nqtr.types.ts
- * // react
- * declare module '@drincs/nqtr/dist/override' {
- *     interface GraphicHTMLElement extends ReactElement<any, any> {} 
- * }
- * ```
+ * For now, it can be a JSX element or a HTML element.
  */
-export default interface GraphicHTMLElement extends HTMLElement { }
+type GraphicHTMLElement = JSX.Element | HTMLElement
+export default GraphicHTMLElement
