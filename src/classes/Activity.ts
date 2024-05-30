@@ -224,7 +224,41 @@ export abstract class ActivityStoredAbstract {
 }
 
 /**
- * The activity model.
+ * The activity model. It is used to create an activity.
+ * @example
+ * ```tsx
+ * export const nap = new ActivityModel("nap",
+ *     (_, event) => {
+ *         if (event) {
+ *             event.navigate("/game")
+ *             callLabelWithGoNavigationCallBack(napLabel, event)
+ *         }
+ *         else {
+ *             console.error("Event is undefined")
+ *         }
+ *     },
+ *     {
+ *         name: "Nap",
+ *         fromHour: 5,
+ *         toHour: 23,
+ *         renderIcon: (activity, props) => {
+ *             return <Button
+ *                 disabled={activity.disabled}
+ *                 onClick={() => {
+ *                     if (!props) {
+ *                         console.error("Props is undefined")
+ *                         return
+ *                     }
+ *                     activity.onRun(props)
+ *                 }}
+ *                 ariaLabel={activity.name}
+ *             >
+ *                 <BedIcon />
+ *             </Button>
+ *         },
+ *     }
+ * )
+ * ```
  */
 export default class ActivityModel {
     /**
