@@ -185,7 +185,7 @@ export default class TimeManager {
      * Get the current TimeManager.timeSlots index.
      * You can use this property to create "Image that changes based on the time period":
      * @example
-     * ```ts
+     * ```tsx
      * import { TimeManager } from '@drincs/nqtr';
      * 
      * function changeBackground() {
