@@ -2,6 +2,15 @@ import { ActivityModel } from "../classes"
 
 export const registeredActivities: { [id: string]: ActivityModel } = {}
 
+/**
+ * Save an activity in the registered activities.
+ * @param activity The activity to save.
+ * @returns 
+ * @example
+ * ```ts
+ * saveActivity([nap, sleep, eat, study, work, exercise]);
+ * ```
+ */
 export function saveActivity(activity: ActivityModel | ActivityModel[]) {
     if (Array.isArray(activity)) {
         activity.forEach(c => saveActivity(c))
@@ -13,6 +22,11 @@ export function saveActivity(activity: ActivityModel | ActivityModel[]) {
     registeredActivities[activity.id] = activity
 }
 
+/**
+ * Get an activity by its id.
+ * @param id The id of the activity.
+ * @returns The activity or undefined if not found.
+ */
 export function getActivityById(id: string): ActivityModel | undefined {
     try {
         let activity = registeredActivities[id]

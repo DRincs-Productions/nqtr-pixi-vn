@@ -6,6 +6,10 @@ export const registeredRooms: { [id: string]: RoomBaseModel } = {}
  * Save a room in the registered rooms.
  * @param room The room to save.
  * @returns 
+ * @example
+ * ```ts
+ * saveRoom([mcRoom, aliceRoom, annRoom, bathroom, lounge, terrace, gymRoom]);
+ * ```
  */
 export function saveRoom<TRoom extends RoomBaseModel = RoomBaseModel>(room: TRoom | TRoom[]) {
     if (Array.isArray(room)) {
