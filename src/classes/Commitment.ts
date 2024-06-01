@@ -50,7 +50,7 @@ export interface CommitmentBaseModelProps<TCharacter extends CharacterBaseModel 
      * ```
      * @default undefined
      */
-    renderImage?: GraphicItemType | ((commitment: CommitmentBaseModel<TCharacter, TRoom>, props?: OnRenderGraphicItemProps) => GraphicItemType)
+    renderImage?: GraphicItemType | ((commitment: CommitmentBaseModel<TCharacter, TRoom>, props: OnRenderGraphicItemProps) => GraphicItemType)
     /**
      * Execution type. If is "automatic" the onRun() runned automatically when the palayer is in the room. If is "interaction" the player must interact with the character to run the onRun() function.
      * @default ExecutionTypeEnum.INTERACTION
@@ -187,21 +187,21 @@ export default class CommitmentBaseModel<TCharacter extends CharacterBaseModel =
         this.setStorageProperty("toDay", value)
     }
 
-    private _renderImage?: GraphicItemType | ((commitment: CommitmentBaseModel<TCharacter, TRoom>, props?: OnRenderGraphicItemProps) => GraphicItemType)
+    private _renderImage?: GraphicItemType | ((commitment: CommitmentBaseModel<TCharacter, TRoom>, props: OnRenderGraphicItemProps) => GraphicItemType)
     /**
      * The function for rendering the image of the room.
      */
-    get renderImage(): ((props?: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
+    get renderImage(): ((props: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
         let render = this._renderImage
         if (render === undefined) {
             return undefined
         }
         if (typeof render === "function") {
-            return (props?: OnRenderGraphicItemProps) => {
+            return (props: OnRenderGraphicItemProps) => {
                 return render(this, props)
             }
         }
-        return (props?: OnRenderGraphicItemProps) => render
+        return (props: OnRenderGraphicItemProps) => render
     }
 
     private _executionType: ExecutionTypeEnum

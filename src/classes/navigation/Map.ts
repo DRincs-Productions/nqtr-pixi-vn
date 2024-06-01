@@ -25,7 +25,7 @@ export interface MapBaseModelProps {
      * ```
      * @default undefined
      */
-    renderImage?: GraphicItemType | ((map: MapBaseModel, props?: OnRenderGraphicItemProps) => GraphicItemType)
+    renderImage?: GraphicItemType | ((map: MapBaseModel, props: OnRenderGraphicItemProps) => GraphicItemType)
     /**
      * The neighboring maps that are available in this map.
      * @example
@@ -93,21 +93,21 @@ export default class MapBaseModel extends StoredClassModel {
         this.setStorageProperty("name", value)
     }
 
-    private _renderImage?: GraphicItemType | ((map: MapBaseModel, props?: OnRenderGraphicItemProps) => GraphicItemType)
+    private _renderImage?: GraphicItemType | ((map: MapBaseModel, props: OnRenderGraphicItemProps) => GraphicItemType)
     /**
      * The function for rendering the image of the map.
      */
-    get renderImage(): ((props?: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
+    get renderImage(): ((props: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
         let render = this._renderImage
         if (render === undefined) {
             return undefined
         }
         if (typeof render === "function") {
-            return (props?: OnRenderGraphicItemProps) => {
+            return (props: OnRenderGraphicItemProps) => {
                 return render(this, props)
             }
         }
-        return (props?: OnRenderGraphicItemProps) => render
+        return (props: OnRenderGraphicItemProps) => render
     }
 
     private defaultDisabled: boolean | string

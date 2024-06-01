@@ -26,7 +26,7 @@ export interface LocationBaseModelProps<TMap extends MapBaseModel = MapBaseModel
      * The icon element. Can be a string or an Element or a Pixi'VN CanvasItem
      * @default undefined
      */
-    renderIcon?: GraphicItemType | ((location: LocationBaseModel<TMap>, props?: OnRenderGraphicItemProps) => GraphicItemType)
+    renderIcon?: GraphicItemType | ((location: LocationBaseModel<TMap>, props: OnRenderGraphicItemProps) => GraphicItemType)
 }
 
 /**
@@ -96,21 +96,21 @@ export default class LocationBaseModel<TMap extends MapBaseModel = MapBaseModel>
         this.setStorageProperty("hidden", value)
     }
 
-    private _renderIcon?: GraphicItemType | ((location: LocationBaseModel<TMap>, props?: OnRenderGraphicItemProps) => GraphicItemType)
+    private _renderIcon?: GraphicItemType | ((location: LocationBaseModel<TMap>, props: OnRenderGraphicItemProps) => GraphicItemType)
     /**
      * The function for rendering the icon of the location.
      */
-    get renderIcon(): ((props?: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
+    get renderIcon(): ((props: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
         let render = this._renderIcon
         if (render === undefined) {
             return undefined
         }
         if (typeof render === "function") {
-            return (props?: OnRenderGraphicItemProps) => {
+            return (props: OnRenderGraphicItemProps) => {
                 return render(this, props)
             }
         }
-        return (props?: OnRenderGraphicItemProps) => render
+        return (props: OnRenderGraphicItemProps) => render
     }
 
     private _map: TMap

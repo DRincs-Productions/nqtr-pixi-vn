@@ -46,13 +46,13 @@ export interface ActivityProps {
      * The icon element. Can be a string or an Element or a Pixi'VN CanvasItem
      * @default undefined
      */
-    renderIcon?: GraphicItemType | ((activity: ActivityStoredAbstract, props?: OnRenderGraphicItemProps) => GraphicItemType)
+    renderIcon?: GraphicItemType | ((activity: ActivityStoredAbstract, props: OnRenderGraphicItemProps) => GraphicItemType)
 }
 
 /**
  * The function that is called when the activity is runned.
  */
-export type OnRunActivityEvent<T> = (activity: T, props?: OnRunActivityProps) => void
+export type OnRunActivityEvent<T> = (activity: T, props: OnRunActivityProps) => void
 
 export abstract class ActivityStoredAbstract {
     /**
@@ -169,28 +169,28 @@ export abstract class ActivityStoredAbstract {
         this.setStorageProperty("hidden", value)
     }
 
-    private _renderIcon?: GraphicItemType | ((activity: ActivityStoredAbstract, props?: OnRenderGraphicItemProps) => GraphicItemType)
+    private _renderIcon?: GraphicItemType | ((activity: ActivityStoredAbstract, props: OnRenderGraphicItemProps) => GraphicItemType)
     /**
      * The function for rendering the icon of the activity.
      */
-    get renderIcon(): ((props?: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
+    get renderIcon(): ((props: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
         let render = this._renderIcon
         if (render === undefined) {
             return undefined
         }
         if (typeof render === "function") {
-            return (props?: OnRenderGraphicItemProps) => {
+            return (props: OnRenderGraphicItemProps) => {
                 return render(this, props)
             }
         }
-        return (props?: OnRenderGraphicItemProps) => render
+        return (props: OnRenderGraphicItemProps) => render
     }
 
-    private _onRun: (activity: ActivityStoredAbstract, props?: OnRunActivityProps) => void
+    private _onRun: (activity: ActivityStoredAbstract, props: OnRunActivityProps) => void
     /**
      * The function that is called when the activity is runned.
      */
-    get onRun(): (props?: OnRunActivityProps) => void {
+    get onRun(): (props: OnRunActivityProps) => void {
         return (props) => { return this._onRun(this, props) }
     }
 
@@ -355,21 +355,21 @@ export default class ActivityModel {
         return this._hidden
     }
 
-    private _renderIcon?: GraphicItemType | ((activity: ActivityModel, props?: OnRenderGraphicItemProps) => GraphicItemType)
+    private _renderIcon?: GraphicItemType | ((activity: ActivityModel, props: OnRenderGraphicItemProps) => GraphicItemType)
     /**
      * The function for rendering the icon of the activity.
      */
-    get renderIcon(): ((props?: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
+    get renderIcon(): ((props: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
         let render = this._renderIcon
         if (render === undefined) {
             return undefined
         }
         if (typeof render === "function") {
-            return (props?: OnRenderGraphicItemProps) => {
+            return (props: OnRenderGraphicItemProps) => {
                 return render(this, props)
             }
         }
-        return (props?: OnRenderGraphicItemProps) => render
+        return (props: OnRenderGraphicItemProps) => render
     }
 
     private _onRun: OnRunActivityEvent<ActivityModel>
@@ -379,7 +379,7 @@ export default class ActivityModel {
     /**
      * The function that is called when the activity is runned.
      */
-    get onRun(): (props?: OnRunActivityProps) => void {
+    get onRun(): (props: OnRunActivityProps) => void {
         return (props) => this._onRun(this, props)
     }
 
