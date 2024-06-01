@@ -170,7 +170,7 @@ export default class RoomBaseModel<TLocation extends LocationBaseModel = Locatio
     get activities(): ActivityRoom<this>[] {
         let activities = this.activityIds.map(id => {
             return this.getActivity(id)
-        }).filter(activity => activity !== undefined)
+        }).filter(activity => activity !== undefined && !activity.hidden)
         return activities as ActivityRoom<this>[]
     }
     /**
