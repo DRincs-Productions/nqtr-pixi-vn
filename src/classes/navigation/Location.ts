@@ -1,33 +1,11 @@
 import { GraphicItemType, OnRenderGraphicItemProps } from "@drincs/nqtr/dist/override";
 import { getFlag, StoredClassModel } from "@drincs/pixi-vn";
 import { getRoomsByLocation } from "../../decorators/RoomDecorator";
+import { LocationProps } from "../../interface";
 import MapBaseModel from "./Map";
 import RoomBaseModel from "./Room";
 
 const LOCATION_CATEGORY = "__nqtr-location__"
-
-export interface LocationBaseModelProps<TMap extends MapBaseModel = MapBaseModel> {
-    /**
-     * The name
-     * @default ""
-     */
-    name?: string
-    /**
-     * Whether is disabled. You can also pass a Pixi'VN flag name.
-     * @default false
-     */
-    disabled?: boolean | string
-    /**
-     * Whether is hidden. You can also pass a Pixi'VN flag name.
-     * @default false
-     */
-    hidden?: boolean | string
-    /**
-     * The icon element. Can be a string or an Element or a Pixi'VN CanvasItem
-     * @default undefined
-     */
-    renderIcon?: GraphicItemType | ((location: LocationBaseModel<TMap>, props: OnRenderGraphicItemProps) => GraphicItemType)
-}
 
 /**
  * The base model of a location. I suggest you extend this class to create your own location model.
@@ -45,7 +23,7 @@ export default class LocationBaseModel<TMap extends MapBaseModel = MapBaseModel>
      * @param map The map where the location is.
      * @param props The properties of the location.
      */
-    constructor(id: string, map: TMap, props: LocationBaseModelProps<TMap> = {}) {
+    constructor(id: string, map: TMap, props: LocationProps<TMap> = {}) {
         super(LOCATION_CATEGORY, id)
         this.defaultName = props.name || ""
         this.defaultDisabled = props.disabled || false

@@ -2,63 +2,14 @@ import { GraphicItemType, OnRenderGraphicItemProps } from "@drincs/nqtr/dist/ove
 import { getFlag, StoredClassModel } from "@drincs/pixi-vn";
 import { getActivityById } from "../../decorators";
 import { getCurrentCommitments } from "../../functions/RoutineFunctions";
-import { ActivityProps } from "../../interface";
+import { RoomProps } from "../../interface";
+import { RoomActivityMemory } from "../../interface/RoomActivityMemory";
 import ActivityModel from "../Activity";
 import CommitmentBaseModel from "../Commitment";
 import { ActivityRoom } from "./ActivityRoom";
 import LocationBaseModel from "./Location";
 
 export const ROOM_CATEGORY = "__nqtr-room__"
-
-interface RoomActivityMemory { [key: string]: ActivityProps }
-
-export interface RoomBaseModelProps<TLocation extends LocationBaseModel = LocationBaseModel> {
-    /**
-     * The name
-     * @default ""
-     */
-    name?: string
-    /**
-     * The image. It can be a string, an Element or a Pixi'VN Canvas Item.
-     * Or an object to manage multiple image types. For example to have a image based on time.
-     * @example
-     * ```ts
-     * {
-     *    "morning": "morning-background.jpg",
-     *    "afternoon": "afternoon-background.jpg",
-     *    "evening": "evening-background.jpg",
-     *    "night": "night-background.jpg"
-     * }
-     * ```
-     * @default undefined
-     */
-    renderImage?: GraphicItemType | ((room: RoomBaseModel<TLocation>, props: OnRenderGraphicItemProps) => GraphicItemType)
-    /**
-     * The activities that are available in this room.
-     * @default []
-     */
-    defaultActivities?: ActivityModel[],
-    /**
-     * Whether is disabled. You can also pass a Pixi'VN flag name.
-     * @default false
-     */
-    disabled?: boolean | string
-    /**
-     * Whether is hidden. You can also pass a Pixi'VN flag name.
-     * @default false
-     */
-    hidden?: boolean | string
-    /**
-     * The icon element. Can be a string or an Element or a Pixi'VN CanvasItem
-     * @default undefined
-     */
-    renderIcon?: GraphicItemType | ((room: RoomBaseModel<TLocation>, props: OnRenderGraphicItemProps) => GraphicItemType)
-    /**
-     * Whether is an entrance room, so when the player enters in the location, it will be the first room to be shown.
-     * @default false
-     */
-    isEntrance?: boolean
-}
 
 /**
  * The base model of a room. I suggest you extend this class to create your own room model.
@@ -80,7 +31,7 @@ export default class RoomBaseModel<TLocation extends LocationBaseModel = Locatio
      * @param location The location where the room is.
      * @param props The properties of the room.
      */
-    constructor(id: string, location: TLocation, props: RoomBaseModelProps<TLocation> = {}) {
+    constructor(id: string, location: TLocation, props: RoomProps<TLocation> = {}) {
         super(ROOM_CATEGORY, id)
         this._location = location
         this.defaultName = props.name || ""

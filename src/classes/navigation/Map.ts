@@ -1,56 +1,10 @@
 import { GraphicItemType, OnRenderGraphicItemProps } from "@drincs/nqtr/dist/override"
 import { getFlag, StoredClassModel } from "@drincs/pixi-vn"
 import { getLocationsByMap } from "../../decorators/RoomDecorator"
+import { MapProps } from "../../interface"
 import LocationBaseModel from "./Location"
 
 const MAP_CATEGORY = "__nqtr-map__"
-
-export interface MapBaseModelProps {
-    /**
-     * The name
-     * @default ""
-     */
-    name?: string
-    /**
-     * The image. It can be a string, an Element or a Pixi'VN Canvas Item.
-     * Or an object to manage multiple image types. For example to have a image based on time.
-     * @example
-     * ```ts
-     * {
-     *    "morning": "morning-background.jpg",
-     *    "afternoon": "afternoon-background.jpg",
-     *    "evening": "evening-background.jpg",
-     *    "night": "night-background.jpg"
-     * }
-     * ```
-     * @default undefined
-     */
-    renderImage?: GraphicItemType | ((map: MapBaseModel, props: OnRenderGraphicItemProps) => GraphicItemType)
-    /**
-     * The neighboring maps that are available in this map.
-     * @example
-     * ```ts
-     * {
-     *    "north": "atlanta_map_id",
-     *    "south": "miami_map_id",
-     *    "east": "new_york_map_id",
-     *    "west": "los_angeles_map_id"
-     * }
-     * ```
-     * @default {}
-     */
-    neighboringMaps?: { [key: string]: string }
-    /**
-     * Whether is disabled. You can also pass a Pixi'VN flag name.
-     * @default false
-     */
-    disabled?: boolean | string
-    /**
-     * Whether is hidden. You can also pass a Pixi'VN flag name.
-     * @default false
-     */
-    hidden?: boolean | string
-}
 
 /**
  * The base model of a map. I suggest you extend this class to create your own map model.
@@ -73,7 +27,7 @@ export default class MapBaseModel extends StoredClassModel {
      * @param id The id of the map, it must be unique.
      * @param props The properties of the map. 
      */
-    constructor(id: string, props: MapBaseModelProps = {}) {
+    constructor(id: string, props: MapProps = {}) {
         super(MAP_CATEGORY, id)
         this.defaultName = props.name || ""
         this._renderImage = props.renderImage
