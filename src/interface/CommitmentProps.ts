@@ -2,6 +2,7 @@ import { GraphicItemType, OnRenderGraphicItemProps } from "@drincs/nqtr/dist/ove
 import { CharacterBaseModel } from "@drincs/pixi-vn"
 import { CommitmentBaseModel, RoomBaseModel } from "../classes"
 import { ExecutionTypeEnum } from "../enums"
+import { OnRunCommitmentEvent } from "../types/OnRunCommitmentEvent"
 
 export default interface CommitmentProps<TCharacter extends CharacterBaseModel = CharacterBaseModel, TRoom extends RoomBaseModel = RoomBaseModel> {
     /**
@@ -59,7 +60,7 @@ export default interface CommitmentProps<TCharacter extends CharacterBaseModel =
      * @returns 
      * @default undefined
      */
-    onRun?: (commitment: CommitmentBaseModel) => void
+    onRun?: OnRunCommitmentEvent<CommitmentBaseModel>
     /**
      * Whether is disabled. You can also pass a Pixi'VN flag name.
      * If it is disabled this commitment will not be taken into consideration. So the characters will not be in the room, but will be busy with other commitments.

@@ -1,8 +1,9 @@
-import { GraphicItemType, OnRenderGraphicItemProps } from "@drincs/nqtr/dist/override";
+import { GraphicItemType, OnRenderGraphicItemProps, OnRunActivityProps } from "@drincs/nqtr/dist/override";
 import { CharacterBaseModel, getFlag, StoredClassModel } from "@drincs/pixi-vn";
 import { ExecutionTypeEnum } from "../enums/ExecutionTypeEnum";
 import { CommitmentProps } from "../interface";
 import TimeManager from "../managers/TimeManager";
+import { OnRunCommitmentEvent } from "../types/OnRunCommitmentEvent";
 import RoomBaseModel from "./navigation/Room";
 
 const COMMITMENT_CATEGORY = "__nqtr-commitment__"
@@ -143,17 +144,17 @@ export default class CommitmentBaseModel<TCharacter extends CharacterBaseModel =
         return this._executionType
     }
 
-    private _onRun?: (commitment: CommitmentBaseModel) => void
+    private _onRun?: OnRunCommitmentEvent<CommitmentBaseModel>
     /**
      * Is a function that is called when the player interacts with the character.
      */
-    onRun() {
-        if (!this._onRun) {
+    onRun(): undefined | ((props: OnRunActivityProps) => void) {
+        let onRun = this._onRun
+        if (!onRun) {
             console.warn("[NQTR] onRun() is not defined for commitmen, so it will not run.", this)
+            return
         }
-        else {
-            this._onRun(this)
-        }
+        return (props) => onRun(this, props)
     }
 
     private defaultDisabled: boolean | string

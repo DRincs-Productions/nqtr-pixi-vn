@@ -1,3 +1,3 @@
-import ActivityProps from "./navigation/ActivityProps";
+import ActivityProps from "./ActivityProps";
 
 export interface RoomActivityMemory { [key: string]: ActivityProps }
