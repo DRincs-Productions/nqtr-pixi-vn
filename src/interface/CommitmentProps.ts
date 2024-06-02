@@ -72,4 +72,9 @@ export default interface CommitmentProps<TCharacter extends CharacterBaseModel =
      * @default false
      */
     hidden?: boolean | string
+    /**
+     * The icon element. Can be a string or an Element or a Pixi'VN CanvasItem
+     * @default undefined
+     */
+    renderIcon?: GraphicItemType | ((commitment: CommitmentBaseModel, props: OnRenderGraphicItemProps) => GraphicItemType)
 }

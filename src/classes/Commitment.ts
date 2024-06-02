@@ -45,6 +45,7 @@ export default class CommitmentBaseModel<TCharacter extends CharacterBaseModel =
         this._onRun = props.onRun
         this.defaultDisabled = props.disabled || false
         this.defaultHidden = props.hidden || false
+        this._renderIcon = props.renderIcon
     }
 
     private _characters: TCharacter[]
@@ -142,6 +143,23 @@ export default class CommitmentBaseModel<TCharacter extends CharacterBaseModel =
      */
     get executionType(): ExecutionTypeEnum {
         return this._executionType
+    }
+
+    private _renderIcon?: GraphicItemType | ((commitment: CommitmentBaseModel, props: OnRenderGraphicItemProps) => GraphicItemType)
+    /**
+     * The function for rendering the icon of the commitment.
+     */
+    get renderIcon(): ((props: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
+        let render = this._renderIcon
+        if (render === undefined) {
+            return undefined
+        }
+        if (typeof render === "function") {
+            return (props: OnRenderGraphicItemProps) => {
+                return render(this, props)
+            }
+        }
+        return (props: OnRenderGraphicItemProps) => render
     }
 
     private _onRun?: OnRunCommitmentEvent<CommitmentBaseModel>
