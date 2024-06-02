@@ -1,4 +1,6 @@
-import { ActivityProps, ActivityStoredAbstract, OnRunActivityEvent } from "../Activity";
+import { ActivityProps } from "../../interface";
+import { OnRunActivityEvent } from "../../types/OnRunActivityEvent";
+import { ActivityStoredAbstract } from "../ActivityStoredAbstract";
 import RoomBaseModel from "./Room";
 
 /**

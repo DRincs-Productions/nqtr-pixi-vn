@@ -2,7 +2,8 @@ import { GraphicItemType, OnRenderGraphicItemProps } from "@drincs/nqtr/dist/ove
 import { getFlag, StoredClassModel } from "@drincs/pixi-vn";
 import { getActivityById } from "../../decorators";
 import { getCurrentCommitments } from "../../functions/RoutineFunctions";
-import ActivityModel, { ActivityProps } from "../Activity";
+import { ActivityProps } from "../../interface";
+import ActivityModel from "../Activity";
 import CommitmentBaseModel from "../Commitment";
 import { ActivityRoom } from "./ActivityRoom";
 import LocationBaseModel from "./Location";

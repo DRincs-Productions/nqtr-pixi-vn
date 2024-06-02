@@ -1,3 +1,3 @@
 export { default as ActivityModel } from './Activity';
-export { default as CommitmentBaseModel, CommitmentBaseModelProps } from './Commitment';
+export { default as CommitmentBaseModel } from './Commitment';
 
