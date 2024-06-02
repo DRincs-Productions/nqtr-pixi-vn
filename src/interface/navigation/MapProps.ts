@@ -1,5 +1,5 @@
 import { GraphicItemType, OnRenderGraphicItemProps } from "@drincs/nqtr/dist/override"
-import { MapBaseModel } from "../classes/navigation"
+import { MapBaseModel } from "../../classes"
 
 export default interface MapProps {
     /**

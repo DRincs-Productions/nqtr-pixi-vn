@@ -3,7 +3,7 @@ import { CharacterBaseModel, getFlag, StoredClassModel } from "@drincs/pixi-vn";
 import { ExecutionTypeEnum } from "../enums/ExecutionTypeEnum";
 import { CommitmentProps } from "../interface";
 import TimeManager from "../managers/TimeManager";
-import { RoomBaseModel } from "./navigation";
+import RoomBaseModel from "./navigation/Room";
 
 const COMMITMENT_CATEGORY = "__nqtr-commitment__"
 

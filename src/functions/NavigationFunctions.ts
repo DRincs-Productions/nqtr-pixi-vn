@@ -1,5 +1,5 @@
 import { GameStorageManager } from "@drincs/pixi-vn";
-import { LocationBaseModel, MapBaseModel, RoomBaseModel } from "../classes/navigation";
+import { LocationBaseModel, MapBaseModel, RoomBaseModel } from "../classes";
 import { getRoomById } from "../decorators/RoomDecorator";
 
 const CURRENT_ROOM_MEMORY_KEY = '___nqtr-current_room_memory___';

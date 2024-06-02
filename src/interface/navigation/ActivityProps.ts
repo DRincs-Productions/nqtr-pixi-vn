@@ -1,5 +1,5 @@
 import { GraphicItemType, OnRenderGraphicItemProps } from "@drincs/nqtr/dist/override"
-import { ActivityStoredAbstract } from "../classes/ActivityStoredAbstract"
+import { ActivityStoredAbstract } from "../../classes/ActivityStoredAbstract"
 
 export default interface ActivityProps {
     /**

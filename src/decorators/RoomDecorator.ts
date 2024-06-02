@@ -1,4 +1,4 @@
-import { LocationBaseModel, MapBaseModel, RoomBaseModel } from "../classes/navigation"
+import { LocationBaseModel, MapBaseModel, RoomBaseModel } from "../classes"
 
 export const registeredRooms: { [id: string]: RoomBaseModel } = {}
 

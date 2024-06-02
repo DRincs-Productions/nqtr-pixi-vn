@@ -1,7 +1,6 @@
 import { GraphicItemType, OnRenderGraphicItemProps } from "@drincs/nqtr/dist/override"
 import { CharacterBaseModel } from "@drincs/pixi-vn"
-import { CommitmentBaseModel } from "../classes"
-import { RoomBaseModel } from "../classes/navigation"
+import { CommitmentBaseModel, RoomBaseModel } from "../classes"
 import { ExecutionTypeEnum } from "../enums"
 
 export default interface CommitmentProps<TCharacter extends CharacterBaseModel = CharacterBaseModel, TRoom extends RoomBaseModel = RoomBaseModel> {
