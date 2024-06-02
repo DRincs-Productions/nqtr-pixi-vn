@@ -33,13 +33,13 @@ export function getCommitmentById<TCommitment extends CommitmentBaseModel = Comm
 
 export function setFixedCommitments<TCommitment extends CommitmentBaseModel = CommitmentBaseModel>(commitments: TCommitment[] | TCommitment) {
     if (Array.isArray(commitments)) {
-        commitments.forEach(c => saveCommitment(c))
+        commitments.forEach(c => setFixedCommitments(c))
         return
     }
-    if (registeredCommitments[commitments.id]) {
+    if (fixedCommitments[commitments.id]) {
         console.warn(`[NQTR] Commitment id ${commitments.id} already exists, it will be overwritten`)
     }
-    registeredCommitments[commitments.id] = commitments
+    fixedCommitments[commitments.id] = commitments
 }
 
 export function addTemporaryCommitment<TCommitment extends CommitmentBaseModel = CommitmentBaseModel>(commitment: TCommitment[] | TCommitment) {
