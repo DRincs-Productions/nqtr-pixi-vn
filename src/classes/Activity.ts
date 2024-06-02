@@ -1,6 +1,7 @@
 import { GraphicItemType, OnRenderGraphicItemProps, OnRunActivityProps } from '@drincs/nqtr/dist/override';
 import { getFlag } from "@drincs/pixi-vn";
 import TimeManager from "../managers/TimeManager";
+import { OnRunActivityEvent } from '../types/OnRunActivityEvent';
 
 export interface ActivityProps {
     /**
@@ -48,11 +49,6 @@ export interface ActivityProps {
      */
     renderIcon?: GraphicItemType | ((activity: ActivityStoredAbstract, props: OnRenderGraphicItemProps) => GraphicItemType)
 }
-
-/**
- * The function that is called when the activity is runned.
- */
-export type OnRunActivityEvent<T> = (activity: T, props: OnRunActivityProps) => void
 
 export abstract class ActivityStoredAbstract {
     /**
