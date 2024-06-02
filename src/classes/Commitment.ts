@@ -1,4 +1,4 @@
-import { GraphicItemType, OnRenderGraphicItemProps, OnRunActivityProps } from "@drincs/nqtr/dist/override";
+import { GraphicItemType, OnRenderGraphicItemProps, OnRunProps } from "@drincs/nqtr/dist/override";
 import { CharacterBaseModel, getFlag, StoredClassModel } from "@drincs/pixi-vn";
 import { ExecutionTypeEnum } from "../enums/ExecutionTypeEnum";
 import { CommitmentProps } from "../interface";
@@ -166,7 +166,7 @@ export default class CommitmentBaseModel<TCharacter extends CharacterBaseModel =
     /**
      * Is a function that is called when the player interacts with the character.
      */
-    onRun(): undefined | ((props: OnRunActivityProps) => void) {
+    onRun(): undefined | ((props: OnRunProps) => void) {
         let onRun = this._onRun
         if (!onRun) {
             console.warn("[NQTR] onRun() is not defined for commitmen, so it will not run.", this)
