@@ -1,25 +1,12 @@
 import { StoredClassModel } from "@drincs/pixi-vn";
+import { StageProps } from "../../interface";
 import { QuestsRequiredType } from "../../types/QuestsRequired";
 import Goal, { IGoal } from "./Goal";
 
 const STAGE_CATEGORY = "__nqtr-stage__"
 
-export interface StageBaseModelProps {
-    goals?: Goal[]
-    name?: string
-    description?: string
-    adviceDescription?: string
-    image?: string
-    daysRequiredToStart: number
-    flagsRequired: string[]
-    questsRequired: QuestsRequiredType[]
-    requestDescription?: string
-    onStart: () => void
-    onEnd: () => void
-}
-
 export default class StageBaseModel extends StoredClassModel {
-    constructor(id: string, props: StageBaseModelProps) {
+    constructor(id: string, props: StageProps) {
         super(STAGE_CATEGORY, id)
         this._name = props.name || ""
         this._description = props.description || ""

@@ -1,18 +1,11 @@
 import { StoredClassModel } from "@drincs/pixi-vn";
+import { QuestProps } from "../../interface";
 import StageBaseModel from "./Stage";
 
 const QUEST_CATEGORY = "__nqtr-quest__"
 
-export interface QuestBaseModelProps {
-    name?: string
-    description?: string
-    icon?: string
-    image?: string
-    isInDevelopment?: boolean
-}
-
 export default class QuestBaseModel<TStage extends StageBaseModel = StageBaseModel> extends StoredClassModel {
-    constructor(id: string, stages: TStage[], props: QuestBaseModelProps) {
+    constructor(id: string, stages: TStage[], props: QuestProps) {
         super(QUEST_CATEGORY, id)
         this._stages = stages
         this._name = props.name || ""

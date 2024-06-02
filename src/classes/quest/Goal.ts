@@ -1,8 +1,4 @@
-export interface GoalProps {
-    description: string
-    need?: number
-    have?: number
-}
+import { GoalProps } from "../../interface"
 
 export interface IGoal {
     description: string
