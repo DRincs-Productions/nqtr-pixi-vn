@@ -5,11 +5,11 @@
  * ```typescript
  * // nqtr.types.ts
  * declare module '@drincs/nqtr/dist/override' {
- *     interface OnRunActivityProps {
+ *     interface OnRunProps {
  *         navigate: (route: string) => void,
  *         [key: string]: any
  *     }
  * }
  * ```
  */
-export default interface OnRunActivityProps { [key: string]: any }
+export default interface OnRunProps { [key: string]: any }
