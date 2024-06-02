@@ -88,7 +88,7 @@ export interface CommitmentBaseModelProps<TCharacter extends CharacterBaseModel 
  *     onRun: (commitment) => {
  *         // Do something
  *     }
-})
+ * })
  * saveCommitment(mcRoom)
  * ```
  */
