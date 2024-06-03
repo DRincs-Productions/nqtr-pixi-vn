@@ -6,7 +6,7 @@ import { RoomProps } from "../../interface";
 import { RoomActivityMemory } from "../../interface/RoomActivityMemory";
 import ActivityModel from "../Activity";
 import CommitmentBaseModel from "../Commitment";
-import { ActivityRoom } from "./ActivityRoom";
+import ActivityRoom from "./ActivityRoom";
 import LocationBaseModel from "./Location";
 
 export const ROOM_CATEGORY = "__nqtr-room__"

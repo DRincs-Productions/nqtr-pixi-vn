@@ -1,4 +1,4 @@
-import { ActivityRoom } from "../classes/navigation/ActivityRoom"
+import { ActivityRoom } from "../classes"
 import { registeredRooms } from "../decorators/RoomDecorator"
 import { getCurrentRoom } from "./NavigationFunctions"
 
