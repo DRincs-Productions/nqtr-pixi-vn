@@ -1,7 +1,7 @@
 import { GraphicItemType, OnRenderGraphicItemProps } from "@drincs/nqtr/dist/override"
 import { CharacterBaseModel } from "@drincs/pixi-vn"
 import { CommitmentBaseModel, RoomBaseModel } from "../classes"
-import { ExecutionTypeEnum } from "../enums"
+import { ExecutionType } from "../types"
 import { OnRunCommitmentEvent } from "../types/OnRunCommitmentEvent"
 
 export default interface CommitmentProps<TCharacter extends CharacterBaseModel = CharacterBaseModel, TRoom extends RoomBaseModel = RoomBaseModel> {
@@ -51,9 +51,9 @@ export default interface CommitmentProps<TCharacter extends CharacterBaseModel =
     renderImage?: GraphicItemType | ((commitment: CommitmentBaseModel<TCharacter, TRoom>, props: OnRenderGraphicItemProps) => GraphicItemType)
     /**
      * Execution type. If is "automatic" the onRun() runned automatically when the palayer is in the room. If is "interaction" the player must interact with the character to run the onRun() function.
-     * @default ExecutionTypeEnum.INTERACTION
+     * @default "interaction"
      */
-    executionType?: ExecutionTypeEnum
+    executionType?: ExecutionType
     /**
      * Is a function that is called when the player interacts with the character.
      * @param commitment 

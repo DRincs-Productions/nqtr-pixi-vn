@@ -1,8 +1,8 @@
 import { GraphicItemType, OnRenderGraphicItemProps, OnRunProps } from "@drincs/nqtr/dist/override";
 import { CharacterBaseModel, getFlag, StoredClassModel } from "@drincs/pixi-vn";
-import { ExecutionTypeEnum } from "../enums/ExecutionTypeEnum";
 import { CommitmentProps } from "../interface";
 import TimeManager from "../managers/TimeManager";
+import { ExecutionType } from "../types";
 import { OnRunCommitmentEvent } from "../types/OnRunCommitmentEvent";
 import RoomBaseModel from "./navigation/Room";
 
@@ -41,7 +41,7 @@ export default class CommitmentBaseModel<TCharacter extends CharacterBaseModel =
         this.defaultFromDay = props.fromDay
         this.defaultToDay = props.toDay
         this._renderImage = props.renderImage
-        this._executionType = props.executionType || ExecutionTypeEnum.INTERACTION
+        this._executionType = props.executionType || "interaction"
         this._onRun = props.onRun
         this.defaultDisabled = props.disabled || false
         this.defaultHidden = props.hidden || false
@@ -138,11 +138,11 @@ export default class CommitmentBaseModel<TCharacter extends CharacterBaseModel =
         return (props: OnRenderGraphicItemProps) => render
     }
 
-    private _executionType: ExecutionTypeEnum
+    private _executionType: ExecutionType
     /**
      * Execution type. If is "automatic" the onRun() runned automatically when the palayer is in the room. If is "interaction" the player must interact with the character to run the onRun() function.
      */
-    get executionType(): ExecutionTypeEnum {
+    get executionType(): ExecutionType {
         return this._executionType
     }
 
