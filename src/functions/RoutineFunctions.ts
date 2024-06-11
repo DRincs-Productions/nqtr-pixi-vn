@@ -1,6 +1,6 @@
 import { CharacterBaseModel } from "@drincs/pixi-vn";
 import CommitmentBaseModel from "../classes/Commitment";
-import { getFixedCommitments, getTemporaryCommitments, registeredCommitments } from "../decorators/CommitmentDecorator";
+import { getFixedRoutine, getTemporaryCommitments, registeredCommitments } from "../decorators/CommitmentDecorator";
 
 /**
  * Clear all the expired commitments.
@@ -22,7 +22,7 @@ export function clearExpiredRoutine() {
  * 3. If there are commitments with the same priority and the same fixed status, priority will be given to the commitment with a lower index.
  * @returns The current commitments.
  */
-export function getCurrentCommitments<TCommitment extends CommitmentBaseModel = CommitmentBaseModel>(): TCommitment[] {
+export function getCurrentRoutine<TCommitment extends CommitmentBaseModel = CommitmentBaseModel>(): TCommitment[] {
     let character_commitments: { [character: string]: TCommitment } = {}
     let oltherCommitments: TCommitment[] = []
     getTemporaryCommitments<TCommitment>().reverse().forEach(c => {
@@ -41,7 +41,7 @@ export function getCurrentCommitments<TCommitment extends CommitmentBaseModel = 
             }
         }
     })
-    getFixedCommitments<TCommitment>().reverse().forEach(c => {
+    getFixedRoutine<TCommitment>().reverse().forEach(c => {
         if (!c.hidden) {
             if (c.characters.length > 1) {
                 c.characters.forEach(ch => {
@@ -66,7 +66,7 @@ export function getCurrentCommitments<TCommitment extends CommitmentBaseModel = 
  * @returns The commitment or undefined if not found.
  */
 export function getCommitmentByCharacter<TCommitment extends CommitmentBaseModel = CommitmentBaseModel, TCharacter extends CharacterBaseModel = CharacterBaseModel>(character: TCharacter): TCommitment | undefined {
-    getCurrentCommitments().forEach(c => {
+    getCurrentRoutine().forEach(c => {
         if (c.characters.map(ch => ch.id).includes(character.id)) {
             return c
         }

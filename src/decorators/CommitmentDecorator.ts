@@ -45,9 +45,9 @@ export function getCommitmentById<TCommitment extends CommitmentBaseModel = Comm
  * Set a commitment as fixed, it will be always available. They cannot be deleted or edit during the game session.
  * @param commitment The commitment or commitments to set as fixed.
  */
-export function setFixedCommitments<TCommitment extends CommitmentBaseModel = CommitmentBaseModel>(commitments: TCommitment[] | TCommitment) {
+export function setFixedRoutine<TCommitment extends CommitmentBaseModel = CommitmentBaseModel>(commitments: TCommitment[] | TCommitment) {
     if (Array.isArray(commitments)) {
-        commitments.forEach(c => setFixedCommitments(c))
+        commitments.forEach(c => setFixedRoutine(c))
         return
     }
     if (fixedCommitments[commitments.id]) {
@@ -80,7 +80,7 @@ export function addCommitment<TCommitment extends CommitmentBaseModel = Commitme
  * Get the fixed commitments by its id.
  * @returns The fixed commitments.
  */
-export function getFixedCommitments<TCommitment extends CommitmentBaseModel = CommitmentBaseModel>(): TCommitment[] {
+export function getFixedRoutine<TCommitment extends CommitmentBaseModel = CommitmentBaseModel>(): TCommitment[] {
     return Object.values(fixedCommitments) as TCommitment[]
 }
 
