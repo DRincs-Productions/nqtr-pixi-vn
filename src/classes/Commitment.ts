@@ -46,6 +46,7 @@ export default class CommitmentBaseModel<TCharacter extends CharacterBaseModel =
         this.defaultDisabled = props.disabled || false
         this.defaultHidden = props.hidden || false
         this._renderIcon = props.renderIcon
+        this.defaultPriority = props.priority || 0
     }
 
     private _characters: TCharacter[]
@@ -212,6 +213,18 @@ export default class CommitmentBaseModel<TCharacter extends CharacterBaseModel =
     }
     set hidden(value: boolean | string) {
         this.setStorageProperty("hidden", value)
+    }
+
+    private defaultPriority: number
+    /**
+     * The priority. The higher the number, the higher the priority.
+     * To ensure that a character is not in 2 places at the same time, if there are 2 or more valid commits at the same time and with the same character, the one with the highest priority will be chosen.
+     */
+    get priority(): number {
+        return this.getStorageProperty<number>("priority") || this.defaultPriority || 0
+    }
+    set priority(value: number) {
+        this.setStorageProperty("priority", value)
     }
 
     /**

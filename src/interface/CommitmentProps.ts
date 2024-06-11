@@ -77,4 +77,10 @@ export default interface CommitmentProps<TCharacter extends CharacterBaseModel =
      * @default undefined
      */
     renderIcon?: GraphicItemType | ((commitment: CommitmentBaseModel, props: OnRenderGraphicItemProps) => GraphicItemType)
+    /**
+     * The priority. The higher the number, the higher the priority.
+     * To ensure that a character is not in 2 places at the same time, if there are 2 or more valid commits at the same time and with the same character, the one with the highest priority will be chosen.
+     * @default 0
+     */
+    priority?: number
 }
