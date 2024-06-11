@@ -42,7 +42,7 @@ export function getCommitmentById<TCommitment extends CommitmentBaseModel = Comm
 }
 
 /**
- * Set a commitment as fixed, it will be always available. They cannot be deleted.
+ * Set a commitment as fixed, it will be always available. They cannot be deleted or edit during the game session.
  * @param commitment The commitment or commitments to set as fixed.
  */
 export function setFixedCommitments<TCommitment extends CommitmentBaseModel = CommitmentBaseModel>(commitments: TCommitment[] | TCommitment) {
