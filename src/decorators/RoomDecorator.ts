@@ -3,7 +3,7 @@ import { LocationBaseModel, MapBaseModel, RoomBaseModel } from "../classes"
 export const registeredRooms: { [id: string]: RoomBaseModel } = {}
 
 /**
- * Save a room in the registered rooms.
+ * Save a room in the registered rooms. If the room already exists, it will be overwritten.
  * @param room The room to save.
  * @returns 
  * @example
