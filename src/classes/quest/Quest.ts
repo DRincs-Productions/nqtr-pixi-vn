@@ -1,3 +1,4 @@
+import { GraphicItemType, OnRenderGraphicItemProps } from "@drincs/nqtr/dist/override";
 import { StoredClassModel } from "@drincs/pixi-vn";
 import { QuestProps } from "../../interface";
 import StageBaseModel from "./Stage";
@@ -10,8 +11,8 @@ export default class QuestBaseModel<TStage extends StageBaseModel = StageBaseMod
         this._stages = stages
         this._name = props.name || ""
         this._description = props.description || ""
-        this._icon = props.icon || ""
-        this._image = props.image || ""
+        this._renderIcon = props.renderIcon || ""
+        this._renderImage = props.renderImage || ""
         this._isInDevelopment = props.isInDevelopment || false
     }
     private _stages: TStage[]
@@ -29,14 +30,38 @@ export default class QuestBaseModel<TStage extends StageBaseModel = StageBaseMod
         return this._description
     }
 
-    private _icon: string
-    get icon(): string {
-        return this._icon
+    private _renderIcon?: GraphicItemType | ((room: QuestBaseModel<TStage>, props: OnRenderGraphicItemProps) => GraphicItemType)
+    /**
+     * The function for rendering the icon of the quest.
+     */
+    get renderIcon(): ((props: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
+        let render = this._renderIcon
+        if (render === undefined) {
+            return undefined
+        }
+        if (typeof render === "function") {
+            return (props: OnRenderGraphicItemProps) => {
+                return render(this, props)
+            }
+        }
+        return (props: OnRenderGraphicItemProps) => render
     }
 
-    private _image: string
-    get image(): string {
-        return this._image
+    private _renderImage?: GraphicItemType | ((room: QuestBaseModel<TStage>, props: OnRenderGraphicItemProps) => GraphicItemType)
+    /**
+     * The function for rendering the image of the quest.
+     */
+    get renderImage(): ((props: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
+        let render = this._renderImage
+        if (render === undefined) {
+            return undefined
+        }
+        if (typeof render === "function") {
+            return (props: OnRenderGraphicItemProps) => {
+                return render(this, props)
+            }
+        }
+        return (props: OnRenderGraphicItemProps) => render
     }
 
     private _isInDevelopment: boolean
