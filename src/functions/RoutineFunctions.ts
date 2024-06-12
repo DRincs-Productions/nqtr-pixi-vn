@@ -24,12 +24,11 @@ export function clearExpiredRoutine() {
  */
 export function getCurrentRoutine<TCommitment extends CommitmentBaseModel = CommitmentBaseModel>(): TCommitment[] {
     let character_commitments: { [character: string]: TCommitment } = {}
-    let oltherCommitments: TCommitment[] = []
     getTemporaryCommitments<TCommitment>().reverse().forEach(c => {
         if (!c.hidden) {
-            if (c.characters.length > 1) {
-                // all the characters don't already have commitments
-                let allAvailable = c.characters.every(ch => !character_commitments[ch.id])
+            if (c.characters.length > 0) {
+                // all the characters don't already have commitments or the commitment has a higher priority
+                let allAvailable = c.characters.every(ch => !character_commitments[ch.id] || c.priority > character_commitments[ch.id].priority)
                 if (allAvailable) {
                     c.characters.forEach(ch => {
                         character_commitments[ch.id] = c
@@ -37,27 +36,27 @@ export function getCurrentRoutine<TCommitment extends CommitmentBaseModel = Comm
                 }
             }
             else {
-                oltherCommitments.push(c)
+                console.error(`[NQTR] The commitment ${c.id} has no characters assigned`)
             }
         }
     })
     getFixedRoutine<TCommitment>().reverse().forEach(c => {
         if (!c.hidden) {
-            if (c.characters.length > 1) {
-                c.characters.forEach(ch => {
-                    if (!character_commitments[ch.id]) {
+            if (c.characters.length > 0) {
+                // all the characters don't already have commitments or the commitment has a higher priority
+                let allAvailable = c.characters.every(ch => !character_commitments[ch.id] || c.priority > character_commitments[ch.id].priority)
+                if (allAvailable) {
+                    c.characters.forEach(ch => {
                         character_commitments[ch.id] = c
-                    }
-                })
+                    })
+                }
             }
             else {
-                oltherCommitments.push(c)
+                console.error(`[NQTR] The commitment ${c.id} has no characters assigned`)
             }
         }
     })
-    let list = Object.values(character_commitments).concat(oltherCommitments)
-    list.sort((a, b) => a.priority - b.priority)
-    return list
+    return Object.values(character_commitments)
 }
 
 /**
