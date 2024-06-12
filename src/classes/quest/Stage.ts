@@ -64,19 +64,19 @@ export default class StageBaseModel extends StoredClassModel {
         return this._image
     }
 
-    private _daysRequiredToStart: number
+    private _daysRequiredToStart?: number
     get daysRequiredToStart(): number {
-        return this._daysRequiredToStart
+        return this._daysRequiredToStart || 0
     }
 
-    private _flagsRequired: string[]
+    private _flagsRequired?: string[]
     get flagsRequired(): string[] {
-        return this._flagsRequired
+        return this._flagsRequired || []
     }
 
-    private _questsRequired: QuestsRequiredType[]
+    private _questsRequired?: QuestsRequiredType[]
     get questsRequired(): QuestsRequiredType[] {
-        return this._questsRequired
+        return this._questsRequired || []
     }
 
     private _requestDescription: string
@@ -84,13 +84,13 @@ export default class StageBaseModel extends StoredClassModel {
         return this._requestDescription
     }
 
-    private _onStart: () => void
-    get onStart(): () => void {
+    private _onStart?: () => void
+    get onStart(): undefined | (() => void) {
         return this._onStart
     }
 
-    private _onEnd: () => void
-    get onEnd(): () => void {
+    private _onEnd?: () => void
+    get onEnd(): undefined | (() => void) {
         return this._onEnd
     }
 }

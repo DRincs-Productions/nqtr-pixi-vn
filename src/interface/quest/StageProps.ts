@@ -7,10 +7,10 @@ export default interface StageProps {
     description?: string
     adviceDescription?: string
     image?: string
-    daysRequiredToStart: number
-    flagsRequired: string[]
-    questsRequired: QuestsRequiredType[]
+    daysRequiredToStart?: number
+    flagsRequired?: string[]
+    questsRequired?: QuestsRequiredType[]
     requestDescription?: string
-    onStart: () => void
-    onEnd: () => void
+    onStart?: () => void
+    onEnd?: () => void
 }
