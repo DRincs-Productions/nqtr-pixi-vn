@@ -1,12 +1,10 @@
 import { GoalProps } from "../../interface"
 
-export interface IGoal {
-    description: string
-    need: number
+export interface IGoalMemory {
     have: number
 }
 
-export default class Goal implements IGoal {
+export default class Goal implements IGoalMemory {
     constructor(props: GoalProps) {
         this._description = props.description
         this.need = props.need || 1
@@ -27,10 +25,8 @@ export default class Goal implements IGoal {
     find(): void {
         this.have++
     }
-    get export(): IGoal {
+    get export(): IGoalMemory {
         return {
-            description: this.description,
-            need: this.need,
             have: this.have
         }
     }

@@ -68,4 +68,27 @@ export default class QuestBaseModel<TStage extends StageBaseModel = StageBaseMod
     get isInDevelopment(): boolean {
         return this._isInDevelopment
     }
+
+    get currentStageIndex(): number | undefined {
+        return this.getStorageProperty<number>('currentStageIndex')
+    }
+    private set currentStageIndex(value: number | undefined) {
+        this.setStorageProperty('currentStageIndex', value)
+    }
+
+    get currentStage(): TStage | undefined {
+        let index = this.currentStageIndex
+        if (index === undefined || index >= this.stages.length) {
+            return undefined
+        }
+        return this.stages[index]
+    }
+
+    get started(): boolean {
+        return this.currentStageIndex !== undefined
+    }
+
+    get completed(): boolean {
+        return this.currentStageIndex === this.stages.length
+    }
 }
