@@ -1,7 +1,7 @@
 import { GraphicItemType, OnRenderGraphicItemProps } from "@drincs/nqtr/dist/override";
 import { getFlag, StoredClassModel } from "@drincs/pixi-vn";
 import { getActivityById } from "../../decorators";
-import { getCurrentCommitments } from "../../functions/RoutineFunctions";
+import { getCurrentRoutine } from "../../functions/RoutineFunctions";
 import { RoomProps } from "../../interface";
 import { RoomActivityMemory } from "../../interface/RoomActivityMemory";
 import ActivityModel from "../Activity";
@@ -278,7 +278,7 @@ export default class RoomBaseModel<TLocation extends LocationBaseModel = Locatio
      * @returns The character commitments of the room.
      */
     getRoutine<TCommitment extends CommitmentBaseModel = CommitmentBaseModel>(): TCommitment[] {
-        let commitments = getCurrentCommitments<TCommitment>()
+        let commitments = getCurrentRoutine<TCommitment>()
         return commitments.filter(c => c.room.id === this.id)
     }
 }

@@ -1,8 +1,8 @@
 import { GraphicItemType, OnRenderGraphicItemProps, OnRunProps } from "@drincs/nqtr/dist/override";
 import { CharacterBaseModel, getFlag, StoredClassModel } from "@drincs/pixi-vn";
-import { ExecutionTypeEnum } from "../enums/ExecutionTypeEnum";
 import { CommitmentProps } from "../interface";
 import TimeManager from "../managers/TimeManager";
+import { ExecutionType } from "../types";
 import { OnRunCommitmentEvent } from "../types/OnRunCommitmentEvent";
 import RoomBaseModel from "./navigation/Room";
 
@@ -41,11 +41,12 @@ export default class CommitmentBaseModel<TCharacter extends CharacterBaseModel =
         this.defaultFromDay = props.fromDay
         this.defaultToDay = props.toDay
         this._renderImage = props.renderImage
-        this._executionType = props.executionType || ExecutionTypeEnum.INTERACTION
+        this._executionType = props.executionType || "interaction"
         this._onRun = props.onRun
         this.defaultDisabled = props.disabled || false
         this.defaultHidden = props.hidden || false
         this._renderIcon = props.renderIcon
+        this.defaultPriority = props.priority || 0
     }
 
     private _characters: TCharacter[]
@@ -137,11 +138,11 @@ export default class CommitmentBaseModel<TCharacter extends CharacterBaseModel =
         return (props: OnRenderGraphicItemProps) => render
     }
 
-    private _executionType: ExecutionTypeEnum
+    private _executionType: ExecutionType
     /**
      * Execution type. If is "automatic" the onRun() runned automatically when the palayer is in the room. If is "interaction" the player must interact with the character to run the onRun() function.
      */
-    get executionType(): ExecutionTypeEnum {
+    get executionType(): ExecutionType {
         return this._executionType
     }
 
@@ -212,6 +213,18 @@ export default class CommitmentBaseModel<TCharacter extends CharacterBaseModel =
     }
     set hidden(value: boolean | string) {
         this.setStorageProperty("hidden", value)
+    }
+
+    private defaultPriority: number
+    /**
+     * The priority. The higher the number, the higher the priority.
+     * To ensure that a character is not in 2 places at the same time, if there are 2 or more valid commits at the same time and with the same character, the one with the highest priority will be chosen.
+     */
+    get priority(): number {
+        return this.getStorageProperty<number>("priority") || this.defaultPriority || 0
+    }
+    set priority(value: number) {
+        this.setStorageProperty("priority", value)
     }
 
     /**

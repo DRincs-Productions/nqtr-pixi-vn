@@ -5,6 +5,11 @@ const TEMPORARY_COMMITMENT_CATEGORY_MEMORY_KEY = "___nqtr-temporary_commitment__
 export const registeredCommitments: { [id: string]: CommitmentBaseModel } = {}
 export const fixedCommitments: { [id: string]: CommitmentBaseModel } = {}
 
+/**
+ * Save a commitment in the registered commitments. If the commitment already exists, it will be overwritten.
+ * @param commitment The commitment or commitments to save.
+ * @returns 
+ */
 export function saveCommitment<TCommitment extends CommitmentBaseModel = CommitmentBaseModel>(commitment: TCommitment | TCommitment[]) {
     if (Array.isArray(commitment)) {
         commitment.forEach(c => saveCommitment(c))
@@ -16,6 +21,11 @@ export function saveCommitment<TCommitment extends CommitmentBaseModel = Commitm
     registeredCommitments[commitment.id] = commitment
 }
 
+/**
+ * Get a commitment by its id.
+ * @param id The id of the commitment.
+ * @returns The commitment or undefined if not found.
+ */
 export function getCommitmentById<TCommitment extends CommitmentBaseModel = CommitmentBaseModel>(id: string): TCommitment | undefined {
     try {
         let commitment = registeredCommitments[id]
@@ -31,9 +41,13 @@ export function getCommitmentById<TCommitment extends CommitmentBaseModel = Comm
     }
 }
 
-export function setFixedCommitments<TCommitment extends CommitmentBaseModel = CommitmentBaseModel>(commitments: TCommitment[] | TCommitment) {
+/**
+ * Set a commitment as fixed, it will be always available. They cannot be deleted or edit during the game session.
+ * @param commitment The commitment or commitments to set as fixed.
+ */
+export function setFixedRoutine<TCommitment extends CommitmentBaseModel = CommitmentBaseModel>(commitments: TCommitment[] | TCommitment) {
     if (Array.isArray(commitments)) {
-        commitments.forEach(c => setFixedCommitments(c))
+        commitments.forEach(c => setFixedRoutine(c))
         return
     }
     if (fixedCommitments[commitments.id]) {
@@ -42,7 +56,11 @@ export function setFixedCommitments<TCommitment extends CommitmentBaseModel = Co
     fixedCommitments[commitments.id] = commitments
 }
 
-export function addTemporaryCommitment<TCommitment extends CommitmentBaseModel = CommitmentBaseModel>(commitment: TCommitment[] | TCommitment) {
+/**
+ * This feature adds the commitments during the game session.
+ * @param commitment The commitment or commitments to add.
+ */
+export function addCommitment<TCommitment extends CommitmentBaseModel = CommitmentBaseModel>(commitment: TCommitment[] | TCommitment) {
     if (!Array.isArray(commitment)) {
         commitment = [commitment]
     }
@@ -58,10 +76,18 @@ export function addTemporaryCommitment<TCommitment extends CommitmentBaseModel =
     GameStorageManager.setVariable(TEMPORARY_COMMITMENT_CATEGORY_MEMORY_KEY, [commitmentsIds])
 }
 
-export function getFixedCommitments<TCommitment extends CommitmentBaseModel = CommitmentBaseModel>(): TCommitment[] {
+/**
+ * Get the fixed commitments by its id.
+ * @returns The fixed commitments.
+ */
+export function getFixedRoutine<TCommitment extends CommitmentBaseModel = CommitmentBaseModel>(): TCommitment[] {
     return Object.values(fixedCommitments) as TCommitment[]
 }
 
+/**
+ * Get the temporary commitments by its id.
+ * @returns The temporary commitments.
+ */
 export function getTemporaryCommitments<TCommitment extends CommitmentBaseModel = CommitmentBaseModel>(): TCommitment[] {
     let commitmentsIds = GameStorageManager.getVariable<string[]>(TEMPORARY_COMMITMENT_CATEGORY_MEMORY_KEY)
     if (!commitmentsIds) {

@@ -3,7 +3,7 @@ import { ActivityModel } from "../classes"
 export const registeredActivities: { [id: string]: ActivityModel } = {}
 
 /**
- * Save an activity in the registered activities.
+ * Save an activity in the registered activities. If the activity already exists, it will be overwritten.
  * @param activity The activity to save.
  * @returns 
  * @example
