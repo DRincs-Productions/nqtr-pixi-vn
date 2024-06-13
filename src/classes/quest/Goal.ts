@@ -1,11 +1,11 @@
+import { StoredClassModel } from "@drincs/pixi-vn"
 import { GoalProps } from "../../interface"
 
-export interface IGoalMemory {
-    have: number
-}
+const GOAL_CATEGORY = "__nqtr-goal__"
 
-export default class Goal implements IGoalMemory {
-    constructor(props: GoalProps) {
+export default class Goal extends StoredClassModel {
+    constructor(id: string, props: GoalProps) {
+        super(GOAL_CATEGORY, id)
         this._description = props.description
         this.need = props.need || 1
         this.have = props.have || 0
@@ -24,10 +24,5 @@ export default class Goal implements IGoalMemory {
     }
     find(): void {
         this.have++
-    }
-    get export(): IGoalMemory {
-        return {
-            have: this.have
-        }
     }
 }

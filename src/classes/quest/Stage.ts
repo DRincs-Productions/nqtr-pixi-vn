@@ -2,7 +2,6 @@ import { StoredClassModel, getFlag } from "@drincs/pixi-vn";
 import { StageProps } from "../../interface";
 import { TimeManager } from "../../managers";
 import { QuestsRequiredType } from "../../types/QuestsRequired";
-import Goal, { IGoalMemory } from "./Goal";
 
 const STAGE_CATEGORY = "__nqtr-stage__"
 
@@ -48,6 +47,10 @@ export default class StageBaseModel extends StoredClassModel {
         if (storedCompleted) {
             return storedCompleted
         }
+        if (!this.flags.every(flag => getFlag(flag))) {
+            return false
+        }
+        return true
     }
     set completed(value: boolean) {
         this.setStorageProperty('completed', value)
@@ -55,24 +58,32 @@ export default class StageBaseModel extends StoredClassModel {
 
     // values
 
-    private defaultGoals: Goal[] = []
+    // private defaultGoals: Goal[] = []
+    // /**
+    //  * The list of goals that the player needs to complete to finish the stage.
+    //  * This feature is still in development.
+    //  */
+    // get goals(): Goal[] {
+    //     let list = this.getStorageProperty<IGoalMemory[]>('goals')
+    //     if (!list || list.length !== this.defaultGoals.length) {
+    //         return this.defaultGoals
+    //     }
+    //     return this.defaultGoals.map((goal, index) => {
+    //         goal.have = list[index].have
+    //         return goal
+    //     })
+    // }
+    // set goals(value: Goal[]) {
+    //     let list = value.map(goal => goal.export)
+    //     this.setStorageProperty('goals', list)
+    // }
+
+    private _flags: string[] = []
     /**
-     * The list of goals that the player needs to complete to finish the stage.
-     * This feature is still in development.
+     * The list of flags that the player must complete to finish the stage.
      */
-    get goals(): Goal[] {
-        let list = this.getStorageProperty<IGoalMemory[]>('goals')
-        if (!list || list.length !== this.defaultGoals.length) {
-            return this.defaultGoals
-        }
-        return this.defaultGoals.map((goal, index) => {
-            goal.have = list[index].have
-            return goal
-        })
-    }
-    set goals(value: Goal[]) {
-        let list = value.map(goal => goal.export)
-        this.setStorageProperty('goals', list)
+    get flags(): string[] {
+        return this._flags
     }
 
     // request to start
