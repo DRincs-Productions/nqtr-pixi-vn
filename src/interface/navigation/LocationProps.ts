@@ -21,5 +21,5 @@ export default interface LocationProps<TMap extends MapBaseModel = MapBaseModel>
      * The icon element. Can be a string or an Element or a Pixi'VN CanvasItem
      * @default undefined
      */
-    renderIcon?: GraphicItemType | Promise<GraphicItemType> | ((location: LocationBaseModel<TMap>, props: OnRenderGraphicItemProps) => GraphicItemType | Promise<GraphicItemType>)
+    renderIcon?: GraphicItemType | ((location: LocationBaseModel<TMap>, props: OnRenderGraphicItemProps) => GraphicItemType)
 }

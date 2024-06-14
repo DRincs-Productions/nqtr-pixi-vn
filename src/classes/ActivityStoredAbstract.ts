@@ -119,12 +119,11 @@ export abstract class ActivityStoredAbstract {
         this.setStorageProperty("hidden", value)
     }
 
-    private _renderIcon?: GraphicItemType | Promise<GraphicItemType> |
-        ((activity: ActivityStoredAbstract, props: OnRenderGraphicItemProps) => GraphicItemType | Promise<GraphicItemType>)
+    private _renderIcon?: GraphicItemType | ((activity: ActivityStoredAbstract, props: OnRenderGraphicItemProps) => GraphicItemType)
     /**
      * The function for rendering the icon of the activity.
      */
-    get renderIcon(): ((props: OnRenderGraphicItemProps) => GraphicItemType | Promise<GraphicItemType>) | undefined {
+    get renderIcon(): ((props: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
         let render = this._renderIcon
         if (render === undefined) {
             return undefined

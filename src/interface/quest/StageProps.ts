@@ -22,7 +22,7 @@ export default interface StageProps {
      * ```
      * @default undefined
      */
-    renderImage?: GraphicItemType | Promise<GraphicItemType> | ((room: Stage, props: OnRenderGraphicItemProps) => GraphicItemType | Promise<GraphicItemType>)
+    renderImage?: GraphicItemType | ((room: Stage, props: OnRenderGraphicItemProps) => GraphicItemType)
     daysRequiredToStart?: number
     flagsRequired?: string[]
     questsRequired?: QuestsRequiredType[]

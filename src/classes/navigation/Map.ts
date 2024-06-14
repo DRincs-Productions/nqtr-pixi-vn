@@ -47,12 +47,11 @@ export default class MapBaseModel extends StoredClassModel {
         this.setStorageProperty("name", value)
     }
 
-    private _renderImage?: GraphicItemType | Promise<GraphicItemType> |
-        ((map: MapBaseModel, props: OnRenderGraphicItemProps) => GraphicItemType | Promise<GraphicItemType>)
+    private _renderImage?: GraphicItemType | ((map: MapBaseModel, props: OnRenderGraphicItemProps) => GraphicItemType)
     /**
      * The function for rendering the image of the map.
      */
-    get renderImage(): ((props: OnRenderGraphicItemProps) => GraphicItemType | Promise<GraphicItemType>) | undefined {
+    get renderImage(): ((props: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
         let render = this._renderImage
         if (render === undefined) {
             return undefined

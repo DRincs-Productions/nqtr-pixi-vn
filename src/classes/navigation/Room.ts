@@ -71,12 +71,11 @@ export default class RoomBaseModel<TLocation extends LocationBaseModel = Locatio
         this.setStorageProperty("name", value)
     }
 
-    private _renderImage?: GraphicItemType | Promise<GraphicItemType> |
-        ((room: RoomBaseModel<TLocation>, props: OnRenderGraphicItemProps) => GraphicItemType | Promise<GraphicItemType>)
+    private _renderImage?: GraphicItemType | ((room: RoomBaseModel<TLocation>, props: OnRenderGraphicItemProps) => GraphicItemType)
     /**
      * The function for rendering the image of the room.
      */
-    get renderImage(): ((props: OnRenderGraphicItemProps) => GraphicItemType | Promise<GraphicItemType>) | undefined {
+    get renderImage(): ((props: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
         let render = this._renderImage
         if (render === undefined) {
             return undefined
@@ -257,12 +256,11 @@ export default class RoomBaseModel<TLocation extends LocationBaseModel = Locatio
         this.setStorageProperty("hidden", value)
     }
 
-    private _renderIcon?: GraphicItemType | Promise<GraphicItemType> |
-        ((room: RoomBaseModel<TLocation>, props: OnRenderGraphicItemProps) => GraphicItemType | Promise<GraphicItemType>)
+    private _renderIcon?: GraphicItemType | ((room: RoomBaseModel<TLocation>, props: OnRenderGraphicItemProps) => GraphicItemType)
     /**
      * The function for rendering the icon of the room.
      */
-    get renderIcon(): ((props: OnRenderGraphicItemProps) => GraphicItemType | Promise<GraphicItemType>) | undefined {
+    get renderIcon(): ((props: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
         let render = this._renderIcon
         if (render === undefined) {
             return undefined
