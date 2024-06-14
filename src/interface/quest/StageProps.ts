@@ -27,6 +27,6 @@ export default interface StageProps {
     flagsRequired?: string[]
     questsRequired?: QuestsRequiredType[]
     requestDescription?: string
-    onStart?: () => void
-    onEnd?: () => void
+    onStart?: () => Promise<void>
+    onEnd?: () => Promise<void>
 }
