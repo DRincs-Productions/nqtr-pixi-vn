@@ -121,11 +121,12 @@ export default class CommitmentBaseModel<TCharacter extends CharacterBaseModel =
         this.setStorageProperty("toDay", value)
     }
 
-    private _renderImage?: GraphicItemType | ((commitment: CommitmentBaseModel<TCharacter, TRoom>, props: OnRenderGraphicItemProps) => GraphicItemType)
+    private _renderImage?: GraphicItemType | Promise<GraphicItemType> |
+        ((commitment: CommitmentBaseModel<TCharacter, TRoom>, props: OnRenderGraphicItemProps) => GraphicItemType | Promise<GraphicItemType>)
     /**
      * The function for rendering the image of the room.
      */
-    get renderImage(): ((props: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
+    get renderImage(): ((props: OnRenderGraphicItemProps) => GraphicItemType | Promise<GraphicItemType>) | undefined {
         let render = this._renderImage
         if (render === undefined) {
             return undefined
@@ -146,11 +147,12 @@ export default class CommitmentBaseModel<TCharacter extends CharacterBaseModel =
         return this._executionType
     }
 
-    private _renderIcon?: GraphicItemType | ((commitment: CommitmentBaseModel, props: OnRenderGraphicItemProps) => GraphicItemType)
+    private _renderIcon?: GraphicItemType | Promise<GraphicItemType> |
+        ((commitment: CommitmentBaseModel, props: OnRenderGraphicItemProps) => GraphicItemType | Promise<GraphicItemType>)
     /**
      * The function for rendering the icon of the commitment.
      */
-    get renderIcon(): ((props: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
+    get renderIcon(): ((props: OnRenderGraphicItemProps) => GraphicItemType | Promise<GraphicItemType>) | undefined {
         let render = this._renderIcon
         if (render === undefined) {
             return undefined

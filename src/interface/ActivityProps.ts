@@ -45,5 +45,5 @@ export default interface ActivityProps {
      * The icon element. Can be a string or an Element or a Pixi'VN CanvasItem
      * @default undefined
      */
-    renderIcon?: GraphicItemType | ((activity: ActivityStoredAbstract, props: OnRenderGraphicItemProps) => GraphicItemType)
+    renderIcon?: GraphicItemType | Promise<GraphicItemType> | ((activity: ActivityStoredAbstract, props: OnRenderGraphicItemProps) => GraphicItemType | Promise<GraphicItemType>)
 }

@@ -21,7 +21,7 @@ export default interface MapProps {
      * ```
      * @default undefined
      */
-    renderImage?: GraphicItemType | ((map: MapBaseModel, props: OnRenderGraphicItemProps) => GraphicItemType)
+    renderImage?: GraphicItemType | Promise<GraphicItemType> | ((map: MapBaseModel, props: OnRenderGraphicItemProps) => GraphicItemType | Promise<GraphicItemType>)
     /**
      * The neighboring maps that are available in this map.
      * @example

@@ -32,11 +32,12 @@ export default class Quest extends StoredClassModel {
         return this._description
     }
 
-    private _renderIcon?: GraphicItemType | ((room: Quest, props: OnRenderGraphicItemProps) => GraphicItemType)
+    private _renderIcon?: GraphicItemType | Promise<GraphicItemType> |
+        ((room: Quest, props: OnRenderGraphicItemProps) => GraphicItemType | Promise<GraphicItemType>)
     /**
      * The function for rendering the icon of the quest.
      */
-    get renderIcon(): ((props: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
+    get renderIcon(): ((props: OnRenderGraphicItemProps) => GraphicItemType | Promise<GraphicItemType>) | undefined {
         let render = this._renderIcon
         if (render === undefined) {
             return undefined
@@ -49,11 +50,12 @@ export default class Quest extends StoredClassModel {
         return (props: OnRenderGraphicItemProps) => render
     }
 
-    private _renderImage?: GraphicItemType | ((room: Quest, props: OnRenderGraphicItemProps) => GraphicItemType)
+    private _renderImage?: GraphicItemType | Promise<GraphicItemType> |
+        ((room: Quest, props: OnRenderGraphicItemProps) => GraphicItemType | Promise<GraphicItemType>)
     /**
      * The function for rendering the image of the quest.
      */
-    get renderImage(): ((props: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
+    get renderImage(): ((props: OnRenderGraphicItemProps) => GraphicItemType | Promise<GraphicItemType>) | undefined {
         let render = this._renderImage
         if (render === undefined) {
             return undefined

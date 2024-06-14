@@ -137,11 +137,12 @@ export default class ActivityModel {
         return this._hidden
     }
 
-    private _renderIcon?: GraphicItemType | ((activity: ActivityModel, props: OnRenderGraphicItemProps) => GraphicItemType)
+    private _renderIcon?: GraphicItemType | Promise<GraphicItemType> |
+        ((activity: ActivityModel, props: OnRenderGraphicItemProps) => GraphicItemType | Promise<GraphicItemType>)
     /**
      * The function for rendering the icon of the activity.
      */
-    get renderIcon(): ((props: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
+    get renderIcon(): ((props: OnRenderGraphicItemProps) => GraphicItemType | Promise<GraphicItemType>) | undefined {
         let render = this._renderIcon
         if (render === undefined) {
             return undefined

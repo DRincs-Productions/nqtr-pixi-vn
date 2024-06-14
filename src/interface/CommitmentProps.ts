@@ -48,7 +48,7 @@ export default interface CommitmentProps<TCharacter extends CharacterBaseModel =
      * ```
      * @default undefined
      */
-    renderImage?: GraphicItemType | ((commitment: CommitmentBaseModel<TCharacter, TRoom>, props: OnRenderGraphicItemProps) => GraphicItemType)
+    renderImage?: GraphicItemType | Promise<GraphicItemType> | ((commitment: CommitmentBaseModel<TCharacter, TRoom>, props: OnRenderGraphicItemProps) => GraphicItemType | Promise<GraphicItemType>)
     /**
      * Execution type. If is "automatic" the onRun() runned automatically when the palayer is in the room. If is "interaction" the player must interact with the character to run the onRun() function.
      * @default "interaction"
@@ -76,7 +76,7 @@ export default interface CommitmentProps<TCharacter extends CharacterBaseModel =
      * The icon element. Can be a string or an Element or a Pixi'VN CanvasItem
      * @default undefined
      */
-    renderIcon?: GraphicItemType | ((commitment: CommitmentBaseModel, props: OnRenderGraphicItemProps) => GraphicItemType)
+    renderIcon?: GraphicItemType | Promise<GraphicItemType> | ((commitment: CommitmentBaseModel, props: OnRenderGraphicItemProps) => GraphicItemType | Promise<GraphicItemType>)
     /**
      * The priority. The higher the number, the higher the priority.
      * To ensure that a character is not in 2 places at the same time, if there are 2 or more valid commits at the same time and with the same character, the one with the highest priority will be chosen.

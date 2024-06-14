@@ -21,7 +21,7 @@ export default interface RoomProps<TLocation extends LocationBaseModel = Locatio
      * ```
      * @default undefined
      */
-    renderImage?: GraphicItemType | ((room: RoomBaseModel<TLocation>, props: OnRenderGraphicItemProps) => GraphicItemType)
+    renderImage?: GraphicItemType | Promise<GraphicItemType> | ((room: RoomBaseModel<TLocation>, props: OnRenderGraphicItemProps) => GraphicItemType | Promise<GraphicItemType>)
     /**
      * The activities that are available in this room.
      * @default []
@@ -41,7 +41,7 @@ export default interface RoomProps<TLocation extends LocationBaseModel = Locatio
      * The icon element. Can be a string or an Element or a Pixi'VN CanvasItem
      * @default undefined
      */
-    renderIcon?: GraphicItemType | ((room: RoomBaseModel<TLocation>, props: OnRenderGraphicItemProps) => GraphicItemType)
+    renderIcon?: GraphicItemType | Promise<GraphicItemType> | ((room: RoomBaseModel<TLocation>, props: OnRenderGraphicItemProps) => GraphicItemType | Promise<GraphicItemType>)
     /**
      * Whether is an entrance room, so when the player enters in the location, it will be the first room to be shown.
      * @default false

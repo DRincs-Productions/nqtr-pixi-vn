@@ -39,11 +39,12 @@ export default class Stage extends StoredClassModel implements StageProps {
         return this._adviceDescription
     }
 
-    private _renderImage?: GraphicItemType | ((room: Stage, props: OnRenderGraphicItemProps) => GraphicItemType)
+    private _renderImage?: GraphicItemType | Promise<GraphicItemType> |
+        ((room: Stage, props: OnRenderGraphicItemProps) => GraphicItemType | Promise<GraphicItemType>)
     /**
      * The function for rendering the image of the stage.
      */
-    get renderImage(): ((props: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
+    get renderImage(): ((props: OnRenderGraphicItemProps) => GraphicItemType | Promise<GraphicItemType>) | undefined {
         let render = this._renderImage
         if (render === undefined) {
             return undefined

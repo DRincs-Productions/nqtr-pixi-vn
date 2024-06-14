@@ -74,11 +74,12 @@ export default class LocationBaseModel<TMap extends MapBaseModel = MapBaseModel>
         this.setStorageProperty("hidden", value)
     }
 
-    private _renderIcon?: GraphicItemType | ((location: LocationBaseModel<TMap>, props: OnRenderGraphicItemProps) => GraphicItemType)
+    private _renderIcon?: GraphicItemType | Promise<GraphicItemType> |
+        ((location: LocationBaseModel<TMap>, props: OnRenderGraphicItemProps) => GraphicItemType | Promise<GraphicItemType>)
     /**
      * The function for rendering the icon of the location.
      */
-    get renderIcon(): ((props: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
+    get renderIcon(): ((props: OnRenderGraphicItemProps) => GraphicItemType | Promise<GraphicItemType>) | undefined {
         let render = this._renderIcon
         if (render === undefined) {
             return undefined
