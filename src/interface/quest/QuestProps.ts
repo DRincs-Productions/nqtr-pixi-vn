@@ -2,7 +2,15 @@ import { GraphicItemType, OnRenderGraphicItemProps } from "@drincs/nqtr/dist/ove
 import { Quest } from "../../classes"
 
 export default interface QuestProps {
+    /**
+     * The name of the quest.
+     * @default ""
+     */
     name?: string
+    /**
+     * The description of the quest.
+     * @default ""
+     */
     description?: string
     /**
      * The icon element. Can be a string or an Element or a Pixi'VN CanvasItem
@@ -24,5 +32,9 @@ export default interface QuestProps {
      * @default undefined
      */
     renderImage?: GraphicItemType | ((room: Quest, props: OnRenderGraphicItemProps) => GraphicItemType)
+    /**
+     * If the quest is in development.
+     * @default false
+     */
     isInDevelopment?: boolean
 }
