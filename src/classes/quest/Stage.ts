@@ -1,3 +1,4 @@
+import { GraphicItemType, OnRenderGraphicItemProps } from "@drincs/nqtr/dist/override";
 import { StoredClassModel, getFlag } from "@drincs/pixi-vn";
 import { StageProps } from "../../interface";
 import { TimeManager } from "../../managers";
@@ -14,7 +15,7 @@ export default class Stage extends StoredClassModel implements StageProps {
         this._flags = props.flags || []
         this._description = props.description || ""
         this._adviceDescription = props.adviceDescription || ""
-        this._image = props.image || ""
+        this._renderImage = props.renderImage || ""
         this._daysRequiredToStart = props.daysRequiredToStart
         this._flagsRequiredToStart = props.flagsRequired
         this._questsRequiredToStart = props.questsRequired
@@ -38,9 +39,21 @@ export default class Stage extends StoredClassModel implements StageProps {
         return this._adviceDescription
     }
 
-    private _image: string
-    get image(): string {
-        return this._image
+    private _renderImage?: GraphicItemType | ((room: Stage, props: OnRenderGraphicItemProps) => GraphicItemType)
+    /**
+     * The function for rendering the image of the stage.
+     */
+    get renderImage(): ((props: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
+        let render = this._renderImage
+        if (render === undefined) {
+            return undefined
+        }
+        if (typeof render === "function") {
+            return (props: OnRenderGraphicItemProps) => {
+                return render(this, props)
+            }
+        }
+        return (props: OnRenderGraphicItemProps) => render
     }
 
     private _defaultGoals: Goal[]
