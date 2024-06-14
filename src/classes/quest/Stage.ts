@@ -93,13 +93,13 @@ export default class Stage extends StoredClassModel implements StageProps {
 
     // function
 
-    private _onStart?: () => void
-    get onStart(): undefined | (() => void) {
+    private _onStart?: () => Promise<void> | void
+    get onStart(): undefined | (() => Promise<void> | void) {
         return this._onStart
     }
 
-    private _onEnd?: () => void
-    get onEnd(): undefined | (() => void) {
+    private _onEnd?: () => Promise<void> | void
+    get onEnd(): undefined | (() => Promise<void> | void) {
         return this._onEnd
     }
 }
