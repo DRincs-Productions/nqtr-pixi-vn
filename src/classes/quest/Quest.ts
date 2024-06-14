@@ -78,7 +78,7 @@ export default class Quest extends StoredClassModel {
         this.setStorageProperty('currentStageIndex', value)
     }
 
-    get currentStage(): Stage | undefined {
+    get currentStage(): StageQuest | undefined {
         let index = this.currentStageIndex
         if (index === undefined || index >= this.stages.length) {
             return undefined
@@ -107,6 +107,35 @@ export default class Quest extends StoredClassModel {
         let currentStage = this.currentStage
         if (currentStage && currentStage.onStart) {
             return currentStage.onStart()
+        }
+        else {
+            console.error(`[NQTR] Quest ${this.id} has no start stage`)
+        }
+    }
+
+    tryToGoNextStage(): void | Promise<void> {
+        if (!this.started) {
+            return
+        }
+        if (this.completed) {
+            return
+        }
+        let currentStage = this.currentStage
+        let currentStageIndex = this.currentStageIndex
+        if (!currentStage || currentStageIndex === undefined) {
+            console.error(`[NQTR] Quest ${this.id} has no current stage`)
+            return
+        }
+        if (currentStage.completed) {
+            let nextStageIndex = currentStageIndex + 1
+            currentStageIndex = nextStageIndex
+            let nextStage = this.currentStage
+            if (currentStage && currentStage.onEnd) {
+                currentStage.onEnd()
+            }
+            if (nextStage && nextStage.onStart) {
+                return nextStage.onStart()
+            }
         }
     }
 }
