@@ -2,13 +2,16 @@ import { StoredClassModel, getFlag } from "@drincs/pixi-vn";
 import { StageProps } from "../../interface";
 import { TimeManager } from "../../managers";
 import { QuestsRequiredType } from "../../types/QuestsRequired";
+import Goal, { GoalStage } from "./Goal";
 
 const STAGE_CATEGORY = "__nqtr-stage__"
 
-export default class StageBaseModel extends StoredClassModel {
+export default class Stage extends StoredClassModel implements StageProps {
     constructor(id: string, props: StageProps) {
         super(STAGE_CATEGORY, id)
         this._name = props.name || ""
+        this._defaultGoals = props.goals || []
+        this._flags = props.flags || []
         this._description = props.description || ""
         this._adviceDescription = props.adviceDescription || ""
         this._image = props.image || ""
@@ -19,8 +22,6 @@ export default class StageBaseModel extends StoredClassModel {
         this._onStart = props.onStart
         this._onEnd = props.onEnd
     }
-
-    // info
 
     private _name: string
     get name(): string {
@@ -42,43 +43,12 @@ export default class StageBaseModel extends StoredClassModel {
         return this._image
     }
 
-    get completed(): boolean {
-        let storedCompleted = this.getStorageProperty<boolean>('completed')
-        if (storedCompleted) {
-            return storedCompleted
-        }
-        if (!this.flags.every(flag => getFlag(flag))) {
-            return false
-        }
-        return true
-    }
-    set completed(value: boolean) {
-        this.setStorageProperty('completed', value)
+    private _defaultGoals: Goal[]
+    get defaultGoals(): Goal[] {
+        return this._defaultGoals
     }
 
-    // values
-
-    // private defaultGoals: Goal[] = []
-    // /**
-    //  * The list of goals that the player needs to complete to finish the stage.
-    //  * This feature is still in development.
-    //  */
-    // get goals(): Goal[] {
-    //     let list = this.getStorageProperty<IGoalMemory[]>('goals')
-    //     if (!list || list.length !== this.defaultGoals.length) {
-    //         return this.defaultGoals
-    //     }
-    //     return this.defaultGoals.map((goal, index) => {
-    //         goal.have = list[index].have
-    //         return goal
-    //     })
-    // }
-    // set goals(value: Goal[]) {
-    //     let list = value.map(goal => goal.export)
-    //     this.setStorageProperty('goals', list)
-    // }
-
-    private _flags: string[] = []
+    private _flags: string[]
     /**
      * The list of flags that the player must complete to finish the stage.
      */
@@ -87,13 +57,6 @@ export default class StageBaseModel extends StoredClassModel {
     }
 
     // request to start
-
-    get prevStageEndDay(): number | undefined {
-        return this.getStorageProperty<number>('prevStageEndDay')
-    }
-    set prevStageEndDay(value: number | undefined) {
-        this.setStorageProperty('prevStageEndDay', value)
-    }
 
     private _daysRequiredToStart?: number
     get daysRequiredToStart(): number {
@@ -113,6 +76,57 @@ export default class StageBaseModel extends StoredClassModel {
     private _requestDescriptionToStart: string
     get requestDescriptionToStart(): string {
         return this._requestDescriptionToStart
+    }
+
+    // function
+
+    private _onStart?: () => void
+    get onStart(): undefined | (() => void) {
+        return this._onStart
+    }
+
+    private _onEnd?: () => void
+    get onEnd(): undefined | (() => void) {
+        return this._onEnd
+    }
+}
+
+export class StageQuest extends Stage {
+    constructor(id: string, props: StageProps) {
+        super(id, props)
+    }
+
+    get completed(): boolean {
+        let storedCompleted = this.getStorageProperty<boolean>('completed')
+        if (storedCompleted) {
+            return storedCompleted
+        }
+        if (!this.flags.every(flag => getFlag(flag))) {
+            return false
+        }
+        if (!this.goals.every(goal => goal.completed)) {
+            return false
+        }
+        return true
+    }
+    set completed(value: boolean) {
+        this.setStorageProperty('completed', value)
+    }
+
+    /**
+     * The list of goals that the player needs to complete to finish the stage.
+     */
+    get goals(): GoalStage[] {
+        return this.defaultGoals.map((goal) => {
+            return new GoalStage(goal.id, this.id, goal)
+        })
+    }
+
+    get prevStageEndDay(): number | undefined {
+        return this.getStorageProperty<number>('prevStageEndDay')
+    }
+    set prevStageEndDay(value: number | undefined) {
+        this.setStorageProperty('prevStageEndDay', value)
     }
 
     get canStart(): boolean {
@@ -135,17 +149,5 @@ export default class StageBaseModel extends StoredClassModel {
             return false
         }
         return true
-    }
-
-    // function
-
-    private _onStart?: () => void
-    get onStart(): undefined | (() => void) {
-        return this._onStart
-    }
-
-    private _onEnd?: () => void
-    get onEnd(): undefined | (() => void) {
-        return this._onEnd
     }
 }

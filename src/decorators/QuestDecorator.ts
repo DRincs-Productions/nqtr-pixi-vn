@@ -1,6 +1,6 @@
-import { QuestBaseModel } from "../classes"
+import { Quest } from "../classes"
 
-export const registeredQuests: { [id: string]: QuestBaseModel } = {}
+export const registeredQuests: { [id: string]: Quest } = {}
 
 /**
  * Save a quest in the registered quests. If the quest already exists, it will be overwritten.
@@ -11,7 +11,7 @@ export const registeredQuests: { [id: string]: QuestBaseModel } = {}
  * saveQuest([mainQuest, aliceQuest, annQuest]);
  * ```
  */
-export function saveQuest<TQuest extends QuestBaseModel = QuestBaseModel>(quest: TQuest | TQuest[]) {
+export function saveQuest(quest: Quest | Quest[]) {
     if (Array.isArray(quest)) {
         quest.forEach(c => saveQuest(c))
         return
@@ -27,14 +27,14 @@ export function saveQuest<TQuest extends QuestBaseModel = QuestBaseModel>(quest:
  * @param id The id of the quest.
  * @returns The quest or undefined if not found.
  */
-export function getQuestById<TQuest extends QuestBaseModel = QuestBaseModel>(id: string): TQuest | undefined {
+export function getQuestById(id: string): Quest | undefined {
     try {
         let quest = registeredQuests[id]
         if (!quest) {
             console.error(`[NQTR] Quest ${id} not found`)
             return
         }
-        return quest as TQuest
+        return quest
     }
     catch (e) {
         console.error(`[NQTR] Error while getting Quest ${id}`, e)

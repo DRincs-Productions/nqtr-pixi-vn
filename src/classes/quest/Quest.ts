@@ -1,12 +1,12 @@
 import { GraphicItemType, OnRenderGraphicItemProps } from "@drincs/nqtr/dist/override";
 import { StoredClassModel } from "@drincs/pixi-vn";
 import { QuestProps } from "../../interface";
-import StageBaseModel from "./Stage";
+import Stage, { StageQuest } from "./Stage";
 
 const QUEST_CATEGORY = "__nqtr-quest__"
 
-export default class QuestBaseModel<TStage extends StageBaseModel = StageBaseModel> extends StoredClassModel {
-    constructor(id: string, stages: TStage[], props: QuestProps) {
+export default class Quest extends StoredClassModel {
+    constructor(id: string, stages: Stage[], props: QuestProps) {
         super(QUEST_CATEGORY, id)
         this._stages = stages
         this._name = props.name || ""
@@ -15,9 +15,11 @@ export default class QuestBaseModel<TStage extends StageBaseModel = StageBaseMod
         this._renderImage = props.renderImage || ""
         this._isInDevelopment = props.isInDevelopment || false
     }
-    private _stages: TStage[]
-    get stages(): TStage[] {
-        return this._stages
+    private _stages: Stage[]
+    get stages(): StageQuest[] {
+        return this._stages.map((stage, index) => {
+            return new StageQuest(stage.id, stage)
+        })
     }
 
     private _name: string
@@ -30,7 +32,7 @@ export default class QuestBaseModel<TStage extends StageBaseModel = StageBaseMod
         return this._description
     }
 
-    private _renderIcon?: GraphicItemType | ((room: QuestBaseModel<TStage>, props: OnRenderGraphicItemProps) => GraphicItemType)
+    private _renderIcon?: GraphicItemType | ((room: Quest, props: OnRenderGraphicItemProps) => GraphicItemType)
     /**
      * The function for rendering the icon of the quest.
      */
@@ -47,7 +49,7 @@ export default class QuestBaseModel<TStage extends StageBaseModel = StageBaseMod
         return (props: OnRenderGraphicItemProps) => render
     }
 
-    private _renderImage?: GraphicItemType | ((room: QuestBaseModel<TStage>, props: OnRenderGraphicItemProps) => GraphicItemType)
+    private _renderImage?: GraphicItemType | ((room: Quest, props: OnRenderGraphicItemProps) => GraphicItemType)
     /**
      * The function for rendering the image of the quest.
      */
@@ -76,7 +78,7 @@ export default class QuestBaseModel<TStage extends StageBaseModel = StageBaseMod
         this.setStorageProperty('currentStageIndex', value)
     }
 
-    get currentStage(): TStage | undefined {
+    get currentStage(): Stage | undefined {
         let index = this.currentStageIndex
         if (index === undefined || index >= this.stages.length) {
             return undefined

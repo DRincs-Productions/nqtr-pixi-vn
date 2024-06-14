@@ -1,3 +1,3 @@
-import { QuestBaseModel } from "../classes";
+import { Quest } from "../classes";
 
-export type QuestsRequiredType<TQuest extends QuestBaseModel = QuestBaseModel> = { quest: TQuest, stageNumber: number }
+export type QuestsRequiredType = { quest: Quest, stageNumber: number }

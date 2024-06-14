@@ -3,6 +3,7 @@ import { QuestsRequiredType } from "../../types"
 
 export default interface StageProps {
     goals?: Goal[]
+    flags?: string[]
     name?: string
     description?: string
     adviceDescription?: string
