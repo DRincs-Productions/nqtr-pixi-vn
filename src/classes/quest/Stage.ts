@@ -16,10 +16,10 @@ export default class Stage extends StoredClassModel implements StageProps {
         this._flags = props.flags || []
         this._description = props.description || ""
         this._adviceDescription = props.adviceDescription || ""
-        this._renderImage = props.renderImage || ""
+        this._renderImage = props.renderImage
         this._daysRequiredToStart = props.daysRequiredToStart
-        this._flagsRequiredToStart = props.flagsRequired
-        this._questsRequiredToStart = props.questsRequired
+        this._flagsRequiredToStart = props.flagsRequired || []
+        this._questsRequiredToStart = props.questsRequired || []
         this._requestDescriptionToStart = props.requestDescription || ""
         this._onStart = props.onStart
         this._onEnd = props.onEnd
@@ -77,12 +77,12 @@ export default class Stage extends StoredClassModel implements StageProps {
         return this._daysRequiredToStart || 0
     }
 
-    private _flagsRequiredToStart?: StageFlags[]
+    private _flagsRequiredToStart: StageFlags[]
     get flagsRequiredToStart(): StageFlags[] {
-        return this._flagsRequiredToStart || []
+        return this._flagsRequiredToStart
     }
 
-    private _questsRequiredToStart?: QuestsRequiredType[]
+    private _questsRequiredToStart: QuestsRequiredType[]
     get questsRequiredToStart(): QuestsRequiredType[] {
         return this._questsRequiredToStart || []
     }

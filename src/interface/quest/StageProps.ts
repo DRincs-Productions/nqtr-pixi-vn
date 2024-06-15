@@ -46,12 +46,30 @@ export default interface StageProps {
     renderImage?: GraphicItemType | ((room: Stage, props: OnRenderGraphicItemProps) => GraphicItemType)
     /**
      * The day required to start the stage.
-     * @example If the value is 3, and the stage sta
+     * @example If the value is 3, and the previous stage ends on day 1, the stage will start on day 4.
      */
     daysRequiredToStart?: number
+    /**
+     * The flags required to start the stage.
+     * @default []
+     */
     flagsRequired?: StageFlags[]
+    /**
+     * The quests required to start the stage.
+     * @default []
+     */
     questsRequired?: QuestsRequiredType[]
+    /**
+     * The description to request to start the stage.
+     * @default ""
+     */
     requestDescription?: string
+    /**
+     * The function that will be executed when the stage starts.
+     */
     onStart?: () => Promise<void> | void
+    /**
+     * The function that will be executed when the stage ends.
+     */
     onEnd?: () => Promise<void> | void
 }

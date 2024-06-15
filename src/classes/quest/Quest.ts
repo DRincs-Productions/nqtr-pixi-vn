@@ -11,8 +11,8 @@ export default class Quest extends StoredClassModel {
         this._stages = stages
         this._name = props.name || ""
         this._description = props.description || ""
-        this._renderIcon = props.renderIcon || ""
-        this._renderImage = props.renderImage || ""
+        this._renderIcon = props.renderIcon
+        this._renderImage = props.renderImage
         this._isInDevelopment = props.isInDevelopment || false
     }
     private _stages: Stage[]
