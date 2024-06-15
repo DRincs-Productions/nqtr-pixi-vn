@@ -67,9 +67,9 @@ export default interface StageProps {
     /**
      * The function that will be executed when the stage starts.
      */
-    onStart?: () => Promise<void> | void
+    onStart?: () => void
     /**
      * The function that will be executed when the stage ends.
      */
-    onEnd?: () => Promise<void> | void
+    onEnd?: () => void
 }

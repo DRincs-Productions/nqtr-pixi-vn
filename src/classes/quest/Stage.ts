@@ -94,13 +94,13 @@ export default class Stage extends StoredClassModel implements StageProps {
 
     // function
 
-    private _onStart?: () => Promise<void> | void
-    get onStart(): undefined | (() => Promise<void> | void) {
+    private _onStart?: () => void
+    get onStart(): undefined | (() => void) {
         return this._onStart
     }
 
-    private _onEnd?: () => Promise<void> | void
-    get onEnd(): undefined | (() => Promise<void> | void) {
+    private _onEnd?: () => void
+    get onEnd(): undefined | (() => void) {
         return this._onEnd
     }
 }
@@ -173,7 +173,7 @@ export class StageQuest extends Stage {
         return true
     }
 
-    get onStart(): undefined | (() => Promise<void> | void) {
+    get onStart(): undefined | (() => void) {
         if (this.daysRequiredToStart > 0) {
             this.prevStageEndDay = TimeManager.currentDay
         }

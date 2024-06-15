@@ -94,7 +94,7 @@ export default class Quest extends StoredClassModel {
         return this.currentStageIndex === this.stages.length
     }
 
-    start(): void | Promise<void> {
+    start(): void {
         if (this.started) {
             console.warn(`[NQTR] Quest ${this.id} is already started`)
             return
@@ -113,7 +113,7 @@ export default class Quest extends StoredClassModel {
         }
     }
 
-    tryToGoNextStage(): void | Promise<void> {
+    tryToGoNextStage(): void {
         if (!this.started) {
             return
         }
