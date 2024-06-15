@@ -12,6 +12,9 @@ export default class Goal extends StoredClassModel implements GoalProps {
     }
 
     private _description: string
+    /**
+     * The description of the goal.
+     */
     get description(): string {
         return this._description
     }

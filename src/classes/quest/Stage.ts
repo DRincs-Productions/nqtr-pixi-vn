@@ -1,6 +1,7 @@
 import { GraphicItemType, OnRenderGraphicItemProps } from "@drincs/nqtr/dist/override";
 import { StoredClassModel, getFlag } from "@drincs/pixi-vn";
 import { StageProps } from "../../interface";
+import StageFlags from "../../interface/quest/StageFlags";
 import { TimeManager } from "../../managers";
 import { QuestsRequiredType } from "../../types/QuestsRequired";
 import Goal, { GoalStage } from "./Goal";
@@ -61,11 +62,11 @@ export default class Stage extends StoredClassModel implements StageProps {
         return this._defaultGoals
     }
 
-    private _flags: string[]
+    private _flags: StageFlags[]
     /**
      * The list of flags that the player must complete to finish the stage.
      */
-    get flags(): string[] {
+    get flags(): StageFlags[] {
         return this._flags
     }
 
@@ -76,8 +77,8 @@ export default class Stage extends StoredClassModel implements StageProps {
         return this._daysRequiredToStart || 0
     }
 
-    private _flagsRequiredToStart?: string[]
-    get flagsRequiredToStart(): string[] {
+    private _flagsRequiredToStart?: StageFlags[]
+    get flagsRequiredToStart(): StageFlags[] {
         return this._flagsRequiredToStart || []
     }
 
@@ -114,7 +115,7 @@ export class StageQuest extends Stage {
         if (storedCompleted) {
             return storedCompleted
         }
-        if (!this.flags.every(flag => getFlag(flag))) {
+        if (!this.flags.every(flag => getFlag(flag.flag))) {
             return false
         }
         if (!this.goals.every(goal => goal.completed)) {
@@ -135,11 +136,19 @@ export class StageQuest extends Stage {
         })
     }
 
-    get prevStageEndDay(): number | undefined {
+    private get prevStageEndDay(): number | undefined {
         return this.getStorageProperty<number>('prevStageEndDay')
     }
-    set prevStageEndDay(value: number | undefined) {
+    private set prevStageEndDay(value: number | undefined) {
         this.setStorageProperty('prevStageEndDay', value)
+    }
+
+    get startDay(): number | undefined {
+        let prevStageEndDay = this.prevStageEndDay
+        if (prevStageEndDay === undefined) {
+            return undefined
+        }
+        return prevStageEndDay + this.daysRequiredToStart
     }
 
     get canStart(): boolean {
@@ -153,7 +162,7 @@ export class StageQuest extends Stage {
                 return false
             }
         }
-        if (this.flagsRequiredToStart.length > 0 && !this.flagsRequiredToStart.every(flag => getFlag(flag))) {
+        if (this.flagsRequiredToStart.length > 0 && !this.flagsRequiredToStart.every(flag => getFlag(flag.flag))) {
             return false
         }
         if (this.questsRequiredToStart.length > 0 && !this.questsRequiredToStart.every(q =>
@@ -162,5 +171,12 @@ export class StageQuest extends Stage {
             return false
         }
         return true
+    }
+
+    get onStart(): undefined | (() => Promise<void> | void) {
+        if (this.daysRequiredToStart > 0) {
+            this.prevStageEndDay = TimeManager.currentDay
+        }
+        return super.onStart
     }
 }
