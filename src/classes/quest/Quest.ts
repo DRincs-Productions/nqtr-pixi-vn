@@ -116,7 +116,7 @@ export default class Quest extends StoredClassModel {
      * If the quest is completed.
      */
     get completed(): boolean {
-        return this.currentStageIndex === this.stages.length
+        return this.currentStageIndex === this.stages.length - 1
     }
 
     /**
