@@ -77,6 +77,27 @@ export function addCommitment<TCommitment extends CommitmentBaseModel = Commitme
 }
 
 /**
+ * Remove the commitments added during the game session.
+ * @param commitment The commitment or commitments to remove.
+ * @returns 
+ */
+export function removeCommitment<TCommitment extends CommitmentBaseModel = CommitmentBaseModel>(commitment: TCommitment[] | TCommitment) {
+    if (!Array.isArray(commitment)) {
+        commitment = [commitment]
+    }
+    let commitmentsIds = commitment.map(commitment => {
+        return commitment.id
+    })
+
+    let currentCommitments = GameStorageManager.getVariable<string[]>(TEMPORARY_COMMITMENT_CATEGORY_MEMORY_KEY)
+    if (!currentCommitments) {
+        return
+    }
+    currentCommitments = currentCommitments.filter(id => !commitmentsIds.includes(id))
+    GameStorageManager.setVariable(TEMPORARY_COMMITMENT_CATEGORY_MEMORY_KEY, currentCommitments)
+}
+
+/**
  * Get the fixed commitments by its id.
  * @returns The fixed commitments.
  */
