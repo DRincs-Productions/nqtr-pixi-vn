@@ -170,7 +170,6 @@ export default class CommitmentBaseModel<TCharacter extends CharacterBaseModel =
     get run(): undefined | ((props: OnRunProps) => void) {
         let onRun = this._onRun
         if (!onRun) {
-            console.warn("[NQTR] onRun() is not defined for commitmen, so it will not run.", this)
             return
         }
         return (props) => onRun(this, props)
