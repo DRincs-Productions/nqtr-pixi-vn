@@ -1,25 +1,23 @@
-import { Quest } from "../classes"
+import { Stage } from "../classes"
+import Quest from "../classes/quest/Quest"
+import { QuestProps } from "../interface"
 
 export const registeredQuests: { [id: string]: Quest } = {}
 
 /**
- * Save a quest in the registered quests. If the quest already exists, it will be overwritten.
- * @param quest The quest to save.
- * @returns 
- * @example
- * ```ts
- * saveQuest([mainQuest, aliceQuest, annQuest]);
- * ```
+ * Creates a new quest and registers it in the system
+ * @param id The id of the quest, it must be unique
+ * @param stages The stages of the quest
+ * @param onStepRun is a function that will be executed before any step is executed, is useful for example to make sure all images used have been cached
+ * @returns The created quest
  */
-export function saveQuest(quest: Quest | Quest[]) {
-    if (Array.isArray(quest)) {
-        quest.forEach(c => saveQuest(c))
-        return
+export function newQuest(id: string, stages: Stage[], props: QuestProps): Quest {
+    if (registeredQuests[id]) {
+        console.warn(`[NQTR] Quest ${id} already exists, it will be overwritten`)
     }
-    if (registeredQuests[quest.id]) {
-        console.warn(`[NQTR] Quest id ${quest.id} already exists, it will be overwritten`)
-    }
-    registeredQuests[quest.id] = quest
+    let quest = new Quest(id, stages, props)
+    registeredQuests[id] = quest
+    return quest
 }
 
 /**
