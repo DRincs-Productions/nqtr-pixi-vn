@@ -140,7 +140,7 @@ export abstract class ActivityStoredAbstract {
     /**
      * The function that is called when the activity is runned.
      */
-    get onRun(): (props: OnRunProps) => void {
+    get run(): (props: OnRunProps) => void {
         return (props) => { return this._onRun(this, props) }
     }
 

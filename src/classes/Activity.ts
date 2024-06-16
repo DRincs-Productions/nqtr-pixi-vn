@@ -161,7 +161,7 @@ export default class ActivityModel {
     /**
      * The function that is called when the activity is runned.
      */
-    get onRun(): (props: OnRunProps) => void {
+    get run(): (props: OnRunProps) => void {
         return (props) => this._onRun(this, props)
     }
 
