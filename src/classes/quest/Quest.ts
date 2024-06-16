@@ -1,4 +1,4 @@
-import { GraphicItemType, OnRenderGraphicItemProps } from "@drincs/nqtr/dist/override";
+import { GraphicItemType, OnEndStage, OnRenderGraphicItemProps, OnStartStage } from "@drincs/nqtr/dist/override";
 import { StoredClassModel } from "@drincs/pixi-vn";
 import { QuestProps } from "../../interface";
 import Stage, { StageQuest } from "./Stage";
@@ -94,7 +94,7 @@ export default class Quest extends StoredClassModel {
         return this.currentStageIndex === this.stages.length
     }
 
-    start(): void {
+    start(props: OnStartStage): void {
         if (this.started) {
             console.warn(`[NQTR] Quest ${this.id} is already started`)
             return
@@ -106,14 +106,17 @@ export default class Quest extends StoredClassModel {
         this.currentStageIndex = 0
         let currentStage = this.currentStage
         if (currentStage && currentStage.onStart) {
-            return currentStage.onStart()
+            return currentStage.onStart(props)
         }
         else {
             console.error(`[NQTR] Quest ${this.id} has no start stage`)
         }
     }
 
-    tryToGoNextStage(): void {
+    tryToGoNextStage(
+        startProps: OnStartStage,
+        endProps: OnEndStage
+    ): void {
         if (!this.started) {
             return
         }
@@ -131,10 +134,10 @@ export default class Quest extends StoredClassModel {
             currentStageIndex = nextStageIndex
             let nextStage = this.currentStage
             if (currentStage && currentStage.onEnd) {
-                currentStage.onEnd()
+                currentStage.onEnd(endProps)
             }
             if (nextStage && nextStage.onStart) {
-                return nextStage.onStart()
+                return nextStage.onStart(startProps)
             }
         }
     }

@@ -1,4 +1,4 @@
-import { GraphicItemType, OnRenderGraphicItemProps } from "@drincs/nqtr/dist/override";
+import { GraphicItemType, OnEndStage, OnRenderGraphicItemProps, OnStartStage } from "@drincs/nqtr/dist/override";
 import { StoredClassModel, getFlag } from "@drincs/pixi-vn";
 import { StageProps } from "../../interface";
 import StageFlags from "../../interface/quest/StageFlags";
@@ -94,13 +94,13 @@ export default class Stage extends StoredClassModel implements StageProps {
 
     // function
 
-    private _onStart?: () => void
-    get onStart(): undefined | (() => void) {
+    private _onStart?: (props: OnStartStage) => void
+    get onStart(): undefined | ((props: OnStartStage) => void) {
         return this._onStart
     }
 
-    private _onEnd?: () => void
-    get onEnd(): undefined | (() => void) {
+    private _onEnd?: (props: OnEndStage) => void
+    get onEnd(): undefined | ((props: OnEndStage) => void) {
         return this._onEnd
     }
 }
@@ -173,7 +173,7 @@ export class StageQuest extends Stage {
         return true
     }
 
-    get onStart(): undefined | (() => void) {
+    get onStart(): undefined | ((props: OnStartStage) => void) {
         if (this.daysRequiredToStart > 0) {
             this.prevStageEndDay = TimeManager.currentDay
         }
