@@ -73,7 +73,7 @@ export function addCommitment<TCommitment extends CommitmentBaseModel = Commitme
         return commitment.id
     }).filter(id => id !== undefined)
 
-    GameStorageManager.setVariable(TEMPORARY_COMMITMENT_CATEGORY_MEMORY_KEY, [commitmentsIds])
+    GameStorageManager.setVariable(TEMPORARY_COMMITMENT_CATEGORY_MEMORY_KEY, commitmentsIds)
 }
 
 /**
