@@ -51,6 +51,7 @@ export default interface CommitmentProps<TCharacter extends CharacterBaseModel =
     renderImage?: GraphicItemType | ((commitment: CommitmentBaseModel<TCharacter, TRoom>, props: OnRenderGraphicItemProps) => GraphicItemType)
     /**
      * Execution type. If is "automatic" the onRun() runned automatically when the palayer is in the room. If is "interaction" the player must interact with the character to run the onRun() function.
+     * If you set "automatic" remember to remove the commitment when it is no longer needed, because otherwise it repeats itself every time.
      * @default "interaction"
      */
     executionType?: ExecutionType
