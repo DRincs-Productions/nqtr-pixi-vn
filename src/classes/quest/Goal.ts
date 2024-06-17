@@ -20,11 +20,17 @@ export default class Goal extends StoredClassModel implements GoalProps {
     }
 
     private _need: number
+    /**
+     * The number of times the goal must be completed.
+     */
     get need(): number {
         return this._need
     }
 
     private _defaultHave: number
+    /**
+     * The default number of times the goal has been completed.
+     */
     get defaultHave(): number {
         return this._defaultHave
     }
@@ -37,6 +43,9 @@ export class GoalStage extends Goal {
     }
 
     private _stageId?: string
+    /**
+     * The id of the stage that the goal belongs to.
+     */
     get stageId(): string | undefined {
         return this._stageId
     }
@@ -44,6 +53,9 @@ export class GoalStage extends Goal {
         this._stageId = value
     }
 
+    /**
+     * The number of times the goal has been completed.
+     */
     get have(): number {
         return this.getStorageProperty<number>('have-' + this._stageId) || this.defaultHave
     }
@@ -55,6 +67,9 @@ export class GoalStage extends Goal {
         this.setStorageProperty('have-' + this._stageId, value)
     }
 
+    /**
+     * If the goal is completed.
+     */
     get completed(): boolean {
         return this.have >= this.need
     }
@@ -65,6 +80,10 @@ export class GoalStage extends Goal {
             console.warn(`[NQTR] The goal can't be set as not completed. You must edit the have value manually.`)
         }
     }
+
+    /**
+     * Find the goal. It will increment the have value.
+     */
     find(): void {
         this.have++
     }
