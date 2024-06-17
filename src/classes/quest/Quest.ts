@@ -119,7 +119,7 @@ export default class Quest extends StoredClassModel {
         if (this.currentStageIndex === undefined) {
             return false
         }
-        return this.currentStageIndex >= this.stages.length - 1
+        return this.currentStageIndex > this.stages.length - 1
     }
 
     /**
