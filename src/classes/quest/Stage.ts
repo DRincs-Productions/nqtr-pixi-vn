@@ -26,16 +26,25 @@ export default class Stage extends StoredClassModel implements StageProps {
     }
 
     private _name: string
+    /**
+     * The name of the stage.
+     */
     get name(): string {
         return this._name
     }
 
     private _description: string
+    /**
+     * The description of the stage.
+     */
     get description(): string {
         return this._description
     }
 
     private _adviceDescription: string
+    /**
+     * The advice description of the stage.
+     */
     get adviceDescription(): string {
         return this._adviceDescription
     }
@@ -58,6 +67,10 @@ export default class Stage extends StoredClassModel implements StageProps {
     }
 
     private _defaultGoals: Goal[]
+    /**
+     * The list of goals that the player needs to complete to finish the stage.
+     * This is the list set by the developer. if you want to get the current goals, use the goals property.
+     */
     get defaultGoals(): Goal[] {
         return this._defaultGoals
     }
@@ -73,21 +86,33 @@ export default class Stage extends StoredClassModel implements StageProps {
     // request to start
 
     private _daysRequiredToStart?: number
+    /**
+     * The number of days required to start the stage.
+     */
     get daysRequiredToStart(): number {
         return this._daysRequiredToStart || 0
     }
 
     private _flagsRequiredToStart: StageFlags[]
+    /**
+     * The list of flags required to start the stage.
+     */
     get flagsRequiredToStart(): StageFlags[] {
         return this._flagsRequiredToStart
     }
 
     private _questsRequiredToStart: QuestsRequiredType[]
+    /**
+     * The list of quests required to start the stage.
+     */
     get questsRequiredToStart(): QuestsRequiredType[] {
         return this._questsRequiredToStart || []
     }
 
     private _requestDescriptionToStart: string
+    /**
+     * The description of the request to start the stage.
+     */
     get requestDescriptionToStart(): string {
         return this._requestDescriptionToStart
     }
@@ -95,11 +120,17 @@ export default class Stage extends StoredClassModel implements StageProps {
     // function
 
     private _onStart?: (props: OnStartStage) => void
+    /**
+     * The function that will be called when the stage starts.
+     */
     get onStart(): undefined | ((props: OnStartStage) => void) {
         return this._onStart
     }
 
     private _onEnd?: (props: OnEndStage) => void
+    /**
+     * The function that will be called when the stage ends.
+     */
     get onEnd(): undefined | ((props: OnEndStage) => void) {
         return this._onEnd
     }
@@ -110,6 +141,10 @@ export class StageQuest extends Stage {
         super(id, props)
     }
 
+    /**
+     * Check if the flag and goals are completed.
+     * You can force the completion of the stage by setting the completed property to true.
+     */
     get completed(): boolean {
         let storedCompleted = this.getStorageProperty<boolean>('completed')
         if (storedCompleted) {
@@ -143,6 +178,9 @@ export class StageQuest extends Stage {
         this.setStorageProperty('prevStageEndDay', value)
     }
 
+    /**
+     * The day when the stage starts.
+     */
     get startDay(): number | undefined {
         let prevStageEndDay = this.prevStageEndDay
         if (prevStageEndDay === undefined) {
@@ -151,6 +189,9 @@ export class StageQuest extends Stage {
         return prevStageEndDay + this.daysRequiredToStart
     }
 
+    /**
+     * Check if the stage can start.
+     */
     get canStart(): boolean {
         let daysRequired = this.daysRequiredToStart
         if (daysRequired > 0) {
@@ -173,6 +214,9 @@ export class StageQuest extends Stage {
         return true
     }
 
+    /**
+     * The function that will be called when the stage starts.
+     */
     get onStart(): undefined | ((props: OnStartStage) => void) {
         if (this.daysRequiredToStart > 0) {
             this.prevStageEndDay = TimeManager.currentDay
