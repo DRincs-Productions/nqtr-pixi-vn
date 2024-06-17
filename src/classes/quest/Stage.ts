@@ -150,13 +150,16 @@ export class StageQuest extends Stage {
         if (storedCompleted) {
             return storedCompleted
         }
-        if (!this.flags.every(flag => getFlag(flag.flag))) {
-            return false
+        if (this.flags.length > 0 && this.goals.length > 0) {
+            if (!this.flags.every(flag => getFlag(flag.flag))) {
+                return false
+            }
+            if (!this.goals.every(goal => goal.completed)) {
+                return false
+            }
+            return true
         }
-        if (!this.goals.every(goal => goal.completed)) {
-            return false
-        }
-        return true
+        return false
     }
     set completed(value: boolean) {
         this.setStorageProperty('completed', value)

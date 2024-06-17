@@ -116,7 +116,10 @@ export default class Quest extends StoredClassModel {
      * If the quest is completed.
      */
     get completed(): boolean {
-        return this.currentStageIndex === this.stages.length - 1
+        if (this.currentStageIndex === undefined) {
+            return false
+        }
+        return this.currentStageIndex >= this.stages.length - 1
     }
 
     /**
@@ -144,7 +147,8 @@ export default class Quest extends StoredClassModel {
     }
 
     /**
-     * Try to go to the next stage.
+     * Go to the next stage if the current stage is completed.
+     * If you want to force the change of stage, use goNextStage.
      * @param startProps The properties for the start stage. If you not want to pass any property, you can pass an {}.
      * @param endProps The properties for the end stage. If you not want to pass any property, you can pass an {}.
      * @returns true if the stage was changed, false otherwise.
@@ -160,23 +164,50 @@ export default class Quest extends StoredClassModel {
             return false
         }
         let currentStage = this.currentStage
+        if (!currentStage) {
+            console.error(`[NQTR] Quest ${this.id} has no current stage`)
+            return false
+        }
+        if (currentStage.completed) {
+            return this.goNextStage(startProps, endProps)
+        }
+        return false
+    }
+
+    /**
+     * Go to the next stage without checking if the current stage is completed.
+     * If you want to go to the next stage only if the current stage is completed, use tryToGoNextStage.
+     * @param startProps 
+     * @param endProps 
+     * @returns 
+     */
+    goNextStage(
+        startProps: OnStartStage,
+        endProps: OnEndStage
+    ): boolean {
+        if (!this.started) {
+            console.warn(`[NQTR] Quest ${this.id} is not started`)
+            return false
+        }
+        if (this.completed) {
+            console.warn(`[NQTR] Quest ${this.id} is already completed`)
+            return false
+        }
+        let currentStage = this.currentStage
         let currentStageIndex = this.currentStageIndex
         if (!currentStage || currentStageIndex === undefined) {
             console.error(`[NQTR] Quest ${this.id} has no current stage`)
             return false
         }
-        if (currentStage.completed) {
-            let nextStageIndex = currentStageIndex + 1
-            currentStageIndex = nextStageIndex
-            let nextStage = this.currentStage
-            if (currentStage && currentStage.onEnd) {
-                currentStage.onEnd(endProps)
-            }
-            if (nextStage && nextStage.onStart) {
-                nextStage.onStart(startProps)
-            }
-            return true
+        let nextStageIndex = currentStageIndex + 1
+        this.currentStageIndex = nextStageIndex
+        let nextStage = this.currentStage
+        if (currentStage && currentStage.onEnd) {
+            currentStage.onEnd(endProps)
         }
-        return false
+        if (nextStage && nextStage.onStart) {
+            nextStage.onStart(startProps)
+        }
+        return true
     }
 }
