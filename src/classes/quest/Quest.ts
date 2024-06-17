@@ -175,11 +175,31 @@ export default class Quest extends StoredClassModel {
     }
 
     /**
+     * Complete the current stage and go to the next stage.
+     * If you want to go to the next stage only if the current stage is completed, use tryToGoNextStage.
+     * @param startProps The properties for the start stage. If you not want to pass any property, you can pass an {}.
+     * @param endProps The properties for the end stage. If you not want to pass any property, you can pass an {}.
+     * @returns true if the stage was changed, false otherwise.
+     */
+    completeCurrentStageAndGoNext(
+        startProps: OnStartStage,
+        endProps: OnEndStage
+    ): boolean {
+        let currentStage = this.currentStage
+        if (!currentStage) {
+            console.error(`[NQTR] Quest ${this.id} has no current stage`)
+            return false
+        }
+        currentStage.completed = true
+        return this.goNextStage(startProps, endProps)
+    }
+
+    /**
      * Go to the next stage without checking if the current stage is completed.
      * If you want to go to the next stage only if the current stage is completed, use tryToGoNextStage.
      * @param startProps 
      * @param endProps 
-     * @returns 
+     * @returns returns true if the stage was changed, false otherwise.
      */
     goNextStage(
         startProps: OnStartStage,
