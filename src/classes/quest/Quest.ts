@@ -15,7 +15,11 @@ export default class Quest extends StoredClassModel {
         this._renderImage = props.renderImage
         this._isInDevelopment = props.isInDevelopment || false
     }
+
     private _stages: Stage[]
+    /**
+     * The stages of the quest.
+     */
     get stages(): StageQuest[] {
         return this._stages.map((stage, index) => {
             return new StageQuest(stage.id, stage)
@@ -23,11 +27,17 @@ export default class Quest extends StoredClassModel {
     }
 
     private _name: string
+    /**
+     * The name of the quest.
+     */
     get name(): string {
         return this._name
     }
 
     private _description: string
+    /**
+     * The description of the quest.
+     */
     get description(): string {
         return this._description
     }
@@ -67,10 +77,16 @@ export default class Quest extends StoredClassModel {
     }
 
     private _isInDevelopment: boolean
+    /**
+     * If the quest is in development.
+     */
     get isInDevelopment(): boolean {
         return this._isInDevelopment
     }
 
+    /**
+     * The index of the current stage.
+     */
     get currentStageIndex(): number | undefined {
         return this.getStorageProperty<number>('currentStageIndex')
     }
@@ -78,6 +94,9 @@ export default class Quest extends StoredClassModel {
         this.setStorageProperty('currentStageIndex', value)
     }
 
+    /**
+     * The current stage.
+     */
     get currentStage(): StageQuest | undefined {
         let index = this.currentStageIndex
         if (index === undefined || index >= this.stages.length) {
@@ -86,14 +105,25 @@ export default class Quest extends StoredClassModel {
         return this.stages[index]
     }
 
+    /**
+     * If the quest is started.
+     */
     get started(): boolean {
         return this.currentStageIndex !== undefined
     }
 
+    /**
+     * If the quest is completed.
+     */
     get completed(): boolean {
         return this.currentStageIndex === this.stages.length
     }
 
+    /**
+     * Start the quest.
+     * @param props The properties for the start stage. If you not want to pass any property, you can pass an {}.
+     * @returns 
+     */
     start(props: OnStartStage): void {
         if (this.started) {
             console.warn(`[NQTR] Quest ${this.id} is already started`)
@@ -113,21 +143,27 @@ export default class Quest extends StoredClassModel {
         }
     }
 
+    /**
+     * Try to go to the next stage.
+     * @param startProps The properties for the start stage. If you not want to pass any property, you can pass an {}.
+     * @param endProps The properties for the end stage. If you not want to pass any property, you can pass an {}.
+     * @returns true if the stage was changed, false otherwise.
+     */
     tryToGoNextStage(
         startProps: OnStartStage,
         endProps: OnEndStage
-    ): void {
+    ): boolean {
         if (!this.started) {
-            return
+            return false
         }
         if (this.completed) {
-            return
+            return false
         }
         let currentStage = this.currentStage
         let currentStageIndex = this.currentStageIndex
         if (!currentStage || currentStageIndex === undefined) {
             console.error(`[NQTR] Quest ${this.id} has no current stage`)
-            return
+            return false
         }
         if (currentStage.completed) {
             let nextStageIndex = currentStageIndex + 1
@@ -137,8 +173,10 @@ export default class Quest extends StoredClassModel {
                 currentStage.onEnd(endProps)
             }
             if (nextStage && nextStage.onStart) {
-                return nextStage.onStart(startProps)
+                nextStage.onStart(startProps)
             }
+            return true
         }
+        return false
     }
 }
