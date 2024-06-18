@@ -9,7 +9,7 @@ export const registeredQuests: { [id: string]: Quest } = {}
  * **This function must be called at least once at system startup to register the quest, otherwise the system cannot be used.**
  * @param id The id of the quest, it must be unique
  * @param stages The stages of the quest
- * @param onStepRun is a function that will be executed before any step is executed, is useful for example to make sure all images used have been cached
+ * @param props The quest properties
  * @returns The created quest
  */
 export function newQuest(id: string, stages: Stage[], props: QuestProps): Quest {

@@ -1,25 +1,24 @@
 import { ActivityModel } from "../classes"
+import { ActivityProps } from "../interface"
+import { OnRunActivityEvent } from "../types/OnRunActivityEvent"
 
 export const registeredActivities: { [id: string]: ActivityModel } = {}
 
 /**
- * Save an activity in the registered activities. If the activity already exists, it will be overwritten.
- * @param activity The activity to save.
- * @returns 
- * @example
- * ```ts
- * saveActivity([nap, sleep, eat, study, work, exercise]);
- * ```
+ * Creates a new activity and registers it in the system.
+ * **This function must be called at least once at system startup to register the activity, otherwise the system cannot be used.**
+ * @param id The activity id, that must be unique.
+ * @param onRun The function that is called when the activity is runned. Have 2 parameters: the runned activity and the yourParams object, that is an object with the parameters that you want to pass to the onRun function.
+ * @param props The activity properties.
+ * @returns The created activity
  */
-export function saveActivity(activity: ActivityModel | ActivityModel[]) {
-    if (Array.isArray(activity)) {
-        activity.forEach(c => saveActivity(c))
-        return
+export function newActivity(id: string, onRun: OnRunActivityEvent<ActivityModel>, props: ActivityProps): ActivityModel {
+    if (registeredActivities[id]) {
+        console.warn(`[NQTR] Activity ${id} already exists, it will be overwritten`)
     }
-    if (registeredActivities[activity.id]) {
-        console.warn(`[NQTR] Activity id ${activity.id} already exists, it will be overwritten`)
-    }
-    registeredActivities[activity.id] = activity
+    let activity = new ActivityModel(id, onRun, props)
+    registeredActivities[id] = activity
+    return activity
 }
 
 /**
