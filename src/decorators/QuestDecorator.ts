@@ -5,7 +5,8 @@ import { QuestProps } from "../interface"
 export const registeredQuests: { [id: string]: Quest } = {}
 
 /**
- * Creates a new quest and registers it in the system
+ * Creates a new quest and registers it in the system.
+ * **This function must be called at least once at system startup to register the quest, otherwise the system cannot be used.**
  * @param id The id of the quest, it must be unique
  * @param stages The stages of the quest
  * @param onStepRun is a function that will be executed before any step is executed, is useful for example to make sure all images used have been cached
