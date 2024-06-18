@@ -1,4 +1,3 @@
-export { default as ActivityModel } from './Activity';
 export { default as CommitmentBaseModel } from './Commitment';
 export { default as ActivityRoom } from './navigation/ActivityRoom';
 export { default as LocationBaseModel } from './navigation/Location';

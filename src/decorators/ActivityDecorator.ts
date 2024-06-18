@@ -1,4 +1,4 @@
-import { ActivityModel } from "../classes"
+import ActivityModel from "../classes/Activity"
 import { ActivityProps } from "../interface"
 import { OnRunActivityEvent } from "../types/OnRunActivityEvent"
 
