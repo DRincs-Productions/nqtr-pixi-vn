@@ -226,6 +226,9 @@ export default class Quest extends StoredClassModel {
         let nextCurrentStage = this.currentStage
         if (nextCurrentStage) {
             nextCurrentStage.inizialize()
+            if (this.currentStageMustStart) {
+                this.startCurrentStage(startProps)
+            }
         }
 
         return true
