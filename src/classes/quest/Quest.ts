@@ -138,8 +138,8 @@ export default class Quest extends StoredClassModel {
         }
         this.currentStageIndex = 0
         let currentStage = this.currentStage
-        if (currentStage && currentStage.onStart) {
-            return currentStage.onStart(props)
+        if (currentStage && currentStage.start) {
+            return currentStage.start(props)
         }
         else {
             console.error(`[NQTR] Quest ${this.id} has no start stage`)
@@ -213,21 +213,39 @@ export default class Quest extends StoredClassModel {
             console.warn(`[NQTR] Quest ${this.id} is already completed`)
             return false
         }
-        let currentStage = this.currentStage
+        let prevStage = this.currentStage
         let currentStageIndex = this.currentStageIndex
-        if (!currentStage || currentStageIndex === undefined) {
+        if (!prevStage || currentStageIndex === undefined) {
             console.error(`[NQTR] Quest ${this.id} has no current stage`)
             return false
         }
-        let nextStageIndex = currentStageIndex + 1
-        this.currentStageIndex = nextStageIndex
-        let nextStage = this.currentStage
-        if (currentStage && currentStage.onEnd) {
-            currentStage.onEnd(endProps)
+        this.currentStageIndex = currentStageIndex + 1
+        if (prevStage && prevStage.onEnd) {
+            prevStage.onEnd(endProps)
         }
-        if (nextStage && nextStage.onStart) {
-            nextStage.onStart(startProps)
+        let nextCurrentStage = this.currentStage
+        if (nextCurrentStage) {
+            nextCurrentStage.inizialize()
         }
+
         return true
+    }
+
+    get currentStageMustStart(): boolean {
+        let currentStage = this.currentStage
+        if (!currentStage) {
+            return false
+        }
+        return !currentStage.started && currentStage.canStart && !currentStage.completed
+    }
+
+    startCurrentStage(props: OnStartStage): void {
+        let newCurrentStage = this.currentStage
+        if (newCurrentStage && this.currentStageMustStart) {
+            newCurrentStage.start(props)
+        }
+        else {
+            console.warn(`[NQTR] Quest ${this.id} can't start the current stage`)
+        }
     }
 }

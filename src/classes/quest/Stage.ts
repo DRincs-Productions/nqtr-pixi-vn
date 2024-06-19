@@ -228,15 +228,27 @@ export class StageQuest extends Stage {
     }
 
     /**
-     * The function that will be called when the stage starts.
+     * Inizialize the stage. **This function should be called only by the Quest class.**
      */
-    get onStart(): undefined | ((props: OnStartStage) => void) {
+    inizialize() {
         if (this.daysRequiredToStart > 0) {
             this.prevStageEndDay = TimeManager.currentDay
+            console.log(`[NQTR] Stage ${this.id} will start on day ${this.startDay}`)
         }
+    }
+
+    /**
+     * The function that will be called when the stage starts.
+     */
+    start(props: OnStartStage) {
         if (this.canStart) {
             this.started = true
-            return super.onStart
+            if (this.onStart) {
+                this.onStart(props)
+            }
+        }
+        else {
+            console.warn(`[NQTR] Stage ${this.id} can't start`)
         }
     }
 }
