@@ -166,6 +166,16 @@ export class StageQuest extends Stage {
     }
 
     /**
+     * If the stage is started.
+     */
+    get started(): boolean {
+        return this.getStorageProperty<boolean>('started') || false
+    }
+    set started(value: boolean) {
+        this.setStorageProperty('started', value)
+    }
+
+    /**
      * The list of goals that the player needs to complete to finish the stage.
      */
     get goals(): GoalStage[] {
@@ -224,6 +234,9 @@ export class StageQuest extends Stage {
         if (this.daysRequiredToStart > 0) {
             this.prevStageEndDay = TimeManager.currentDay
         }
-        return super.onStart
+        if (this.canStart) {
+            this.started = true
+            return super.onStart
+        }
     }
 }
