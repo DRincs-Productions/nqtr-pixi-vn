@@ -1,6 +1,7 @@
 import { CharacterBaseModel } from "@drincs/pixi-vn";
 import CommitmentBaseModel from "../classes/Commitment";
 import { getFixedRoutine, getTemporaryCommitments, registeredCommitments } from "../decorators/CommitmentDecorator";
+import { getCurrentRoom } from "./NavigationFunctions";
 
 /**
  * Clear all the expired commitments.
@@ -57,6 +58,14 @@ export function getCurrentRoutine<TCommitment extends CommitmentBaseModel = Comm
         }
     })
     return Object.values(character_commitments)
+}
+
+export function getCurrentRoomRoutine<TCommitment extends CommitmentBaseModel = CommitmentBaseModel>(): TCommitment[] {
+    let room = getCurrentRoom()
+    if (!room) {
+        return []
+    }
+    return room.getRoutine()
 }
 
 /**
