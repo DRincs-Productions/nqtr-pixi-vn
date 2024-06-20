@@ -26,10 +26,11 @@ export default class ActivityRoom<TRoom extends RoomBaseModel = RoomBaseModel> e
     get id(): string {
         return this._id;
     }
+
+    private _room: TRoom;
     /**
      * The room where the activity is.
      */
-    private _room: TRoom;
     get room(): TRoom {
         return this._room;
     }

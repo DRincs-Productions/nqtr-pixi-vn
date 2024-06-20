@@ -1,6 +1,6 @@
 import { GraphicItemType, OnRenderGraphicItemProps } from "@drincs/nqtr/dist/override";
 import { getFlag, StoredClassModel } from "@drincs/pixi-vn";
-import { getActivityById } from "../../decorators";
+import { getActivityById, saveRoom } from "../../decorators";
 import { getCurrentRoutine } from "../../functions/RoutineFunctions";
 import { RoomProps } from "../../interface";
 import { RoomActivityMemory } from "../../interface/RoomActivityMemory";
@@ -13,7 +13,7 @@ export const ROOM_CATEGORY = "__nqtr-room__"
 
 /**
  * The base model of a room. I suggest you extend this class to create your own room model.
- * You must use the saveRoom function to save the room in the registered rooms.
+ * **You must use the {@link saveRoom} function to save the room in the registered rooms.**
  * @example
  * ```ts
  * export const mcRoom = new RoomBaseModel('mc_room', mcHome, {
