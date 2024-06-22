@@ -234,6 +234,9 @@ export default class Quest extends StoredClassModel {
         return true
     }
 
+    /**
+     * If the current stage must start. It is true if the current stage is not started, can start and not completed.
+     */
     get currentStageMustStart(): boolean {
         let currentStage = this.currentStage
         if (!currentStage) {
@@ -242,6 +245,10 @@ export default class Quest extends StoredClassModel {
         return !currentStage.started && currentStage.canStart && !currentStage.completed
     }
 
+    /**
+     * Start the current stage.
+     * @param props The properties for the start stage. If you not want to pass any property, you can pass an {}.
+     */
     startCurrentStage(props: OnStartStage): void {
         let newCurrentStage = this.currentStage
         if (newCurrentStage && this.currentStageMustStart) {
