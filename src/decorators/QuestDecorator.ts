@@ -40,3 +40,11 @@ export function getQuestById(id: string): Quest | undefined {
         return
     }
 }
+
+/**
+ * Get all registered quests and started.
+ * @returns All registered quests.
+ */
+export function getAllStartedQuests(): Quest[] {
+    return Object.values(registeredQuests).filter(quest => quest.started)
+}
