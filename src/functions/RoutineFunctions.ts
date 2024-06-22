@@ -60,6 +60,10 @@ export function getCurrentRoutine<TCommitment extends CommitmentBaseModel = Comm
     return Object.values(character_commitments)
 }
 
+/**
+ * Get the current room routine. The hidden commitments are not included.
+ * @returns The current room routine.
+ */
 export function getCurrentRoomRoutine<TCommitment extends CommitmentBaseModel = CommitmentBaseModel>(): TCommitment[] {
     let room = getCurrentRoom()
     if (!room) {
