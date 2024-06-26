@@ -8,6 +8,8 @@ on:
     tags:
       - 'v*'
 
+run-name: Deploy to ${{ inputs.deploy_target }} by @${{ github.actor }}
+
 jobs:
   build:
     name: Build
