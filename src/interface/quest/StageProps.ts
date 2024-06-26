@@ -53,17 +53,17 @@ export default interface StageProps {
      * The flags required to start the stage.
      * @default []
      */
-    flagsRequired?: StageFlags[]
+    flagsRequiredToStart?: StageFlags[]
     /**
      * The quests required to start the stage.
      * @default []
      */
-    questsRequired?: QuestsRequiredType[]
+    questsRequiredToStart?: QuestsRequiredType[]
     /**
      * The description to request to start the stage.
      * @default ""
      */
-    requestDescription?: string
+    requestDescriptionToStart?: string
     /**
      * The function that will be executed when the stage starts.
      */

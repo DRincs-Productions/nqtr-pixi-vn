@@ -18,9 +18,9 @@ export default class Stage extends StoredClassModel implements StageProps {
         this._adviceDescription = props.adviceDescription || ""
         this._renderImage = props.renderImage
         this._daysRequiredToStart = props.daysRequiredToStart
-        this._flagsRequiredToStart = props.flagsRequired || []
-        this._questsRequiredToStart = props.questsRequired || []
-        this._requestDescriptionToStart = props.requestDescription || ""
+        this._flagsRequiredToStart = props.flagsRequiredToStart || []
+        this._questsRequiredToStart = props.questsRequiredToStart || []
+        this._requestDescriptionToStart = props.requestDescriptionToStart || ""
         this._onStart = props.onStart
         this._onEnd = props.onEnd
     }
