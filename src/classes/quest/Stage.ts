@@ -1,4 +1,4 @@
-import { GraphicItemType, OnEndStage, OnRenderGraphicItemProps, OnStartStage } from "@drincs/nqtr/dist/override";
+import { GraphicItemType, OnEndStageQuest, OnRenderGraphicItemProps, OnStartStageQuest } from "@drincs/nqtr/dist/override";
 import { StoredClassModel, getFlag } from "@drincs/pixi-vn";
 import { StageProps } from "../../interface";
 import StageFlags from "../../interface/quest/StageFlags";
@@ -119,20 +119,28 @@ export default class Stage extends StoredClassModel implements StageProps {
 
     // function
 
-    private _onStart?: (props: OnStartStage) => void
+    private _onStart?: (stage: Stage, props: OnStartStageQuest) => void
     /**
      * The function that will be called when the stage starts.
      */
-    get onStart(): undefined | ((props: OnStartStage) => void) {
-        return this._onStart
+    get onStart(): undefined | ((props: OnStartStageQuest) => void) {
+        let onStart = this._onStart
+        if (onStart === undefined) {
+            return undefined
+        }
+        return (props: OnStartStageQuest) => onStart(this, props)
     }
 
-    private _onEnd?: (props: OnEndStage) => void
+    private _onEnd?: (stage: Stage, props: OnEndStageQuest) => void
     /**
      * The function that will be called when the stage ends.
      */
-    get onEnd(): undefined | ((props: OnEndStage) => void) {
-        return this._onEnd
+    get onEnd(): undefined | ((props: OnEndStageQuest) => void) {
+        let onEnd = this._onEnd
+        if (onEnd === undefined) {
+            return undefined
+        }
+        return (props: OnEndStageQuest) => onEnd(this, props)
     }
 }
 
@@ -240,7 +248,7 @@ export class StageQuest extends Stage {
     /**
      * The function that will be called when the stage starts.
      */
-    start(props: OnStartStage) {
+    start(props: OnStartStageQuest) {
         if (this.canStart) {
             this.started = true
             if (this.onStart) {

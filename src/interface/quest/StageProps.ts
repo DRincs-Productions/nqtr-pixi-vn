@@ -1,4 +1,4 @@
-import { GraphicItemType, OnEndStage, OnRenderGraphicItemProps, OnStartStage } from "@drincs/nqtr/dist/override"
+import { GraphicItemType, OnEndStageQuest, OnRenderGraphicItemProps, OnStartStageQuest } from "@drincs/nqtr/dist/override"
 import { Goal, Stage } from "../../classes"
 import { QuestsRequiredType } from "../../types"
 import StageFlags from "./StageFlags"
@@ -67,9 +67,9 @@ export default interface StageProps {
     /**
      * The function that will be executed when the stage starts.
      */
-    onStart?: (props: OnStartStage) => void
+    onStart?: (stage: Stage, props: OnStartStageQuest) => void
     /**
      * The function that will be executed when the stage ends.
      */
-    onEnd?: (props: OnEndStage) => void
+    onEnd?: (stage: Stage, props: OnEndStageQuest) => void
 }

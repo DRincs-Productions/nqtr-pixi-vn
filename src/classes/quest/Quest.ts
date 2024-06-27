@@ -1,4 +1,4 @@
-import { GraphicItemType, OnEndStage, OnRenderGraphicItemProps, OnStartStage } from "@drincs/nqtr/dist/override";
+import { GraphicItemType, OnEndStageQuest, OnRenderGraphicItemProps, OnStartStageQuest } from "@drincs/nqtr/dist/override";
 import { StoredClassModel } from "@drincs/pixi-vn";
 import { QuestProps } from "../../interface";
 import Stage, { StageQuest } from "./Stage";
@@ -14,6 +14,8 @@ export default class Quest extends StoredClassModel {
         this._renderIcon = props.renderIcon
         this._renderImage = props.renderImage
         this._isInDevelopment = props.isInDevelopment || false
+        this._onStart = props.onStart
+        this._onNextStage = props.onNextStage
     }
 
     private _stages: Stage[]
@@ -122,12 +124,36 @@ export default class Quest extends StoredClassModel {
         return this.currentStageIndex > this.stages.length - 1
     }
 
+    private _onStart?: (stage: Quest, props: OnStartStageQuest) => void
+    /**
+     * The function that will be called when the quest starts.
+     */
+    get onStart(): undefined | ((props: OnStartStageQuest) => void) {
+        let onStart = this._onStart
+        if (onStart === undefined) {
+            return undefined
+        }
+        return (props: OnStartStageQuest) => onStart(this, props)
+    }
+
+    private _onNextStage?: (stage: Quest, props: OnEndStageQuest) => void
+    /**
+     * The function that will be called when the quest goes to the next stage.
+     */
+    get onNextStage(): undefined | ((props: OnEndStageQuest) => void) {
+        let onNext = this._onNextStage
+        if (onNext === undefined) {
+            return undefined
+        }
+        return (props: OnEndStageQuest) => onNext(this, props)
+    }
+
     /**
      * Start the quest.
      * @param props The properties for the start stage. If you not want to pass any property, you can pass an {}.
      * @returns 
      */
-    start(props: OnStartStage): void {
+    start(props: OnStartStageQuest): void {
         if (this.started) {
             console.warn(`[NQTR] Quest ${this.id} is already started`)
             return
@@ -139,6 +165,7 @@ export default class Quest extends StoredClassModel {
         this.currentStageIndex = 0
         let currentStage = this.currentStage
         if (currentStage && currentStage.start) {
+            this.onStart && this.onStart(props)
             return currentStage.start(props)
         }
         else {
@@ -154,8 +181,8 @@ export default class Quest extends StoredClassModel {
      * @returns true if the stage was changed, false otherwise.
      */
     tryToGoNextStage(
-        startProps: OnStartStage,
-        endProps: OnEndStage
+        startProps: OnStartStageQuest,
+        endProps: OnEndStageQuest
     ): boolean {
         if (!this.started) {
             return false
@@ -182,8 +209,8 @@ export default class Quest extends StoredClassModel {
      * @returns true if the stage was changed, false otherwise.
      */
     completeCurrentStageAndGoNext(
-        startProps: OnStartStage,
-        endProps: OnEndStage
+        startProps: OnStartStageQuest,
+        endProps: OnEndStageQuest
     ): boolean {
         let currentStage = this.currentStage
         if (!currentStage) {
@@ -202,8 +229,8 @@ export default class Quest extends StoredClassModel {
      * @returns returns true if the stage was changed, false otherwise.
      */
     goNextStage(
-        startProps: OnStartStage,
-        endProps: OnEndStage
+        startProps: OnStartStageQuest,
+        endProps: OnEndStageQuest
     ): boolean {
         if (!this.started) {
             console.warn(`[NQTR] Quest ${this.id} is not started`)
@@ -220,6 +247,7 @@ export default class Quest extends StoredClassModel {
             return false
         }
         this.currentStageIndex = currentStageIndex + 1
+        this.onNextStage && this.onNextStage(endProps)
         if (prevStage && prevStage.onEnd) {
             prevStage.onEnd(endProps)
         }
@@ -249,7 +277,7 @@ export default class Quest extends StoredClassModel {
      * Start the current stage.
      * @param props The properties for the start stage. If you not want to pass any property, you can pass an {}.
      */
-    startCurrentStage(props: OnStartStage): void {
+    startCurrentStage(props: OnStartStageQuest): void {
         let newCurrentStage = this.currentStage
         if (newCurrentStage && this.currentStageMustStart) {
             newCurrentStage.start(props)

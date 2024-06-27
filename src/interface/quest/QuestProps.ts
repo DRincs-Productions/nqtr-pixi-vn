@@ -1,5 +1,6 @@
-import { GraphicItemType, OnRenderGraphicItemProps } from "@drincs/nqtr/dist/override"
+import { GraphicItemType, OnRenderGraphicItemProps, OnStartStageQuest } from "@drincs/nqtr/dist/override"
 import Quest from "../../classes/quest/Quest"
+import { OnEndStageQuest } from "../../override"
 
 export default interface QuestProps {
     /**
@@ -37,4 +38,12 @@ export default interface QuestProps {
      * @default false
      */
     isInDevelopment?: boolean
+    /**
+     * The function that will be executed when the quest starts.
+     */
+    onStart?: (quest: Quest, props: OnStartStageQuest) => void
+    /**
+     * The function that will be executed when a stage end in the quest.
+     */
+    onNextStage?: (quest: Quest, props: OnEndStageQuest) => void
 }
