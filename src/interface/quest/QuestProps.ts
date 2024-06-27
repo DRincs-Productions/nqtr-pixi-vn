@@ -1,6 +1,5 @@
-import { GraphicItemType, OnRenderGraphicItemProps, OnStartStageQuest } from "@drincs/nqtr/dist/override"
+import { GraphicItemType, OnEndStageQuest, OnRenderGraphicItemProps, OnStartStageQuest } from "@drincs/nqtr/dist/override"
 import Quest from "../../classes/quest/Quest"
-import { OnEndStageQuest } from "../../override"
 
 export default interface QuestProps {
     /**
