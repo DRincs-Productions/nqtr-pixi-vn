@@ -1,7 +1,8 @@
 export { default as GraphicItemInterface } from './GraphicItemInterface';
 export { default as GraphicItemType } from './GraphicItemType';
-export { default as OnEndStage } from './OnEndStage';
+export { default as OnEndStageQuest } from './OnEndStageQuest';
+export { default as OnNextStageQuest } from './OnNextStageQuest';
 export { default as OnRenderGraphicItemProps } from './OnRenderGraphicItemProps';
 export { default as OnRunProps } from './OnRunProps';
-export { default as OnStartStage } from './OnStartStage';
+export { default as OnStartStageQuest } from './OnStartStageQuest';
 
