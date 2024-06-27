@@ -1,4 +1,4 @@
-import { GraphicItemType, OnEndStageQuest, OnRenderGraphicItemProps, OnStartStageQuest } from "@drincs/nqtr/dist/override";
+import { GraphicItemType, OnRenderGraphicItemProps, OnStartEndStageQuest } from "@drincs/nqtr/dist/override";
 import { StoredClassModel, getFlag } from "@drincs/pixi-vn";
 import { StageProps } from "../../interface";
 import StageFlags from "../../interface/quest/StageFlags";
@@ -119,28 +119,28 @@ export default class Stage extends StoredClassModel implements StageProps {
 
     // function
 
-    private _onStart?: (stage: Stage, props: OnStartStageQuest) => void
+    private _onStart?: (stage: Stage, props: OnStartEndStageQuest) => void
     /**
      * The function that will be called when the stage starts.
      */
-    get onStart(): undefined | ((props: OnStartStageQuest) => void) {
+    get onStart(): undefined | ((props: OnStartEndStageQuest) => void) {
         let onStart = this._onStart
         if (onStart === undefined) {
             return undefined
         }
-        return (props: OnStartStageQuest) => onStart(this, props)
+        return (props: OnStartEndStageQuest) => onStart(this, props)
     }
 
-    private _onEnd?: (stage: Stage, props: OnEndStageQuest) => void
+    private _onEnd?: (stage: Stage, props: OnStartEndStageQuest) => void
     /**
      * The function that will be called when the stage ends.
      */
-    get onEnd(): undefined | ((props: OnEndStageQuest) => void) {
+    get onEnd(): undefined | ((props: OnStartEndStageQuest) => void) {
         let onEnd = this._onEnd
         if (onEnd === undefined) {
             return undefined
         }
-        return (props: OnEndStageQuest) => onEnd(this, props)
+        return (props: OnStartEndStageQuest) => onEnd(this, props)
     }
 }
 
@@ -248,7 +248,7 @@ export class StageQuest extends Stage {
     /**
      * The function that will be called when the stage starts.
      */
-    start(props: OnStartStageQuest) {
+    start(props: OnStartEndStageQuest) {
         if (this.canStart) {
             this.started = true
             if (this.onStart) {
