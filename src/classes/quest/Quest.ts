@@ -128,24 +128,16 @@ export default class Quest extends StoredClassModel {
     /**
      * The function that will be called when the quest starts.
      */
-    get onStart(): undefined | ((props: OnStartEndStageQuest) => void) {
-        let onStart = this._onStart
-        if (onStart === undefined) {
-            return undefined
-        }
-        return (props: OnStartEndStageQuest) => onStart(this, props)
+    get onStart(): undefined | ((stage: Quest, props: OnStartEndStageQuest) => void) {
+        return this._onStart
     }
 
     private _onNextStage?: (stage: Quest, props: OnStartEndStageQuest) => void
     /**
      * The function that will be called when the quest goes to the next stage.
      */
-    get onNextStage(): undefined | ((props: OnStartEndStageQuest) => void) {
-        let onNext = this._onNextStage
-        if (onNext === undefined) {
-            return undefined
-        }
-        return (props: OnStartEndStageQuest) => onNext(this, props)
+    get onNextStage(): undefined | ((stage: Quest, props: OnStartEndStageQuest) => void) {
+        return this._onNextStage
     }
 
     /**
@@ -165,7 +157,7 @@ export default class Quest extends StoredClassModel {
         this.currentStageIndex = 0
         let currentStage = this.currentStage
         if (currentStage && currentStage.start) {
-            this.onStart && this.onStart(props)
+            this.onStart && this.onStart(this, props)
             return currentStage.start(props)
         }
         else {
@@ -241,9 +233,9 @@ export default class Quest extends StoredClassModel {
             return false
         }
         this.currentStageIndex = currentStageIndex + 1
-        this.onNextStage && this.onNextStage(props)
+        this.onNextStage && this.onNextStage(this, props)
         if (prevStage && prevStage.onEnd) {
-            prevStage.onEnd(props)
+            prevStage.onEnd(prevStage, props)
         }
         let nextCurrentStage = this.currentStage
         if (nextCurrentStage) {

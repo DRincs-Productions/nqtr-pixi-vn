@@ -123,24 +123,16 @@ export default class Stage extends StoredClassModel implements StageProps {
     /**
      * The function that will be called when the stage starts.
      */
-    get onStart(): undefined | ((props: OnStartEndStageQuest) => void) {
-        let onStart = this._onStart
-        if (onStart === undefined) {
-            return undefined
-        }
-        return (props: OnStartEndStageQuest) => onStart(this, props)
+    get onStart(): undefined | ((stage: Stage, props: OnStartEndStageQuest) => void) {
+        return this._onStart
     }
 
     private _onEnd?: (stage: Stage, props: OnStartEndStageQuest) => void
     /**
      * The function that will be called when the stage ends.
      */
-    get onEnd(): undefined | ((props: OnStartEndStageQuest) => void) {
-        let onEnd = this._onEnd
-        if (onEnd === undefined) {
-            return undefined
-        }
-        return (props: OnStartEndStageQuest) => onEnd(this, props)
+    get onEnd(): undefined | ((stage: Stage, props: OnStartEndStageQuest) => void) {
+        return this._onEnd
     }
 }
 
@@ -252,7 +244,7 @@ export class StageQuest extends Stage {
         if (this.canStart) {
             this.started = true
             if (this.onStart) {
-                this.onStart(props)
+                this.onStart(this, props)
             }
         }
         else {
