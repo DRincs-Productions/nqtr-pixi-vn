@@ -1,4 +1,4 @@
-import { GraphicItemType, OnRenderGraphicItemProps } from "@drincs/nqtr/dist/override"
+import { GraphicItemType, NeighboringMapsInterface, OnRenderGraphicItemProps } from "@drincs/nqtr/dist/override"
 import { getFlag, StoredClassModel } from "@drincs/pixi-vn"
 import { getLocationsByMap } from "../../decorators/RoomDecorator"
 import { MapProps } from "../../interface"
@@ -33,6 +33,7 @@ export default class MapBaseModel extends StoredClassModel {
         this._renderImage = props.renderImage
         this.defaultDisabled = props.disabled || false
         this.defaultHidden = props.hidden || false
+        this._neighboringMaps = props.neighboringMaps
     }
 
     private defaultName: string
@@ -94,7 +95,7 @@ export default class MapBaseModel extends StoredClassModel {
         this.setStorageProperty("hidden", value)
     }
 
-    private _neighboringMaps?: { [key: string]: string }
+    private _neighboringMaps?: NeighboringMapsInterface
     /**
      * The neighboring maps that are available in this map.
      * @example
@@ -107,10 +108,10 @@ export default class MapBaseModel extends StoredClassModel {
      * }
      * ```
      */
-    get neighboringMaps(): { [key: string]: string } {
+    get neighboringMaps(): NeighboringMapsInterface {
         return this._neighboringMaps || {}
     }
-    set neighboringMaps(value: { [key: string]: string } | undefined) {
+    set neighboringMaps(value: NeighboringMapsInterface | undefined) {
         this._neighboringMaps = value
     }
 

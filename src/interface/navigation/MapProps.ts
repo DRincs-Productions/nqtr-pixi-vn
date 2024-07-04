@@ -1,4 +1,4 @@
-import { GraphicItemType, OnRenderGraphicItemProps } from "@drincs/nqtr/dist/override"
+import { GraphicItemType, NeighboringMapsInterface, OnRenderGraphicItemProps } from "@drincs/nqtr/dist/override"
 import { MapBaseModel } from "../../classes"
 
 export default interface MapProps {
@@ -35,7 +35,7 @@ export default interface MapProps {
      * ```
      * @default {}
      */
-    neighboringMaps?: { [key: string]: string }
+    neighboringMaps?: NeighboringMapsInterface
     /**
      * Whether is disabled. You can also pass a Pixi'VN flag name.
      * @default false
