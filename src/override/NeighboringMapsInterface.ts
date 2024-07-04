@@ -15,4 +15,4 @@
  * }
  * ```
  */
-export default interface NeighboringMapsInterface { }
+export default interface NeighboringMapsInterface { [key: string]: any }
