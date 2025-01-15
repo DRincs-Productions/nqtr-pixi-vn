@@ -1,4 +1,4 @@
-import { GameStorageManager } from "@drincs/pixi-vn";
+import { storage } from "@drincs/pixi-vn";
 import { ITimeStlot, TimeSettings } from "../types/TimeSettings";
 
 const TIME_SETTINGS_KEY = '___nqtr-time_manager_settings___';
@@ -42,14 +42,14 @@ export default class TimeManager {
             }
             data['weekDaysNames'] = settings.weekDaysNames
         }
-        GameStorageManager.setVariable(TIME_SETTINGS_KEY, data)
+        storage.setVariable(TIME_SETTINGS_KEY, data)
     }
     /**
      * Get time settings
      * @default {}
      */
     static get settings(): TimeSettings {
-        let settings = GameStorageManager.getVariable<TimeSettings>(TIME_SETTINGS_KEY) || {}
+        let settings = storage.getVariable<TimeSettings>(TIME_SETTINGS_KEY) || {}
         return settings
     }
     /**
@@ -60,7 +60,7 @@ export default class TimeManager {
     }
     static get minDayHours(): number {
         let result = 0
-        let settings = GameStorageManager.getVariable<TimeSettings>(TIME_SETTINGS_KEY)
+        let settings = storage.getVariable<TimeSettings>(TIME_SETTINGS_KEY)
         if (settings && settings.hasOwnProperty('minDayHours')) {
             result = settings.minDayHours || 0
         }
@@ -68,7 +68,7 @@ export default class TimeManager {
     }
     static get maxDayHours(): number {
         let result = 24
-        let settings = GameStorageManager.getVariable<TimeSettings>(TIME_SETTINGS_KEY)
+        let settings = storage.getVariable<TimeSettings>(TIME_SETTINGS_KEY)
         if (settings && settings.hasOwnProperty('maxDayHours')) {
             result = settings.maxDayHours || 24
         }
@@ -76,7 +76,7 @@ export default class TimeManager {
     }
     static get defaultTimeSpent(): number {
         let result = 1
-        let settings = GameStorageManager.getVariable<TimeSettings>(TIME_SETTINGS_KEY)
+        let settings = storage.getVariable<TimeSettings>(TIME_SETTINGS_KEY)
         if (settings && settings.hasOwnProperty('defaultTimeSpent')) {
             result = settings.defaultTimeSpent || 1
         }
@@ -84,7 +84,7 @@ export default class TimeManager {
     }
     static get timeSlots(): ITimeStlot[] {
         let result: ITimeStlot[] = []
-        let settings = GameStorageManager.getVariable<TimeSettings>(TIME_SETTINGS_KEY)
+        let settings = storage.getVariable<TimeSettings>(TIME_SETTINGS_KEY)
         if (settings && settings.hasOwnProperty('timeSlots')) {
             result = settings.timeSlots || []
         }
@@ -92,7 +92,7 @@ export default class TimeManager {
     }
     static get weekLength(): number {
         let result = 7
-        let settings = GameStorageManager.getVariable<TimeSettings>(TIME_SETTINGS_KEY)
+        let settings = storage.getVariable<TimeSettings>(TIME_SETTINGS_KEY)
         if (settings && settings.hasOwnProperty('weekLength')) {
             result = settings.weekLength || 7
         }
@@ -100,7 +100,7 @@ export default class TimeManager {
     }
     static get weekendStartDay(): number {
         let result = TimeManager.weekLength - 1
-        let settings = GameStorageManager.getVariable<TimeSettings>(TIME_SETTINGS_KEY)
+        let settings = storage.getVariable<TimeSettings>(TIME_SETTINGS_KEY)
         if (settings && settings.hasOwnProperty('weekendStartDay')) {
             result = settings.weekendStartDay || TimeManager.weekLength - 1
         }
@@ -108,7 +108,7 @@ export default class TimeManager {
     }
     static get weekDaysNames(): string[] {
         let result: string[] = []
-        let settings = GameStorageManager.getVariable<TimeSettings>(TIME_SETTINGS_KEY)
+        let settings = storage.getVariable<TimeSettings>(TIME_SETTINGS_KEY)
         if (settings && settings.hasOwnProperty('weekDaysNames')) {
             result = settings.weekDaysNames || result
         }
@@ -119,40 +119,40 @@ export default class TimeManager {
      * Get the current hour
      */
     static get currentHour(): number {
-        let data = GameStorageManager.getVariable<ITimeData>(TIME_DATA_KEY) || {}
+        let data = storage.getVariable<ITimeData>(TIME_DATA_KEY) || {}
         if (data.hasOwnProperty('currentHour') && typeof data.currentHour === 'number') {
             return data.currentHour
         }
         return TimeManager.minDayHours
     }
     static set currentHour(value: number | undefined) {
-        let data = GameStorageManager.getVariable<ITimeData>(TIME_DATA_KEY) || {}
+        let data = storage.getVariable<ITimeData>(TIME_DATA_KEY) || {}
         if (typeof value === 'number') {
             data.currentHour = value
         } else {
             delete data.currentHour
         }
-        GameStorageManager.setVariable(TIME_DATA_KEY, data)
+        storage.setVariable(TIME_DATA_KEY, data)
     }
     /**
      * Get the current day
      */
     static get currentDay(): number {
-        let data = GameStorageManager.getVariable<ITimeData>(TIME_DATA_KEY) || {}
+        let data = storage.getVariable<ITimeData>(TIME_DATA_KEY) || {}
         if (data.hasOwnProperty('currentDay') && typeof data.currentDay === 'number') {
             return data.currentDay
         }
         return 0
     }
     static set currentDay(value: number | undefined) {
-        let data = GameStorageManager.getVariable<ITimeData>(TIME_DATA_KEY) || {}
+        let data = storage.getVariable<ITimeData>(TIME_DATA_KEY) || {}
         if (typeof value === 'number') {
             data.currentDay = value
         }
         else {
             delete data.currentDay
         }
-        GameStorageManager.setVariable(TIME_DATA_KEY, data)
+        storage.setVariable(TIME_DATA_KEY, data)
     }
     /**
      * If the current day is greater than or equal to the weekend start day, then it will return true.

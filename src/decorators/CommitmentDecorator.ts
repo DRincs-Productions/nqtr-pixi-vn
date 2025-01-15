@@ -1,4 +1,4 @@
-import { GameStorageManager } from "@drincs/pixi-vn"
+import { storage } from "@drincs/pixi-vn"
 import CommitmentBaseModel from "../classes/Commitment"
 
 const TEMPORARY_COMMITMENT_CATEGORY_MEMORY_KEY = "___nqtr-temporary_commitment___"
@@ -73,7 +73,7 @@ export function addCommitment<TCommitment extends CommitmentBaseModel = Commitme
         return commitment.id
     }).filter(id => id !== undefined)
 
-    GameStorageManager.setVariable(TEMPORARY_COMMITMENT_CATEGORY_MEMORY_KEY, commitmentsIds)
+    storage.setVariable(TEMPORARY_COMMITMENT_CATEGORY_MEMORY_KEY, commitmentsIds)
 }
 
 /**
@@ -89,12 +89,12 @@ export function removeCommitment<TCommitment extends CommitmentBaseModel = Commi
         return commitment.id
     })
 
-    let currentCommitments = GameStorageManager.getVariable<string[]>(TEMPORARY_COMMITMENT_CATEGORY_MEMORY_KEY)
+    let currentCommitments = storage.getVariable<string[]>(TEMPORARY_COMMITMENT_CATEGORY_MEMORY_KEY)
     if (!currentCommitments) {
         return
     }
     currentCommitments = currentCommitments.filter(id => !commitmentsIds.includes(id))
-    GameStorageManager.setVariable(TEMPORARY_COMMITMENT_CATEGORY_MEMORY_KEY, currentCommitments)
+    storage.setVariable(TEMPORARY_COMMITMENT_CATEGORY_MEMORY_KEY, currentCommitments)
 }
 
 /**
@@ -110,7 +110,7 @@ export function getFixedRoutine<TCommitment extends CommitmentBaseModel = Commit
  * @returns The temporary commitments.
  */
 export function getTemporaryCommitments<TCommitment extends CommitmentBaseModel = CommitmentBaseModel>(): TCommitment[] {
-    let commitmentsIds = GameStorageManager.getVariable<string[]>(TEMPORARY_COMMITMENT_CATEGORY_MEMORY_KEY)
+    let commitmentsIds = storage.getVariable<string[]>(TEMPORARY_COMMITMENT_CATEGORY_MEMORY_KEY)
     if (!commitmentsIds) {
         return []
     }

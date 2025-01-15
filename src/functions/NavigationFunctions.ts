@@ -1,4 +1,4 @@
-import { GameStorageManager } from "@drincs/pixi-vn";
+import { storage } from "@drincs/pixi-vn";
 import { LocationBaseModel, MapBaseModel, RoomBaseModel } from "../classes";
 import { getRoomById } from "../decorators/RoomDecorator";
 
@@ -25,7 +25,7 @@ export function setCurrentRoom<TRoom extends RoomBaseModel = RoomBaseModel>(room
             return;
         }
     }
-    GameStorageManager.setVariable(CURRENT_ROOM_MEMORY_KEY, room.id);
+    storage.setVariable(CURRENT_ROOM_MEMORY_KEY, room.id);
 }
 
 /**
@@ -33,7 +33,7 @@ export function setCurrentRoom<TRoom extends RoomBaseModel = RoomBaseModel>(room
  * @returns The current room or undefined if not set.
  */
 export function getCurrentRoom<TRoom extends RoomBaseModel = RoomBaseModel>(): TRoom | undefined {
-    let roomId = GameStorageManager.getVariable<string>(CURRENT_ROOM_MEMORY_KEY);
+    let roomId = storage.getVariable<string>(CURRENT_ROOM_MEMORY_KEY);
     if (!roomId) {
         console.error(`[NQTR] The current room has not yet been set`);
         return

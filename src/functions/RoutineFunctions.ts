@@ -1,4 +1,4 @@
-import { CharacterBaseModel } from "@drincs/pixi-vn";
+import { CharacterInterface } from "@drincs/pixi-vn";
 import CommitmentBaseModel from "../classes/Commitment";
 import { getFixedRoutine, getTemporaryCommitments, registeredCommitments } from "../decorators/CommitmentDecorator";
 import { getCurrentRoom } from "./NavigationFunctions";
@@ -77,7 +77,7 @@ export function getCurrentRoomRoutine<TCommitment extends CommitmentBaseModel = 
  * @param character The character.
  * @returns The commitment or undefined if not found.
  */
-export function getCommitmentByCharacter<TCommitment extends CommitmentBaseModel = CommitmentBaseModel, TCharacter extends CharacterBaseModel = CharacterBaseModel>(character: TCharacter): TCommitment | undefined {
+export function getCommitmentByCharacter<TCommitment extends CommitmentBaseModel = CommitmentBaseModel, TCharacter extends CharacterInterface = CharacterInterface>(character: TCharacter): TCommitment | undefined {
     getCurrentRoutine().forEach(c => {
         if (c.characters.map(ch => ch.id).includes(character.id)) {
             return c

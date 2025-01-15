@@ -1,5 +1,5 @@
 import { GraphicItemInterface } from "@drincs/nqtr/dist/override";
-import { CanvasBase } from "@drincs/pixi-vn";
+import { CanvasBaseItem } from "@drincs/pixi-vn";
 
 /**
  * Grafic item type.
@@ -12,5 +12,5 @@ import { CanvasBase } from "@drincs/pixi-vn";
  * }
  * ```
  */
-type GraphicItemType = string | CanvasBase<any> | GraphicItemInterface | JSX.Element | HTMLElement
+type GraphicItemType = string | CanvasBaseItem<any> | GraphicItemInterface | JSX.Element | HTMLElement
 export default GraphicItemType

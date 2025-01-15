@@ -1,10 +1,10 @@
 import { GraphicItemType, OnRenderGraphicItemProps } from "@drincs/nqtr/dist/override"
-import { CharacterBaseModel } from "@drincs/pixi-vn"
+import { CharacterInterface } from "@drincs/pixi-vn"
 import { CommitmentBaseModel, RoomBaseModel } from "../classes"
 import { ExecutionType } from "../types"
 import { OnRunCommitmentEvent } from "../types/OnRunCommitmentEvent"
 
-export default interface CommitmentProps<TCharacter extends CharacterBaseModel = CharacterBaseModel, TRoom extends RoomBaseModel = RoomBaseModel> {
+export default interface CommitmentProps<TCharacter extends CharacterInterface = CharacterInterface, TRoom extends RoomBaseModel = RoomBaseModel> {
     /**
      * The name
      * @default ""

@@ -1,5 +1,5 @@
 import { GraphicItemType, OnRenderGraphicItemProps, OnRunProps } from "@drincs/nqtr/dist/override";
-import { CharacterBaseModel, getFlag, StoredClassModel } from "@drincs/pixi-vn";
+import { CharacterInterface, getFlag, StoredClassModel } from "@drincs/pixi-vn";
 import { CommitmentProps } from "../interface";
 import TimeManager from "../managers/TimeManager";
 import { ExecutionType } from "../types";
@@ -24,7 +24,7 @@ const COMMITMENT_CATEGORY = "__nqtr-commitment__"
  * saveCommitment(mcRoom)
  * ```
  */
-export default class CommitmentBaseModel<TCharacter extends CharacterBaseModel = CharacterBaseModel, TRoom extends RoomBaseModel = RoomBaseModel> extends StoredClassModel {
+export default class CommitmentBaseModel<TCharacter extends CharacterInterface = CharacterInterface, TRoom extends RoomBaseModel = RoomBaseModel> extends StoredClassModel {
     /**
      * @param id The id of the commitment, it must be unique.
      * @param character The character or characters that are in the commitment and so in the room.
