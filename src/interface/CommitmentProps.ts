@@ -13,13 +13,13 @@ export default interface CommitmentProps<TCharacter extends CharacterInterface =
     /**
      * The hour when the commitment starts. If the commitment is not started yet, it will be hidden.
      * If you set 3, the commitment will be hidden into hours 1 and 2, and will be shown from hour 3.
-     * @default TimeManager.minDayHours
+     * @default timeTracker.minDayHours
      */
     fromHour?: number
     /**
      * The hour when the commitment ends. If the commitment is ended yet, it will be hidden.
      * If you set 3, the commitment will be shown into hours 1 and 2 and will be hidden from hour 3.
-     * @default TimeManager.maxDayHours + 1
+     * @default timeTracker.maxDayHours + 1
      */
     toHour?: number
     /**

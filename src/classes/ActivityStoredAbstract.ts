@@ -1,7 +1,7 @@
 import { GraphicItemType, OnRenderGraphicItemProps, OnRunProps } from "@drincs/nqtr/dist/override"
 import { getFlag } from "@drincs/pixi-vn"
 import { ActivityProps } from "../interface"
-import { TimeManager } from "../managers"
+import { timeTracker } from "../managers"
 import { OnRunActivityEvent } from "../types/OnRunActivityEvent"
 
 export abstract class ActivityStoredAbstract {
@@ -41,7 +41,7 @@ export abstract class ActivityStoredAbstract {
      * The hour when the activity starts. If the activity is not started yet, it will be hidden.
      */
     get fromHour(): number {
-        return this.getStorageProperty<number>("fromHour") || this.defaultFromHour || TimeManager.minDayHours
+        return this.getStorageProperty<number>("fromHour") || this.defaultFromHour || timeTracker.minDayHours
     }
     set fromHour(value: number | undefined) {
         this.setStorageProperty("fromHour", value)
@@ -52,7 +52,7 @@ export abstract class ActivityStoredAbstract {
      * The hour when the activity ends. If the activity is ended yet, it will be hidden.
      */
     get toHour(): number {
-        return this.getStorageProperty<number>("toHour") || this.defaultToHour || (TimeManager.maxDayHours + 1)
+        return this.getStorageProperty<number>("toHour") || this.defaultToHour || (timeTracker.maxDayHours + 1)
     }
     set toHour(value: number | undefined) {
         this.setStorageProperty("toHour", value)
@@ -100,10 +100,10 @@ export abstract class ActivityStoredAbstract {
      * Whether is hidden. If the activity is not started yet, it will be hidden.
      */
     get hidden(): boolean {
-        if (this.fromDay && this.fromDay > TimeManager.currentDay) {
+        if (this.fromDay && this.fromDay > timeTracker.currentDay) {
             return true
         }
-        if (!TimeManager.nowIsBetween(this.fromHour, this.toHour)) {
+        if (!timeTracker.nowIsBetween(this.fromHour, this.toHour)) {
             return true
         }
         if (!this.isExpired) {
@@ -149,7 +149,7 @@ export abstract class ActivityStoredAbstract {
      * @returns Whether the activity is a deadline.
      */
     isExpired(): boolean {
-        if (this.toDay && this.toDay <= TimeManager.currentDay) {
+        if (this.toDay && this.toDay <= timeTracker.currentDay) {
             return true
         }
         return false

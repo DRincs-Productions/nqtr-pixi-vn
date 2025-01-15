@@ -1,7 +1,7 @@
 import { GraphicItemType, OnRenderGraphicItemProps, OnRunProps } from '@drincs/nqtr/dist/override';
 import { getFlag } from "@drincs/pixi-vn";
 import { ActivityProps } from '../interface';
-import TimeManager from "../managers/TimeManager";
+import { timeTracker } from '../managers';
 import { OnRunActivityEvent } from '../types/OnRunActivityEvent';
 import { ActivityStoredAbstract } from './ActivityStoredAbstract';
 
@@ -125,7 +125,7 @@ export default class ActivityModel {
      * Whether is hidden. If the activity is not started yet, it will be hidden.
      */
     get hidden(): boolean {
-        if (this.fromDay && this.fromDay > TimeManager.currentDay) {
+        if (this.fromDay && this.fromDay > timeTracker.currentDay) {
             return true
         }
         if (!this.isDeadline) {
@@ -170,7 +170,7 @@ export default class ActivityModel {
      * @returns Whether the activity is a deadline.
      */
     isDeadline(): boolean {
-        if (this.toDay && this.toDay <= TimeManager.currentDay) {
+        if (this.toDay && this.toDay <= timeTracker.currentDay) {
             return true
         }
         return false

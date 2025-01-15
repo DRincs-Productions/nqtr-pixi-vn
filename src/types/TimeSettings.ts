@@ -1,10 +1,12 @@
+import { timeTracker } from "../managers"
+
 export type ITimeStlot = {
     name: string
     startHour: number
 }
 
 /**
- * Time Settings, which can be set using `TimeManager.editSettings`
+ * Time Settings, which can be set using {@link timeTracker.editSettings}
  */
 export type TimeSettings = {
     /**

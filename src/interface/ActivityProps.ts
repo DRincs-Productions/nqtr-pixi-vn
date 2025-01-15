@@ -10,13 +10,13 @@ export default interface ActivityProps {
     /**
      * The hour when the activity starts. If the activity is not started yet, it will be hidden.
      * If you set 3, the activity will be hidden into hours 1 and 2, and will be shown from hour 3.
-     * @default TimeManager.minDayHours
+     * @default timeTracker.minDayHours
      */
     fromHour?: number
     /**
      * The hour when the activity ends. If the activity is ended yet, it will be hidden.
      * If you set 3, the activity will be shown into hours 1 and 2 and will be hidden from hour 3.
-     * @default TimeManager.maxDayHours + 1
+     * @default timeTracker.maxDayHours + 1
      */
     toHour?: number
     /**

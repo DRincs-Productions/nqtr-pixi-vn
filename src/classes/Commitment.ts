@@ -1,7 +1,7 @@
 import { GraphicItemType, OnRenderGraphicItemProps, OnRunProps } from "@drincs/nqtr/dist/override";
 import { CharacterInterface, getFlag, StoredClassModel } from "@drincs/pixi-vn";
 import { CommitmentProps } from "../interface";
-import TimeManager from "../managers/TimeManager";
+import { timeTracker } from "../managers";
 import { ExecutionType } from "../types";
 import { OnRunCommitmentEvent } from "../types/OnRunCommitmentEvent";
 import RoomBaseModel from "./navigation/Room";
@@ -79,7 +79,7 @@ export default class CommitmentBaseModel<TCharacter extends CharacterInterface =
      * If you set undefined, it will return the initial value of fromHour.
      */
     get fromHour(): number {
-        return this.getStorageProperty<number>("fromHour") || this.defaultFromHour || TimeManager.minDayHours
+        return this.getStorageProperty<number>("fromHour") || this.defaultFromHour || timeTracker.minDayHours
     }
     set fromHour(value: number | undefined) {
         this.setStorageProperty("fromHour", value)
@@ -91,7 +91,7 @@ export default class CommitmentBaseModel<TCharacter extends CharacterInterface =
      * If you set undefined, it will return the initial value of toHour.
      */
     get toHour(): number {
-        return this.getStorageProperty<number>("toHour") || this.defaultToHour || (TimeManager.maxDayHours + 1)
+        return this.getStorageProperty<number>("toHour") || this.defaultToHour || (timeTracker.maxDayHours + 1)
     }
     set toHour(value: number | undefined) {
         this.setStorageProperty("toHour", value)
@@ -196,10 +196,10 @@ export default class CommitmentBaseModel<TCharacter extends CharacterInterface =
      * Whether is hidden. You can also pass a Pixi'VN flag name.
      */
     get hidden(): boolean {
-        if (this.fromDay && this.fromDay > TimeManager.currentDay) {
+        if (this.fromDay && this.fromDay > timeTracker.currentDay) {
             return true
         }
-        if (!TimeManager.nowIsBetween(this.fromHour, this.toHour)) {
+        if (!timeTracker.nowIsBetween(this.fromHour, this.toHour)) {
             return true
         }
         if (!this.isExpired) {
@@ -232,7 +232,7 @@ export default class CommitmentBaseModel<TCharacter extends CharacterInterface =
      * @returns Whether the commitment is expired.
      */
     isExpired(): boolean {
-        if (this.toDay && this.toDay <= TimeManager.currentDay) {
+        if (this.toDay && this.toDay <= timeTracker.currentDay) {
             return true
         }
         return false

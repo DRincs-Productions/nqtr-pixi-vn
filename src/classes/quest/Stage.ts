@@ -2,7 +2,7 @@ import { GraphicItemType, OnRenderGraphicItemProps, OnStartEndStageQuest } from 
 import { StoredClassModel, getFlag } from "@drincs/pixi-vn";
 import { StageProps } from "../../interface";
 import StageFlags from "../../interface/quest/StageFlags";
-import { TimeManager } from "../../managers";
+import { timeTracker } from "../../managers";
 import { QuestsRequiredType } from "../../types/QuestsRequired";
 import Goal, { GoalStage } from "./Goal";
 
@@ -212,7 +212,7 @@ export class StageQuest extends Stage {
             if (prevStageEndDay === undefined) {
                 return false
             }
-            if (prevStageEndDay + daysRequired > TimeManager.currentDay) {
+            if (prevStageEndDay + daysRequired > timeTracker.currentDay) {
                 return false
             }
         }
@@ -232,7 +232,7 @@ export class StageQuest extends Stage {
      */
     inizialize() {
         if (this.daysRequiredToStart > 0) {
-            this.prevStageEndDay = TimeManager.currentDay
+            this.prevStageEndDay = timeTracker.currentDay
             console.log(`[NQTR] Stage ${this.id} will start on day ${this.startDay}`)
         }
     }
