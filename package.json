@@ -23,12 +23,12 @@
   },
   "homepage": "https://github.com/DRincs-Productions/nqtr-pixi-vn#readme",
   "devDependencies": {
-    "@drincs/nqtr": "^0.2.11",
-    "@types/react": "^18.3.3",
+    "@drincs/nqtr": "^0.2.12",
+    "@types/react": "^18.3.18",
     "ts-node": "^10.9.2",
-    "tsup": "^8.1.0",
-    "typescript": "^5.5.2",
-    "vitest": "^1.6.0"
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.3",
+    "vitest": "^2.1.8"
   },
   "keywords": [
     "game",
@@ -45,6 +45,6 @@
     "vn"
   ],
   "peerDependencies": {
-    "@drincs/pixi-vn": ">=0.3.0"
+    "@drincs/pixi-vn": ">=0.10.5"
   }
 }
