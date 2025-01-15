@@ -1,4 +1,4 @@
-export { default as ExecutionType } from './ExecutionType';
-export { QuestsRequiredType } from './QuestsRequired';
-export { ITimeStlot, TimeSettings } from './TimeSettings';
+export type { default as ExecutionType } from './ExecutionType';
+export type { QuestsRequiredType } from './QuestsRequired';
+export type { ITimeStlot, TimeSettings } from './TimeSettings';
 
