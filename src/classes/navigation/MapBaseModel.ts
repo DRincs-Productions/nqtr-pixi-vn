@@ -1,7 +1,7 @@
 import { getLocationsByMap } from "../../decorators/RoomDecorator"
 import { MapBaseModelProps } from "../../interface"
 import { MapBaseInternalInterface } from "../../interface/navigation/MapInterface"
-import LocationBaseModel from "./Location"
+import LocationBaseModel from "./LocationBaseModel"
 import MapStoredClass from "./MapStoredClass"
 
 /**
