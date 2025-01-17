@@ -1,5 +1,6 @@
 export { default as ActivityProps } from './ActivityProps';
 export { default as CommitmentProps } from './CommitmentProps';
+export { default as LocationInterface } from './navigation/LocationInterface';
 export { default as LocationProps } from './navigation/LocationProps';
 export { default as MapBaseModelProps } from './navigation/MapBaseModelProps';
 export { default as MapInterface } from './navigation/MapInterface';
