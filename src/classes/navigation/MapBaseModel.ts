@@ -1,5 +1,3 @@
-import { GraphicItemType, NeighboringMapsInterface, OnRenderGraphicItemProps } from "@drincs/nqtr/dist/override"
-import { getFlag } from "@drincs/pixi-vn"
 import { getLocationsByMap } from "../../decorators/RoomDecorator"
 import { MapBaseModelProps } from "../../interface"
 import { MapBaseInternalInterface } from "../../interface/navigation/MapInterface"
@@ -30,10 +28,7 @@ export default class MapBaseModel extends MapStoredClass implements MapBaseInter
     constructor(id: string, props: MapBaseModelProps = {}) {
         super(id)
         this.defaultName = props.name || ""
-        this._renderImage = props.renderImage
-        this.defaultDisabled = props.disabled || false
-        this.defaultHidden = props.hidden || false
-        this._neighboringMaps = props.neighboringMaps
+        this._image = props.image
     }
 
     private defaultName: string
@@ -48,71 +43,12 @@ export default class MapBaseModel extends MapStoredClass implements MapBaseInter
         this.setStorageProperty("name", value)
     }
 
-    private _renderImage?: GraphicItemType | ((map: MapBaseModel, props: OnRenderGraphicItemProps) => GraphicItemType)
+    private _image?: string
     /**
-     * The function for rendering the image of the map.
+     * The image of the map.
      */
-    get renderImage(): ((props: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
-        let render = this._renderImage
-        if (render === undefined) {
-            return undefined
-        }
-        if (typeof render === "function") {
-            return (props: OnRenderGraphicItemProps) => {
-                return render(this, props)
-            }
-        }
-        return (props: OnRenderGraphicItemProps) => render
-    }
-
-    private defaultDisabled: boolean | string
-    /**
-     * Whether is disabled. If it is a string, it is a Pixi'VN flag name.
-     */
-    get disabled(): boolean {
-        let value = this.getStorageProperty<boolean>("disabled") || this.defaultDisabled
-        if (typeof value === "string") {
-            return getFlag(value)
-        }
-        return value
-    }
-    set disabled(value: boolean | string) {
-        this.setStorageProperty("disabled", value)
-    }
-
-    private defaultHidden: boolean | string
-    /**
-     * Whether is hidden. If it is a string, it is a Pixi'VN flag name.
-     */
-    get hidden(): boolean {
-        let value = this.getStorageProperty<boolean>("hidden") || this.defaultHidden
-        if (typeof value === "string") {
-            return getFlag(value)
-        }
-        return value
-    }
-    set hidden(value: boolean | string) {
-        this.setStorageProperty("hidden", value)
-    }
-
-    private _neighboringMaps?: NeighboringMapsInterface
-    /**
-     * The neighboring maps that are available in this map.
-     * @example
-     * ```ts
-     * {
-     *     "north": "atlanta_map_id",
-     *     "south": "miami_map_id",
-     *     "east": "new_york_map_id",
-     *     "west": "los_angeles_map_id"
-     * }
-     * ```
-     */
-    get neighboringMaps(): NeighboringMapsInterface {
-        return this._neighboringMaps || {}
-    }
-    set neighboringMaps(value: NeighboringMapsInterface | undefined) {
-        this._neighboringMaps = value
+    get image(): string | undefined {
+        return this._image
     }
 
     /**
