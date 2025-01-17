@@ -2,7 +2,7 @@ import { GraphicItemType, OnRenderGraphicItemProps } from "@drincs/nqtr/dist/ove
 import { getFlag, StoredClassModel } from "@drincs/pixi-vn";
 import { getRoomsByLocation } from "../../decorators/RoomDecorator";
 import { LocationProps } from "../../interface";
-import MapBaseModel from "./Map";
+import MapBaseModel from "./MapBaseModel";
 import RoomBaseModel from "./Room";
 
 const LOCATION_CATEGORY = "__nqtr-location__"

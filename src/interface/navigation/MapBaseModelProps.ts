@@ -1,7 +1,7 @@
 import { GraphicItemType, NeighboringMapsInterface, OnRenderGraphicItemProps } from "@drincs/nqtr/dist/override"
 import { MapBaseModel } from "../../classes"
 
-export default interface MapProps {
+export default interface MapBaseModelProps {
     /**
      * The name
      * @default ""
