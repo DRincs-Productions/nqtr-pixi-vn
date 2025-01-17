@@ -2,6 +2,7 @@ import { GraphicItemType, NeighboringMapsInterface, OnRenderGraphicItemProps } f
 import { getFlag } from "@drincs/pixi-vn"
 import { getLocationsByMap } from "../../decorators/RoomDecorator"
 import { MapBaseModelProps } from "../../interface"
+import { MapBaseInternalInterface } from "../../interface/navigation/MapInterface"
 import LocationBaseModel from "./Location"
 import MapStoredClass from "./MapStoredClass"
 
@@ -21,7 +22,7 @@ import MapStoredClass from "./MapStoredClass"
  * });
  * ```
  */
-export default class MapBaseModel extends MapStoredClass {
+export default class MapBaseModel extends MapStoredClass implements MapBaseInternalInterface {
     /**
      * @param id The id of the map, it must be unique.
      * @param props The properties of the map. 
