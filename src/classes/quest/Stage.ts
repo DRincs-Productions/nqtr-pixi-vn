@@ -4,7 +4,7 @@ import { StageProps } from "../../interface";
 import StageFlags from "../../interface/quest/StageFlags";
 import { timeTracker } from "../../managers";
 import { QuestsRequiredType } from "../../types/QuestsRequired";
-import Goal, { GoalStage } from "./Goal";
+import Goal, { GoalStage } from "./Goal.ts.back";
 
 const STAGE_CATEGORY = "__nqtr-stage__"
 

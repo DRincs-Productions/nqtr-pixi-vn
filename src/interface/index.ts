@@ -1,4 +1,6 @@
+export { default as ActivityInterface } from './ActivityInterface';
 export { default as ActivityProps } from './ActivityProps';
+export { default as CommitmentInterface } from './CommitmentInterface';
 export { default as CommitmentProps } from './CommitmentProps';
 export { default as LocationInterface } from './navigation/LocationInterface';
 export { default as LocationProps } from './navigation/LocationProps';
