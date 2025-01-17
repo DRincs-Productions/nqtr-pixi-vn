@@ -1,10 +1,9 @@
 import { GraphicItemType, NeighboringMapsInterface, OnRenderGraphicItemProps } from "@drincs/nqtr/dist/override"
-import { getFlag, StoredClassModel } from "@drincs/pixi-vn"
+import { getFlag } from "@drincs/pixi-vn"
 import { getLocationsByMap } from "../../decorators/RoomDecorator"
 import { MapBaseModelProps } from "../../interface"
 import LocationBaseModel from "./Location"
-
-const MAP_CATEGORY = "__nqtr-map__"
+import MapStoredClass from "./MapStoredClass"
 
 /**
  * The base model of a map. I suggest you extend this class to create your own map model.
@@ -22,13 +21,13 @@ const MAP_CATEGORY = "__nqtr-map__"
  * });
  * ```
  */
-export default class MapBaseModel extends StoredClassModel {
+export default class MapBaseModel extends MapStoredClass {
     /**
      * @param id The id of the map, it must be unique.
      * @param props The properties of the map. 
      */
     constructor(id: string, props: MapBaseModelProps = {}) {
-        super(MAP_CATEGORY, id)
+        super(id)
         this.defaultName = props.name || ""
         this._renderImage = props.renderImage
         this.defaultDisabled = props.disabled || false
