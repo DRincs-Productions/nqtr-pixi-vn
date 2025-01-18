@@ -3,7 +3,7 @@ import { getFlag } from "@drincs/pixi-vn";
 import { ActivityProps } from '../interface';
 import { timeTracker } from '../managers';
 import { OnRunActivityEvent } from '../types/OnRunActivityEvent';
-import { ActivityStoredAbstract } from './ActivityStoredAbstract';
+import ActivityStoredClass from './ActivityStoredClass';
 
 /**
  * The activity model. It is used to create an activity.
@@ -23,33 +23,19 @@ import { ActivityStoredAbstract } from './ActivityStoredAbstract';
  *         name: "Nap",
  *         fromHour: 5,
  *         toHour: 23,
- *         renderIcon: (activity, props) => {
- *             return <Button
- *                 disabled={activity.disabled}
- *                 onClick={() => {
- *                     if (!props) {
- *                         console.error("Props is undefined")
- *                         return
- *                     }
- *                     activity.onRun(props)
- *                 }}
- *                 ariaLabel={activity.name}
- *             >
- *                 <BedIcon />
- *             </Button>
- *         },
+ *         icon: "https://icon.jpg",
  *     }
  * )
  * ```
  */
-export default class ActivityModel {
+export default class ActivityModel extends ActivityStoredClass {
     /**
      * @param id The activity id, that must be unique.
      * @param onRun The function that is called when the activity is runned. Have 2 parameters: the runned activity and the yourParams object, that is an object with the parameters that you want to pass to the onRun function.
      * @param props The activity properties.
      */
     constructor(id: string, onRun: OnRunActivityEvent<ActivityModel>, props: ActivityProps) {
-        this._id = id
+        super(id)
         this._name = props.name
         this._fromHour = props.fromHour
         this._toHour = props.toHour
@@ -59,14 +45,6 @@ export default class ActivityModel {
         this._hidden = props.hidden || false
         this._renderIcon = props.renderIcon
         this._onRun = onRun
-    }
-
-    private _id: string
-    /**
-     * The activity id, that is unique.
-     */
-    get id(): string {
-        return this._id
     }
 
     private _name?: string
