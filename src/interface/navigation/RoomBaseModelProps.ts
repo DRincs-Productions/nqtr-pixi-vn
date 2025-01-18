@@ -27,8 +27,8 @@ export default interface RoomBaseModelProps {
      */
     hidden?: boolean | string
     /**
-     * The icon element. Can be a string or an Element or a Pixi'VN CanvasItem
+     * The icon of the room.
      * @default undefined
      */
-    renderIcon?: GraphicItemType | ((room: RoomBaseModel<TLocation>, props: OnRenderGraphicItemProps) => GraphicItemType)
+    icon?: string
 }

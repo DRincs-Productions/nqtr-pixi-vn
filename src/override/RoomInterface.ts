@@ -24,4 +24,8 @@ export default interface RoomInterface {
      * Whether is hidden. If it is a string, it is a Pixi'VN flag name.
      */
     set hidden(value: boolean | string)
+    /**
+     * The icon of the room.
+     */
+    readonly icon: string | undefined
 }

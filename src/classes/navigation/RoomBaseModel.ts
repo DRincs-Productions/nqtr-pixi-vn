@@ -1,4 +1,3 @@
-import { GraphicItemType, OnRenderGraphicItemProps } from "@drincs/nqtr/dist/override";
 import { getFlag } from "@drincs/pixi-vn";
 import { saveRoom } from "../../decorators";
 import { getCurrentRoutine } from "../../functions/RoutineFunctions";
@@ -31,7 +30,7 @@ export default class RoomBaseModel extends RoomStoredClass {
         this._image = props.image
         this.defaultDisabled = props.disabled || false
         this.defaultHidden = props.hidden || false
-        this._renderIcon = props.renderIcon
+        this._icon = props.icon
     }
 
     private defaultName: string
@@ -84,21 +83,12 @@ export default class RoomBaseModel extends RoomStoredClass {
         this.setStorageProperty("hidden", value)
     }
 
-    private _renderIcon?: GraphicItemType | ((room: RoomBaseModel<TLocation>, props: OnRenderGraphicItemProps) => GraphicItemType)
+    private _icon?: string
     /**
      * The function for rendering the icon of the room.
      */
-    get renderIcon(): ((props: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
-        let render = this._renderIcon
-        if (render === undefined) {
-            return undefined
-        }
-        if (typeof render === "function") {
-            return (props: OnRenderGraphicItemProps) => {
-                return render(this, props)
-            }
-        }
-        return (props: OnRenderGraphicItemProps) => render
+    get icon(): string | undefined {
+        return this._icon
     }
 
     /**
