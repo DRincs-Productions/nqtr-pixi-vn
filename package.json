@@ -24,7 +24,6 @@
   "homepage": "https://github.com/DRincs-Productions/nqtr-pixi-vn#readme",
   "devDependencies": {
     "@drincs/nqtr": "^0.2.12",
-    "@types/react": "^18.3.18",
     "jsdom": "^26.0.0",
     "ts-node": "^10.9.2",
     "tsup": "^8.3.5",
