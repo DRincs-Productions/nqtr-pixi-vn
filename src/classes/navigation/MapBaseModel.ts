@@ -10,12 +10,6 @@ import MapStoredClass from "./MapStoredClass"
  * export const mainMap = new MapBaseModel('main_map', {
  *     name: 'Main Map',
  *     image: "https://image.jpg",
- *     neighboringMaps: {
- *         "north": "atlanta_map_id",
- *         "south": "miami_map_id",
- *         "east": "new_york_map_id",
- *         "west": "los_angeles_map_id"
- *     }
  * });
  * ```
  */

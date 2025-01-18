@@ -34,28 +34,16 @@ export default class RoomBaseModel<TLocation extends LocationBaseModel = Locatio
         super(id)
         this._location = location
         this.defaultName = props.name || ""
-        this._renderImage = props.renderImage
+        this._image = props.image
         this.defaultActivityIds = props.defaultActivities?.map(activity => activity.id) || []
         this.defaultDisabled = props.disabled || false
         this.defaultHidden = props.hidden || false
         this._renderIcon = props.renderIcon
-        this._isEntrance = props.isEntrance
     }
 
     private _location: TLocation
-    /**
-     * The location where the room is.
-     */
     get location(): TLocation {
         return this._location
-    }
-
-    private _isEntrance?: boolean
-    /**
-     * Whether is an entrance room, so when the player enters in the location, it will be the first room to be shown.
-     */
-    get isEntrance(): boolean {
-        return this._isEntrance || false
     }
 
     private defaultName: string
@@ -70,21 +58,12 @@ export default class RoomBaseModel<TLocation extends LocationBaseModel = Locatio
         this.setStorageProperty("name", value)
     }
 
-    private _renderImage?: GraphicItemType | ((room: RoomBaseModel<TLocation>, props: OnRenderGraphicItemProps) => GraphicItemType)
+    private _image?: string
     /**
-     * The function for rendering the image of the room.
+     * The image of the room.
      */
-    get renderImage(): ((props: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
-        let render = this._renderImage
-        if (render === undefined) {
-            return undefined
-        }
-        if (typeof render === "function") {
-            return (props: OnRenderGraphicItemProps) => {
-                return render(this, props)
-            }
-        }
-        return (props: OnRenderGraphicItemProps) => render
+    get image(): string | undefined {
+        return this._image
     }
 
     private defaultActivityIds: string[]
