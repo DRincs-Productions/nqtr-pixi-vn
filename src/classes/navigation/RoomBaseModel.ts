@@ -2,12 +2,11 @@ import { GraphicItemType, OnRenderGraphicItemProps } from "@drincs/nqtr/dist/ove
 import { getFlag } from "@drincs/pixi-vn";
 import { getActivityById, saveRoom } from "../../decorators";
 import { getCurrentRoutine } from "../../functions/RoutineFunctions";
-import { RoomBaseModelProps } from "../../interface";
+import { LocationInterface, RoomBaseModelProps } from "../../interface";
 import { RoomActivityMemory } from "../../interface/RoomActivityMemory";
 import ActivityModel from "../Activity";
 import CommitmentBaseModel from "../Commitment";
 import ActivityRoom from "./ActivityRoom";
-import LocationBaseModel from "./LocationBaseModel";
 import RoomStoredClass from "./RoomStoredClass";
 
 /**
@@ -24,26 +23,20 @@ import RoomStoredClass from "./RoomStoredClass";
  * saveRoom(mcRoom)
  * ```
  */
-export default class RoomBaseModel<TLocation extends LocationBaseModel = LocationBaseModel> extends RoomStoredClass {
+export default class RoomBaseModel extends RoomStoredClass {
     /**
      * @param id The id of the room, it must be unique.
      * @param location The location where the room is.
      * @param props The properties of the room.
      */
-    constructor(id: string, location: TLocation, props: RoomBaseModelProps = {}) {
-        super(id)
-        this._location = location
+    constructor(id: string, location: LocationInterface, props: RoomBaseModelProps = {}) {
+        super(id, location)
         this.defaultName = props.name || ""
         this._image = props.image
         this.defaultActivityIds = props.defaultActivities?.map(activity => activity.id) || []
         this.defaultDisabled = props.disabled || false
         this.defaultHidden = props.hidden || false
         this._renderIcon = props.renderIcon
-    }
-
-    private _location: TLocation
-    get location(): TLocation {
-        return this._location
     }
 
     private defaultName: string
