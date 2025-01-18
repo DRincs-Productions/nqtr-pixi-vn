@@ -1,3 +1,5 @@
+import { ActivityInterface } from ".."
+
 export default interface RoomBaseModelProps {
     /**
      * The name
@@ -13,7 +15,7 @@ export default interface RoomBaseModelProps {
      * The activities that are available in this room.
      * @default []
      */
-    defaultActivities?: ActivityModel[],
+    activities?: ActivityInterface[],
     /**
      * Whether is disabled. You can also pass a Pixi'VN flag name.
      * @default false

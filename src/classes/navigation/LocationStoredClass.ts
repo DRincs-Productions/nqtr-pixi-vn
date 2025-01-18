@@ -1,5 +1,5 @@
 import { getRoomsByLocation } from "../../decorators/RoomDecorator"
-import { MapInterface, RoomInterface } from "../../interface"
+import { ActivityInterface, MapInterface, RoomInterface } from "../../interface"
 import LocationBaseInterface from "../../interface/navigation/LocationInterface"
 import NavigationAbstractClass from "./NavigationAbstractClass"
 
@@ -10,9 +10,10 @@ export default class LocationStoredClass extends NavigationAbstractClass impleme
         /**
          * The map where the location is.
          */
-        private readonly _map: MapInterface
+        private readonly _map: MapInterface,
+        activities: ActivityInterface[] = []
     ) {
-        super(LOCATION_CATEGORY, id)
+        super(LOCATION_CATEGORY, id, activities)
     }
 
     get map(): MapInterface {

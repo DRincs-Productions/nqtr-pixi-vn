@@ -1,3 +1,4 @@
+import { ActivityInterface } from ".."
 
 export default interface MapBaseModelProps {
     /**
@@ -10,4 +11,9 @@ export default interface MapBaseModelProps {
      * @default undefined
      */
     image?: string
+    /**
+     * The activities that are available in this map.
+     * @default []
+     */
+    activities?: ActivityInterface[],
 }

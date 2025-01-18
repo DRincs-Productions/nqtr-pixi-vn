@@ -18,7 +18,7 @@ export default class MapBaseModel extends MapStoredClass implements MapBaseInter
      * @param props The properties of the map. 
      */
     constructor(id: string, props: MapBaseModelProps = {}) {
-        super(id)
+        super(id, props.activities || [])
         this.defaultName = props.name || ""
         this._image = props.image
     }

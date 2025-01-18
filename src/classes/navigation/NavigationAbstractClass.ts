@@ -15,7 +15,12 @@ type ExcludedScheduling = {
 }
 
 export default abstract class NavigationAbstractClass extends StoredClassModel implements NavigationAbstractInterface {
-    private defaultActivities: ActivityInterface[] = []
+    constructor(
+        categoryId: string, id: string,
+        private defaultActivities: ActivityInterface[] = []
+    ) {
+        super(categoryId, id)
+    }
     private get defaultActivitiesIds(): string[] {
         return this.defaultActivities.map(activity => activity.id)
     }

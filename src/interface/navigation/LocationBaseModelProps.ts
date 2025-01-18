@@ -1,3 +1,5 @@
+import { ActivityInterface } from ".."
+
 export default interface LocationBaseModelProps {
     /**
      * The name
@@ -19,4 +21,9 @@ export default interface LocationBaseModelProps {
      * @default undefined
      */
     icon?: string
+    /**
+     * The activities that are available in this location.
+     * @default []
+     */
+    activities?: ActivityInterface[],
 }

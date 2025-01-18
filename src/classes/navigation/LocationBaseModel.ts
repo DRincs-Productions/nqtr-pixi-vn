@@ -19,7 +19,7 @@ export default class LocationBaseModel extends LocationStoredClass {
      * @param props The properties of the location.
      */
     constructor(id: string, map: MapInterface, props: LocationBaseModelProps = {}) {
-        super(id, map)
+        super(id, map, props.activities || [])
         this.defaultName = props.name || ""
         this.defaultDisabled = props.disabled || false
         this.defaultHidden = props.hidden || false
