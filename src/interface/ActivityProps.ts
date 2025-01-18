@@ -1,5 +1,3 @@
-import { GraphicItemType, OnRenderGraphicItemProps } from "@drincs/nqtr/dist/override"
-import { ActivityStoredAbstract } from "../classes/ActivityStoredAbstract"
 
 export default interface ActivityProps {
     /**
@@ -42,8 +40,8 @@ export default interface ActivityProps {
      */
     hidden?: boolean | string
     /**
-     * The icon element. Can be a string or an Element or a Pixi'VN CanvasItem
+     * The icon of the activity.
      * @default undefined
      */
-    renderIcon?: GraphicItemType | ((activity: ActivityStoredAbstract, props: OnRenderGraphicItemProps) => GraphicItemType)
+    renderIcon?: string
 }

@@ -1,4 +1,3 @@
-import { GraphicItemType, OnRenderGraphicItemProps } from '@drincs/nqtr/dist/override';
 import { getFlag } from "@drincs/pixi-vn";
 import { ActivityProps } from '../interface';
 import { timeTracker } from '../managers';
@@ -44,12 +43,12 @@ export default class ActivityBaseModel extends ActivityStoredClass {
         this._name = props.name
         this._disabled = props.disabled || false
         this._hidden = props.hidden || false
-        this._renderIcon = props.renderIcon
+        this._icon = props.renderIcon
     }
 
     private _name?: string
     /**
-     * The name
+     * The name of the activity.
      */
     get name(): string | undefined {
         return this._name
@@ -57,7 +56,7 @@ export default class ActivityBaseModel extends ActivityStoredClass {
 
     private _disabled?: boolean | string
     /**
-     * Whether is disabled.
+     * Whether is disabled. If the activity is disabled, it will not be shown.
      */
     get disabled(): boolean | undefined {
         if (typeof this._disabled === "string") {
@@ -83,20 +82,11 @@ export default class ActivityBaseModel extends ActivityStoredClass {
         return this._hidden
     }
 
-    private _renderIcon?: GraphicItemType | ((activity: ActivityBaseModel, props: OnRenderGraphicItemProps) => GraphicItemType)
+    private _icon?: string
     /**
-     * The function for rendering the icon of the activity.
+     * The icon of the activity.
      */
-    get renderIcon(): ((props: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
-        let render = this._renderIcon
-        if (render === undefined) {
-            return undefined
-        }
-        if (typeof render === "function") {
-            return (props: OnRenderGraphicItemProps) => {
-                return render(this, props)
-            }
-        }
-        return (props: OnRenderGraphicItemProps) => render
+    get renderIcon(): string | undefined {
+        return this._icon
     }
 }
