@@ -1,7 +1,4 @@
-import { GraphicItemType, OnRenderGraphicItemProps } from "@drincs/nqtr/dist/override"
-import { LocationBaseModel, MapBaseModel } from "../../classes"
-
-export default interface LocationBaseModelProps<TMap extends MapBaseModel = MapBaseModel> {
+export default interface LocationBaseModelProps {
     /**
      * The name
      * @default ""
@@ -18,8 +15,8 @@ export default interface LocationBaseModelProps<TMap extends MapBaseModel = MapB
      */
     hidden?: boolean | string
     /**
-     * The icon element. Can be a string or an Element or a Pixi'VN CanvasItem
+     * The icon of the location.
      * @default undefined
      */
-    renderIcon?: GraphicItemType | ((location: LocationBaseModel<TMap>, props: OnRenderGraphicItemProps) => GraphicItemType)
+    icon?: string
 }

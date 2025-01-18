@@ -1,10 +1,7 @@
-import { GraphicItemType, OnRenderGraphicItemProps } from "@drincs/nqtr/dist/override";
 import { getFlag } from "@drincs/pixi-vn";
 import { getRoomsByLocation } from "../../decorators/RoomDecorator";
-import { LocationBaseModelProps } from "../../interface";
+import { LocationBaseModelProps, MapInterface, RoomInterface } from "../../interface";
 import LocationStoredClass from "./LocationStoredClass";
-import MapBaseModel from "./MapBaseModel";
-import RoomBaseModel from "./Room";
 
 /**
  * The base model of a location. I suggest you extend this class to create your own location model.
@@ -16,18 +13,18 @@ import RoomBaseModel from "./Room";
  * });
  * ```
  */
-export default class LocationBaseModel<TMap extends MapBaseModel = MapBaseModel> extends LocationStoredClass {
+export default class LocationBaseModel extends LocationStoredClass {
     /**
      * @param id The id of the location, it must be unique.
      * @param map The map where the location is.
      * @param props The properties of the location.
      */
-    constructor(id: string, map: TMap, props: LocationBaseModelProps<TMap> = {}) {
+    constructor(id: string, map: MapInterface, props: LocationBaseModelProps = {}) {
         super(id)
         this.defaultName = props.name || ""
         this.defaultDisabled = props.disabled || false
         this.defaultHidden = props.hidden || false
-        this._renderIcon = props.renderIcon
+        this._icon = props.icon
         this._map = map
     }
 
@@ -73,59 +70,20 @@ export default class LocationBaseModel<TMap extends MapBaseModel = MapBaseModel>
         this.setStorageProperty("hidden", value)
     }
 
-    private _renderIcon?: GraphicItemType | ((location: LocationBaseModel<TMap>, props: OnRenderGraphicItemProps) => GraphicItemType)
+    private _icon?: string
     /**
-     * The function for rendering the icon of the location.
+     * The icon of the location.
      */
-    get renderIcon(): ((props: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
-        let render = this._renderIcon
-        if (render === undefined) {
-            return undefined
-        }
-        if (typeof render === "function") {
-            return (props: OnRenderGraphicItemProps) => {
-                return render(this, props)
-            }
-        }
-        return (props: OnRenderGraphicItemProps) => render
+    get icon(): string | undefined {
+        return this._icon
     }
 
-    private _map: TMap
-    /**
-     * The map where the location is.
-     */
-    get map(): TMap {
+    private _map: MapInterface
+    get map(): MapInterface {
         return this._map
     }
 
-    /**
-     * Get the entrance room of the location.
-     * You can cast the room to a specific type that extends RoomBaseModel.
-     * @returns The entrance room or the first room if there is no entrance.
-     * @example
-     * ```typescript
-     * const entranceHome = new RoomBaseModel("entrance-home", home, { isEntrance: true })
-     * saveRoom(entranceHome)
-     * const home = new LocationBaseModel("home", map, { name: "Home" })
-     * 
-     * const entrance = home.getEntrance() // entrance === entranceHome
-     * ```
-     */
-    getEntrance<TRoom extends RoomBaseModel = RoomBaseModel>(): TRoom | undefined {
-        let rooms = this.getRooms<TRoom>()
-        if (rooms.length === 0) {
-            console.error(`[NQTR] The location ${this.id} has no rooms`)
-            return
-        }
-        return rooms.find(room => room.isEntrance) || rooms[0]
-    }
-
-    /**
-     * Get all rooms in the location.
-     * You can cast the rooms to a specific type that extends RoomBaseModel.
-     * @returns The rooms in the location.
-     */
-    getRooms<TRoom extends RoomBaseModel = RoomBaseModel>(): TRoom[] {
-        return getRoomsByLocation<TRoom>(this)
+    get rooms(): RoomInterface[] {
+        return getRoomsByLocation(this)
     }
 }
