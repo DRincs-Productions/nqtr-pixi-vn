@@ -5,5 +5,5 @@ export interface ActivityBaseInternalInterface {
     /**
      * The id of the activity.
      */
-    id: string;
+    readonly id: string;
 }
