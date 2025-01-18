@@ -1,4 +1,5 @@
 import { StoredClassModel } from "@drincs/pixi-vn";
+import { getActivityById } from "../../decorators";
 import { ActivityInterface } from "../../interface";
 import NavigationAbstractInterface from "../../interface/navigation/NavigationAbstractClass";
 import { timeTracker } from "../../managers";
@@ -175,5 +176,43 @@ export default abstract class NavigationAbstractClass extends StoredClassModel i
                 }
             }
         })
+    }
+
+    get activities(): ActivityInterface[] {
+        let res: ActivityInterface[] = []
+        let activitiesToExclude: string[] = []
+        Object.entries(this.activeActivityScheduling).forEach(([activityId, scheduling]) => {
+            if (
+                scheduling.fromHour && scheduling.toHour &&
+                !timeTracker.nowIsBetween(scheduling.fromHour, scheduling.toHour)
+            ) {
+                activitiesToExclude.push(activityId)
+            }
+            else if (scheduling.fromDay && scheduling.fromDay > timeTracker.currentDay) {
+                activitiesToExclude.push(activityId)
+            }
+            else if (scheduling.toDay && scheduling.toDay < timeTracker.currentDay) {
+                activitiesToExclude.push(activityId)
+            }
+        })
+        Object.entries(this.excludedActivitiesScheduling).forEach(([activityId, scheduling]) => {
+            if (scheduling.toDay && scheduling.toDay >= timeTracker.currentDay) {
+                activitiesToExclude.push(activityId)
+            }
+        })
+        this.defaultActivities.forEach(activity => {
+            if (!activitiesToExclude.includes(activity.id)) {
+                res.push(activity)
+            }
+        })
+        this.additionalActivitiesIds.forEach(activityId => {
+            if (!activitiesToExclude.includes(activityId)) {
+                let activity = getActivityById(activityId)
+                if (activity) {
+                    res.push(activity)
+                }
+            }
+        })
+        return res
     }
 }

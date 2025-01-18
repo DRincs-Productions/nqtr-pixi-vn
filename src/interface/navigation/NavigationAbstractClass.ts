@@ -44,4 +44,8 @@ export default interface NavigationAbstractInterface extends StoredClassModel {
      * Removes the useless activities.
      */
     clearExpiredActivities(): void
+    /**
+     * The activities associated with this class.
+     */
+    activities: ActivityInterface[]
 }
