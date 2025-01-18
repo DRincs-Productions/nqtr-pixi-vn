@@ -1,7 +1,6 @@
 import { getLocationsByMap } from "../../decorators/RoomDecorator"
-import { MapBaseModelProps } from "../../interface"
+import { LocationInterface, MapBaseModelProps } from "../../interface"
 import { MapBaseInternalInterface } from "../../interface/navigation/MapInterface"
-import LocationBaseModel from "./LocationBaseModel"
 import MapStoredClass from "./MapStoredClass"
 
 /**
@@ -51,11 +50,7 @@ export default class MapBaseModel extends MapStoredClass implements MapBaseInter
         return this._image
     }
 
-    /**
-     * Get all locations in the map.
-     * @returns The locations in the map.
-     */
-    getLocations<TLocation extends LocationBaseModel = LocationBaseModel>(): TLocation[] {
-        return getLocationsByMap<TLocation>(this)
+    get locations(): LocationInterface[] {
+        return getLocationsByMap(this)
     }
 }

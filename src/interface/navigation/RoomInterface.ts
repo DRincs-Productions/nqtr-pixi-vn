@@ -2,4 +2,8 @@ export default interface RoomBaseInterface extends RoomBaseInternalInterface // 
 { }
 
 export interface RoomBaseInternalInterface {
+    /**
+     * The id of the room.
+     */
+    id: string;
 }

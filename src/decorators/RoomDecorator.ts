@@ -1,6 +1,6 @@
-import { LocationBaseModel, MapBaseModel, RoomBaseModel } from "../classes"
+import { LocationInterface, MapInterface, RoomInterface } from "../interface"
 
-export const registeredRooms: { [id: string]: RoomBaseModel } = {}
+export const registeredRooms: { [id: string]: RoomInterface } = {}
 
 /**
  * Save a room in the registered rooms. If the room already exists, it will be overwritten.
@@ -11,7 +11,7 @@ export const registeredRooms: { [id: string]: RoomBaseModel } = {}
  * saveRoom([mcRoom, aliceRoom, annRoom, bathroom, lounge, terrace, gymRoom]);
  * ```
  */
-export function saveRoom<TRoom extends RoomBaseModel = RoomBaseModel>(room: TRoom | TRoom[]) {
+export function saveRoom(room: RoomInterface | RoomInterface[]) {
     if (Array.isArray(room)) {
         room.forEach(c => saveRoom(c))
         return
@@ -27,14 +27,14 @@ export function saveRoom<TRoom extends RoomBaseModel = RoomBaseModel>(room: TRoo
  * @param id The id of the room.
  * @returns The room or undefined if not found.
  */
-export function getRoomById<TRoom extends RoomBaseModel = RoomBaseModel>(id: string): TRoom | undefined {
+export function getRoomById(id: string): RoomInterface | undefined {
     try {
         let room = registeredRooms[id]
         if (!room) {
             console.error(`[NQTR] Room ${id} not found`)
             return
         }
-        return room as TRoom
+        return room
     }
     catch (e) {
         console.error(`[NQTR] Error while getting Room ${id}`, e)
@@ -47,18 +47,18 @@ export function getRoomById<TRoom extends RoomBaseModel = RoomBaseModel>(id: str
  * @param location The location where the rooms are.
  * @returns The rooms in the location.
  */
-export function getRoomsByLocation<TRoom extends RoomBaseModel = RoomBaseModel>(location: LocationBaseModel): TRoom[] {
-    return Object.values(registeredRooms).filter(room => room.location.id === location.id) as TRoom[]
+export function getRoomsByLocation(location: LocationInterface): RoomInterface[] {
+    return Object.values(registeredRooms).filter(room => room.location.id === location.id)
 }
 
 /**
  * Get all locations in the registered rooms.
  * @returns All locations in the registered rooms.
  */
-export function getAllLocations<TLocation extends LocationBaseModel = LocationBaseModel>(): TLocation[] {
-    let result: { [id: string]: TLocation } = {}
+export function getAllLocations(): LocationInterface[] {
+    let result: { [id: string]: LocationInterface } = {}
     Object.values(registeredRooms).forEach(room => {
-        result[room.location.id] = room.location as TLocation
+        result[room.location.id] = room.location
     })
     return Object.values(result)
 }
@@ -68,18 +68,18 @@ export function getAllLocations<TLocation extends LocationBaseModel = LocationBa
  * @param map The map where the locations are.
  * @returns The locations in the map.
  */
-export function getLocationsByMap<TLocation extends LocationBaseModel = LocationBaseModel>(map: MapBaseModel): TLocation[] {
-    return getAllLocations<TLocation>().filter(location => location.map.id === map.id) as TLocation[]
+export function getLocationsByMap(map: MapInterface): LocationInterface[] {
+    return getAllLocations().filter(location => location.map.id === map.id)
 }
 
 /**
  * Get all maps in the registered rooms.
  * @returns All maps in the registered rooms.
  */
-export function getAllMaps<TMap extends MapBaseModel = MapBaseModel>(): TMap[] {
-    let result: { [id: string]: TMap } = {}
+export function getAllMaps(): MapInterface[] {
+    let result: { [id: string]: MapInterface } = {}
     Object.values(registeredRooms).forEach(room => {
-        result[room.location.map.id] = room.location.map as TMap
+        result[room.location.map.id] = room.location.map
     })
     return Object.values(result)
 }

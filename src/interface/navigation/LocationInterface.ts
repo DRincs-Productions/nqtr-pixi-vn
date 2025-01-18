@@ -2,4 +2,8 @@ export default interface LocationBaseInterface extends LocationBaseInternalInter
 { }
 
 export interface LocationBaseInternalInterface {
+    /**
+     * The id of the location.
+     */
+    id: string;
 }
