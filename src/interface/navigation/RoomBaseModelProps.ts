@@ -1,8 +1,4 @@
-import { GraphicItemType, OnRenderGraphicItemProps } from "@drincs/nqtr/dist/override"
-import { LocationBaseModel, RoomBaseModel } from "../classes"
-import ActivityModel from "../classes/Activity"
-
-export default interface RoomProps<TLocation extends LocationBaseModel = LocationBaseModel> {
+export default interface RoomBaseModelProps {
     /**
      * The name
      * @default ""

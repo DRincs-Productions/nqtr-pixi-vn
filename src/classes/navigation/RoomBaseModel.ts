@@ -2,7 +2,7 @@ import { GraphicItemType, OnRenderGraphicItemProps } from "@drincs/nqtr/dist/ove
 import { getFlag } from "@drincs/pixi-vn";
 import { getActivityById, saveRoom } from "../../decorators";
 import { getCurrentRoutine } from "../../functions/RoutineFunctions";
-import { RoomProps } from "../../interface";
+import { RoomBaseModelProps } from "../../interface";
 import { RoomActivityMemory } from "../../interface/RoomActivityMemory";
 import ActivityModel from "../Activity";
 import CommitmentBaseModel from "../Commitment";
@@ -30,7 +30,7 @@ export default class RoomBaseModel<TLocation extends LocationBaseModel = Locatio
      * @param location The location where the room is.
      * @param props The properties of the room.
      */
-    constructor(id: string, location: TLocation, props: RoomProps<TLocation> = {}) {
+    constructor(id: string, location: TLocation, props: RoomBaseModelProps = {}) {
         super(id)
         this._location = location
         this.defaultName = props.name || ""
