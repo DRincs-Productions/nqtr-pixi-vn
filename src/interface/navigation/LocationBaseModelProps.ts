@@ -1,7 +1,7 @@
 import { GraphicItemType, OnRenderGraphicItemProps } from "@drincs/nqtr/dist/override"
 import { LocationBaseModel, MapBaseModel } from "../../classes"
 
-export default interface LocationProps<TMap extends MapBaseModel = MapBaseModel> {
+export default interface LocationBaseModelProps<TMap extends MapBaseModel = MapBaseModel> {
     /**
      * The name
      * @default ""

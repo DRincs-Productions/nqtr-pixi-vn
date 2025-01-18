@@ -1,7 +1,7 @@
 import { GraphicItemType, OnRenderGraphicItemProps } from "@drincs/nqtr/dist/override";
 import { getFlag } from "@drincs/pixi-vn";
 import { getRoomsByLocation } from "../../decorators/RoomDecorator";
-import { LocationProps } from "../../interface";
+import { LocationBaseModelProps } from "../../interface";
 import LocationStoredClass from "./LocationStoredClass";
 import MapBaseModel from "./MapBaseModel";
 import RoomBaseModel from "./Room";
@@ -22,7 +22,7 @@ export default class LocationBaseModel<TMap extends MapBaseModel = MapBaseModel>
      * @param map The map where the location is.
      * @param props The properties of the location.
      */
-    constructor(id: string, map: TMap, props: LocationProps<TMap> = {}) {
+    constructor(id: string, map: TMap, props: LocationBaseModelProps<TMap> = {}) {
         super(id)
         this.defaultName = props.name || ""
         this.defaultDisabled = props.disabled || false
