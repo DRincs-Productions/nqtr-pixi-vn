@@ -1,4 +1,4 @@
-import { GraphicItemType, OnRenderGraphicItemProps, OnRunProps } from '@drincs/nqtr/dist/override';
+import { GraphicItemType, OnRenderGraphicItemProps } from '@drincs/nqtr/dist/override';
 import { getFlag } from "@drincs/pixi-vn";
 import { ActivityProps } from '../interface';
 import { timeTracker } from '../managers';
@@ -34,17 +34,17 @@ export default class ActivityModel extends ActivityStoredClass {
      * @param onRun The function that is called when the activity is runned. Have 2 parameters: the runned activity and the yourParams object, that is an object with the parameters that you want to pass to the onRun function.
      * @param props The activity properties.
      */
-    constructor(id: string, onRun: OnRunActivityEvent<ActivityModel>, props: ActivityProps) {
-        super(id)
+    constructor(id: string, onRun: OnRunActivityEvent, props: ActivityProps) {
+        super(id, onRun, {
+            fromHour: props.fromHour,
+            toHour: props.toHour,
+            fromDay: props.fromDay,
+            toDay: props.toDay,
+        })
         this._name = props.name
-        this._fromHour = props.fromHour
-        this._toHour = props.toHour
-        this._fromDay = props.fromDay
-        this._toDay = props.toDay
         this._disabled = props.disabled || false
         this._hidden = props.hidden || false
         this._renderIcon = props.renderIcon
-        this._onRun = onRun
     }
 
     private _name?: string
@@ -53,38 +53,6 @@ export default class ActivityModel extends ActivityStoredClass {
      */
     get name(): string | undefined {
         return this._name
-    }
-
-    private _fromHour?: number
-    /**
-     * The hour when the activity starts. If the activity is not started yet, it will be hidden.
-     */
-    get fromHour(): number | undefined {
-        return this._fromHour
-    }
-
-    private _toHour?: number
-    /**
-     * The hour when the activity ends. If the activity is ended yet, it will be hidden.
-     */
-    get toHour(): number | undefined {
-        return this._toHour
-    }
-
-    private _fromDay?: number
-    /**
-     * The day when the activity starts. If the activity is not started yet, it will be hidden.
-     */
-    get fromDay(): number | undefined {
-        return this._fromDay
-    }
-
-    private _toDay?: number
-    /**
-     * The day when the activity ends. If the activity is ended yet, it will be deleted or hidden.
-     */
-    get toDay(): number | undefined {
-        return this._toDay
     }
 
     private _disabled?: boolean | string
@@ -130,44 +98,5 @@ export default class ActivityModel extends ActivityStoredClass {
             }
         }
         return (props: OnRenderGraphicItemProps) => render
-    }
-
-    private _onRun: OnRunActivityEvent<ActivityModel>
-    get _initialOnRun(): OnRunActivityEvent<ActivityStoredAbstract> {
-        return this._onRun as any
-    }
-    /**
-     * The function that is called when the activity is runned.
-     */
-    get run(): (props: OnRunProps) => void {
-        return (props) => this._onRun(this, props)
-    }
-
-    /**
-     * Whether the activity is a deadline.
-     * @returns Whether the activity is a deadline.
-     */
-    isDeadline(): boolean {
-        if (this.toDay && this.toDay <= timeTracker.currentDay) {
-            return true
-        }
-        return false
-    }
-
-    /**
-     * Export the activity properties.
-     * @returns The activity properties.
-     */
-    export(): ActivityProps {
-        return {
-            name: this._name,
-            fromHour: this._fromHour,
-            toHour: this._toHour,
-            fromDay: this._fromDay,
-            toDay: this._toDay,
-            disabled: this._disabled,
-            hidden: this._hidden,
-            renderIcon: this._renderIcon,
-        }
     }
 }
