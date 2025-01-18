@@ -8,14 +8,14 @@ export interface LocationBaseInternalInterface extends NavigationAbstractInterfa
     /**
      * The id of the location.
      */
-    id: string;
+    readonly id: string;
     /**
      * The map where the location is.
      */
-    map: MapInterface
+    readonly map: MapInterface
     /**
      * Get all rooms in the location.
      * @returns The rooms in the location.
      */
-    rooms: RoomInterface[]
+    readonly rooms: RoomInterface[]
 }

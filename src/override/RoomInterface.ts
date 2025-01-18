@@ -7,5 +7,5 @@ export default interface RoomInterface {
     /**
      * The image of the room.
      */
-    image: string | undefined
+    readonly image: string | undefined
 }

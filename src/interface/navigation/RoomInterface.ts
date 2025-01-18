@@ -8,9 +8,9 @@ export interface RoomBaseInternalInterface extends NavigationAbstractInterface {
     /**
      * The id of the room.
      */
-    id: string;
+    readonly id: string;
     /**
      * The location where the room is.
      */
-    location: LocationInterface
+    readonly location: LocationInterface
 }

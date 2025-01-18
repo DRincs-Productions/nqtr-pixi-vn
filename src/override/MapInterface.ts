@@ -6,5 +6,5 @@ export default interface MapInterface {
     /**
      * The image of the map.
      */
-    image?: string
+    readonly image?: string
 }

@@ -15,7 +15,6 @@ import RoomStoredClass from "./RoomStoredClass";
  *     name: "MC Room",
  *     icon: "https://icon.jpg",
  *     image: "https://image.jpg",
- *     isEntrance: false,
  * })
  * saveRoom(mcRoom)
  * ```

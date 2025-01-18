@@ -15,5 +15,5 @@ export default interface LocationInterface {
     /**
      * The icon of the location.
      */
-    icon: string | undefined
+    readonly icon: string | undefined
 }

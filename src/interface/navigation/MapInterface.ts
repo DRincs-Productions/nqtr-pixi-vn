@@ -8,10 +8,10 @@ export interface MapBaseInternalInterface extends NavigationAbstractInterface {
     /**
      * The id of the map.
      */
-    id: string;
+    readonly id: string;
     /**
      * Get all locations in the map.
      * @returns The locations in the map.
      */
-    locations: LocationInterface[]
+    readonly locations: LocationInterface[]
 }
