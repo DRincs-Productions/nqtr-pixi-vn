@@ -1,5 +1,4 @@
-import { getLocationsByMap } from "../../decorators/RoomDecorator"
-import { LocationInterface, MapBaseModelProps } from "../../interface"
+import { MapBaseModelProps } from "../../interface"
 import { MapBaseInternalInterface } from "../../interface/navigation/MapInterface"
 import MapStoredClass from "./MapStoredClass"
 
@@ -42,9 +41,5 @@ export default class MapBaseModel extends MapStoredClass implements MapBaseInter
      */
     get image(): string | undefined {
         return this._image
-    }
-
-    get locations(): LocationInterface[] {
-        return getLocationsByMap(this)
     }
 }

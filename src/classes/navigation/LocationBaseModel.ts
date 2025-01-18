@@ -1,6 +1,5 @@
 import { getFlag } from "@drincs/pixi-vn";
-import { getRoomsByLocation } from "../../decorators/RoomDecorator";
-import { LocationBaseModelProps, MapInterface, RoomInterface } from "../../interface";
+import { LocationBaseModelProps, MapInterface } from "../../interface";
 import LocationStoredClass from "./LocationStoredClass";
 
 /**
@@ -20,12 +19,11 @@ export default class LocationBaseModel extends LocationStoredClass {
      * @param props The properties of the location.
      */
     constructor(id: string, map: MapInterface, props: LocationBaseModelProps = {}) {
-        super(id)
+        super(id, map)
         this.defaultName = props.name || ""
         this.defaultDisabled = props.disabled || false
         this.defaultHidden = props.hidden || false
         this._icon = props.icon
-        this._map = map
     }
 
     private defaultName: string
@@ -76,14 +74,5 @@ export default class LocationBaseModel extends LocationStoredClass {
      */
     get icon(): string | undefined {
         return this._icon
-    }
-
-    private _map: MapInterface
-    get map(): MapInterface {
-        return this._map
-    }
-
-    get rooms(): RoomInterface[] {
-        return getRoomsByLocation(this)
     }
 }
