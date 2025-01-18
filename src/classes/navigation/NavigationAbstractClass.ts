@@ -1,5 +1,6 @@
 import { StoredClassModel } from "@drincs/pixi-vn";
 import { ActivityInterface } from "../../interface";
+import NavigationAbstractInterface from "../../interface/navigation/NavigationAbstractClass";
 import { timeTracker } from "../../managers";
 
 type ActiveScheduling = {
@@ -12,7 +13,7 @@ type ExcludedScheduling = {
     toDay?: number
 }
 
-export default abstract class NavigationAbstractClass extends StoredClassModel {
+export default abstract class NavigationAbstractClass extends StoredClassModel implements NavigationAbstractInterface {
     private defaultActivities: ActivityInterface[] = []
     private get defaultActivitiesIds(): string[] {
         return this.defaultActivities.map(activity => activity.id)

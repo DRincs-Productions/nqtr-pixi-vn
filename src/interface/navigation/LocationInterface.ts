@@ -1,9 +1,10 @@
 import { MapInterface, RoomInterface } from "..";
+import NavigationAbstractInterface from "./NavigationAbstractClass";
 
 export default interface LocationBaseInterface extends LocationBaseInternalInterface // LocationInterface 
 { }
 
-export interface LocationBaseInternalInterface {
+export interface LocationBaseInternalInterface extends NavigationAbstractInterface {
     /**
      * The id of the location.
      */
