@@ -2,4 +2,8 @@ export default interface ActivityBaseInterface extends ActivityBaseInternalInter
 { }
 
 export interface ActivityBaseInternalInterface {
+    /**
+     * The id of the activity.
+     */
+    id: string;
 }
