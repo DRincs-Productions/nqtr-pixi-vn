@@ -1,4 +1,4 @@
-export { default as Activity } from './Activity';
+export { default as ActivityBaseModel } from './ActivityBaseModel';
 export { default as ActivityStoredClass } from './ActivityStoredClass';
 export { default as CommitmentBaseModel } from './Commitment';
 export { default as LocationBaseModel } from './navigation/LocationBaseModel';

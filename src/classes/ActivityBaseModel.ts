@@ -28,7 +28,7 @@ import ActivityStoredClass from './ActivityStoredClass';
  * )
  * ```
  */
-export default class ActivityModel extends ActivityStoredClass {
+export default class ActivityBaseModel extends ActivityStoredClass {
     /**
      * @param id The activity id, that must be unique.
      * @param onRun The function that is called when the activity is runned. Have 2 parameters: the runned activity and the yourParams object, that is an object with the parameters that you want to pass to the onRun function.
@@ -83,7 +83,7 @@ export default class ActivityModel extends ActivityStoredClass {
         return this._hidden
     }
 
-    private _renderIcon?: GraphicItemType | ((activity: ActivityModel, props: OnRenderGraphicItemProps) => GraphicItemType)
+    private _renderIcon?: GraphicItemType | ((activity: ActivityBaseModel, props: OnRenderGraphicItemProps) => GraphicItemType)
     /**
      * The function for rendering the icon of the activity.
      */
