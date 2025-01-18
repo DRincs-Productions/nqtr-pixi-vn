@@ -1,10 +1,10 @@
-import { StoredClassModel } from "@drincs/pixi-vn"
 import { getRoomsByLocation } from "../../decorators/RoomDecorator"
 import { MapInterface, RoomInterface } from "../../interface"
 import LocationBaseInterface from "../../interface/navigation/LocationInterface"
+import NavigationAbstractClass from "./NavigationAbstractClass"
 
 const LOCATION_CATEGORY = "__nqtr-location__"
-export default class LocationStoredClass extends StoredClassModel implements LocationBaseInterface {
+export default class LocationStoredClass extends NavigationAbstractClass implements LocationBaseInterface {
     constructor(
         id: string,
         /**

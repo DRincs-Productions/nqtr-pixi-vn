@@ -6,7 +6,6 @@ import { LocationInterface, RoomBaseModelProps } from "../../interface";
 import { RoomActivityMemory } from "../../interface/RoomActivityMemory";
 import ActivityModel from "../Activity";
 import CommitmentBaseModel from "../Commitment";
-import ActivityRoom from "./ActivityRoom";
 import RoomStoredClass from "./RoomStoredClass";
 
 /**

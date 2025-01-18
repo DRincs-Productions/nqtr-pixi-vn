@@ -1,8 +1,8 @@
-import { StoredClassModel } from "@drincs/pixi-vn"
 import { LocationInterface, RoomInterface } from "../../interface"
+import NavigationAbstractClass from "./NavigationAbstractClass"
 
 const ROOM_CATEGORY = "__nqtr-room__"
-export default class RoomStoredClass extends StoredClassModel implements RoomInterface {
+export default class RoomStoredClass extends NavigationAbstractClass implements RoomInterface {
     constructor(
         id: string,
         /**
