@@ -1,8 +1,7 @@
 import { getFlag } from "@drincs/pixi-vn";
 import { saveRoom } from "../../decorators";
 import { getCurrentRoutine } from "../../functions/RoutineFunctions";
-import { LocationInterface, RoomBaseModelProps } from "../../interface";
-import CommitmentBaseModel from "../Commitment";
+import { CommitmentInterface, LocationInterface, RoomBaseModelProps } from "../../interface";
 import RoomStoredClass from "./RoomStoredClass";
 
 /**
@@ -95,8 +94,8 @@ export default class RoomBaseModel extends RoomStoredClass {
      * Get the character commitments of the room.
      * @returns The character commitments of the room.
      */
-    getRoutine<TCommitment extends CommitmentBaseModel = CommitmentBaseModel>(): TCommitment[] {
-        let commitments = getCurrentRoutine<TCommitment>()
+    get routine(): CommitmentInterface[] {
+        let commitments = getCurrentRoutine()
         return commitments.filter(c => c.room.id === this.id)
     }
 }

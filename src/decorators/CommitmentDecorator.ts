@@ -1,16 +1,16 @@
 import { storage } from "@drincs/pixi-vn"
-import CommitmentBaseModel from "../classes/Commitment"
+import { CommitmentInterface } from "../interface"
 
 const TEMPORARY_COMMITMENT_CATEGORY_MEMORY_KEY = "___nqtr-temporary_commitment___"
-export const registeredCommitments: { [id: string]: CommitmentBaseModel } = {}
-export const fixedCommitments: { [id: string]: CommitmentBaseModel } = {}
+export const registeredCommitments: { [id: string]: CommitmentInterface } = {}
+export const fixedCommitments: { [id: string]: CommitmentInterface } = {}
 
 /**
  * Save a commitment in the registered commitments. If the commitment already exists, it will be overwritten.
  * @param commitment The commitment or commitments to save.
  * @returns 
  */
-export function saveCommitment<TCommitment extends CommitmentBaseModel = CommitmentBaseModel>(commitment: TCommitment | TCommitment[]) {
+export function saveCommitment(commitment: CommitmentInterface | CommitmentInterface[]) {
     if (Array.isArray(commitment)) {
         commitment.forEach(c => saveCommitment(c))
         return
@@ -26,14 +26,14 @@ export function saveCommitment<TCommitment extends CommitmentBaseModel = Commitm
  * @param id The id of the commitment.
  * @returns The commitment or undefined if not found.
  */
-export function getCommitmentById<TCommitment extends CommitmentBaseModel = CommitmentBaseModel>(id: string): TCommitment | undefined {
+export function getCommitmentById(id: string): CommitmentInterface | undefined {
     try {
         let commitment = registeredCommitments[id]
         if (!commitment) {
             console.error(`[NQTR] Commitment ${id} not found`)
             return
         }
-        return commitment as TCommitment
+        return commitment
     }
     catch (e) {
         console.error(`[NQTR] Error while getting Commitment ${id}`, e)
@@ -45,7 +45,7 @@ export function getCommitmentById<TCommitment extends CommitmentBaseModel = Comm
  * Set a commitment as fixed, it will be always available. They cannot be deleted or edit during the game session.
  * @param commitment The commitment or commitments to set as fixed.
  */
-export function setFixedRoutine<TCommitment extends CommitmentBaseModel = CommitmentBaseModel>(commitments: TCommitment[] | TCommitment) {
+export function setFixedRoutine(commitments: CommitmentInterface[] | CommitmentInterface) {
     if (Array.isArray(commitments)) {
         commitments.forEach(c => setFixedRoutine(c))
         return
@@ -60,7 +60,7 @@ export function setFixedRoutine<TCommitment extends CommitmentBaseModel = Commit
  * This feature adds the commitments during the game session.
  * @param commitment The commitment or commitments to add.
  */
-export function addCommitment<TCommitment extends CommitmentBaseModel = CommitmentBaseModel>(commitment: TCommitment[] | TCommitment) {
+export function addCommitment(commitment: CommitmentInterface[] | CommitmentInterface) {
     if (!Array.isArray(commitment)) {
         commitment = [commitment]
     }
@@ -81,7 +81,7 @@ export function addCommitment<TCommitment extends CommitmentBaseModel = Commitme
  * @param commitment The commitment or commitments to remove.
  * @returns 
  */
-export function removeCommitment<TCommitment extends CommitmentBaseModel = CommitmentBaseModel>(commitment: TCommitment[] | TCommitment) {
+export function removeCommitment(commitment: CommitmentInterface[] | CommitmentInterface) {
     if (!Array.isArray(commitment)) {
         commitment = [commitment]
     }
@@ -101,19 +101,19 @@ export function removeCommitment<TCommitment extends CommitmentBaseModel = Commi
  * Get the fixed commitments by its id.
  * @returns The fixed commitments.
  */
-export function getFixedRoutine<TCommitment extends CommitmentBaseModel = CommitmentBaseModel>(): TCommitment[] {
-    return Object.values(fixedCommitments) as TCommitment[]
+export function getFixedRoutine(): CommitmentInterface[] {
+    return Object.values(fixedCommitments)
 }
 
 /**
  * Get the temporary commitments by its id.
  * @returns The temporary commitments.
  */
-export function getTemporaryCommitments<TCommitment extends CommitmentBaseModel = CommitmentBaseModel>(): TCommitment[] {
+export function getTemporaryCommitments(): CommitmentInterface[] {
     let commitmentsIds = storage.getVariable<string[]>(TEMPORARY_COMMITMENT_CATEGORY_MEMORY_KEY)
     if (!commitmentsIds) {
         return []
     }
-    let commitments = commitmentsIds.map(id => getCommitmentById<TCommitment>(id)).filter(commitment => commitment !== undefined)
-    return commitments as TCommitment[]
+    let commitments = commitmentsIds.map(id => getCommitmentById(id)).filter(commitment => commitment !== undefined)
+    return commitments
 }
