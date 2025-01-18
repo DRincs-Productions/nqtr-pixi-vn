@@ -4,7 +4,7 @@ import { CommitmentProps } from "../interface";
 import { timeTracker } from "../managers";
 import { ExecutionType } from "../types";
 import { OnRunCommitmentEvent } from "../types/OnRunCommitmentEvent";
-import RoomBaseModel from "./navigation/Room";
+import RoomBaseModel from "./navigation/RoomBaseModel";
 
 const COMMITMENT_CATEGORY = "__nqtr-commitment__"
 

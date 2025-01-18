@@ -1,5 +1,5 @@
 import { GraphicItemType, OnRenderGraphicItemProps } from "@drincs/nqtr/dist/override";
-import { getFlag, StoredClassModel } from "@drincs/pixi-vn";
+import { getFlag } from "@drincs/pixi-vn";
 import { getActivityById, saveRoom } from "../../decorators";
 import { getCurrentRoutine } from "../../functions/RoutineFunctions";
 import { RoomProps } from "../../interface";
@@ -8,8 +8,7 @@ import ActivityModel from "../Activity";
 import CommitmentBaseModel from "../Commitment";
 import ActivityRoom from "./ActivityRoom";
 import LocationBaseModel from "./LocationBaseModel";
-
-export const ROOM_CATEGORY = "__nqtr-room__"
+import RoomStoredClass from "./RoomStoredClass";
 
 /**
  * The base model of a room. I suggest you extend this class to create your own room model.
@@ -25,14 +24,14 @@ export const ROOM_CATEGORY = "__nqtr-room__"
  * saveRoom(mcRoom)
  * ```
  */
-export default class RoomBaseModel<TLocation extends LocationBaseModel = LocationBaseModel> extends StoredClassModel {
+export default class RoomBaseModel<TLocation extends LocationBaseModel = LocationBaseModel> extends RoomStoredClass {
     /**
      * @param id The id of the room, it must be unique.
      * @param location The location where the room is.
      * @param props The properties of the room.
      */
     constructor(id: string, location: TLocation, props: RoomProps<TLocation> = {}) {
-        super(ROOM_CATEGORY, id)
+        super(id)
         this._location = location
         this.defaultName = props.name || ""
         this._renderImage = props.renderImage
