@@ -1,4 +1,3 @@
-import { GraphicItemType, OnRenderGraphicItemProps } from "@drincs/nqtr/dist/override";
 import { CharacterInterface, getFlag } from "@drincs/pixi-vn";
 import { CommitmentProps, RoomInterface } from "../interface";
 import { timeTracker } from "../managers";
@@ -46,7 +45,7 @@ export default class CommitmentBaseModel extends CommitmentStoredClass {
         this._image = props.image
         this.defaultDisabled = props.disabled || false
         this.defaultHidden = props.hidden || false
-        this._renderIcon = props.renderIcon
+        this._icon = props.icon
     }
 
     private _name: string
@@ -65,21 +64,12 @@ export default class CommitmentBaseModel extends CommitmentStoredClass {
         return this._image
     }
 
-    private _renderIcon?: GraphicItemType | ((commitment: CommitmentBaseModel, props: OnRenderGraphicItemProps) => GraphicItemType)
+    private _icon?: string
     /**
-     * The function for rendering the icon of the commitment.
+     * The icon of the commitment.
      */
-    get renderIcon(): ((props: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
-        let render = this._renderIcon
-        if (render === undefined) {
-            return undefined
-        }
-        if (typeof render === "function") {
-            return (props: OnRenderGraphicItemProps) => {
-                return render(this, props)
-            }
-        }
-        return (props: OnRenderGraphicItemProps) => render
+    get icon(): string | undefined {
+        return this._icon
     }
 
     private defaultDisabled: boolean | string

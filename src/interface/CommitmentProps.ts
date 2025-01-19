@@ -1,6 +1,4 @@
-import { GraphicItemType, OnRenderGraphicItemProps } from "@drincs/nqtr/dist/override"
 import { CommitmentInterface } from "."
-import { CommitmentBaseModel } from "../classes"
 import { ExecutionType } from "../types"
 import { OnRunEvent } from "../types/OnRunEvent"
 
@@ -63,10 +61,9 @@ export default interface CommitmentProps {
      */
     hidden?: boolean | string
     /**
-     * The icon element. Can be a string or an Element or a Pixi'VN CanvasItem
-     * @default undefined
+     * The icon of the commitment.
      */
-    renderIcon?: GraphicItemType | ((commitment: CommitmentBaseModel, props: OnRenderGraphicItemProps) => GraphicItemType)
+    icon?: string
     /**
      * The priority. The higher the number, the higher the priority.
      * To ensure that a character is not in 2 places at the same time, if there are 2 or more valid commits at the same time and with the same character, the one with the highest priority will be chosen.

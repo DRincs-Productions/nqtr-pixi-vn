@@ -7,4 +7,8 @@ export default interface CommitmentInterface {
      * The image of the commitment.
      */
     readonly image: string
+    /**
+     * The icon of the commitment.
+     */
+    readonly icon: string
 }
