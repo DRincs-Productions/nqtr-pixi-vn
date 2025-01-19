@@ -1,6 +1,5 @@
 import { getFlag } from "@drincs/pixi-vn";
 import { ActivityProps } from '../interface';
-import { timeTracker } from '../managers';
 import { OnRunActivityEvent } from '../types/OnRunActivityEvent';
 import ActivityStoredClass from './ActivityStoredClass';
 
@@ -40,46 +39,51 @@ export default class ActivityBaseModel extends ActivityStoredClass {
             fromDay: props.fromDay,
             toDay: props.toDay,
         })
-        this._name = props.name
-        this._disabled = props.disabled || false
-        this._hidden = props.hidden || false
+        this.defaultName = props.name || ""
+        this.defaultDisabled = props.disabled || false
+        this.defaultHidden = props.hidden || false
         this._icon = props.renderIcon
     }
 
-    private _name?: string
+    private defaultName: string
     /**
      * The name of the activity.
      */
-    get name(): string | undefined {
-        return this._name
+    get name(): string {
+        return this.getStorageProperty<string>("name") || this.defaultName
+    }
+    set name(value: string | undefined) {
+        this.setStorageProperty("name", value)
     }
 
-    private _disabled?: boolean | string
+    private defaultDisabled: boolean | string
     /**
-     * Whether is disabled. If the activity is disabled, it will not be shown.
+     * Whether is disabled. If it is a string, it is a Pixi'VN flag name.
      */
-    get disabled(): boolean | undefined {
-        if (typeof this._disabled === "string") {
-            return getFlag(this._disabled)
+    get disabled(): boolean {
+        let value = this.getStorageProperty<boolean>("disabled") || this.defaultDisabled
+        if (typeof value === "string") {
+            return getFlag(value)
         }
-        return this._disabled
+        return value
+    }
+    set disabled(value: boolean | string) {
+        this.setStorageProperty("disabled", value)
     }
 
-    private _hidden: boolean | string
+    private defaultHidden: boolean | string
     /**
-     * Whether is hidden. If the activity is not started yet, it will be hidden.
+     * Whether is hidden. If it is a string, it is a Pixi'VN flag name.
      */
     get hidden(): boolean {
-        if (this.fromDay && this.fromDay > timeTracker.currentDay) {
-            return true
+        let value = this.getStorageProperty<boolean>("hidden") || this.defaultHidden
+        if (typeof value === "string") {
+            return getFlag(value)
         }
-        if (!this.isDeadline) {
-            return true
-        }
-        if (typeof this._hidden === "string") {
-            return getFlag(this._hidden)
-        }
-        return this._hidden
+        return value
+    }
+    set hidden(value: boolean | string) {
+        this.setStorageProperty("hidden", value)
     }
 
     private _icon?: string
