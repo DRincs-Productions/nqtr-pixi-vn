@@ -1,7 +1,8 @@
 import { GraphicItemType, OnRenderGraphicItemProps } from "@drincs/nqtr/dist/override"
+import { CommitmentInterface } from "."
 import { CommitmentBaseModel } from "../classes"
 import { ExecutionType } from "../types"
-import { OnRunCommitmentEvent } from "../types/OnRunCommitmentEvent"
+import { OnRunEvent } from "../types/OnRunEvent"
 
 export default interface CommitmentProps {
     /**
@@ -47,7 +48,7 @@ export default interface CommitmentProps {
      * ```
      * @default undefined
      */
-    renderImage?: GraphicItemType | ((commitment: CommitmentBaseModel<TCharacter, TRoom>, props: OnRenderGraphicItemProps) => GraphicItemType)
+    renderImage?: GraphicItemType | ((commitment: CommitmentBaseModel, props: OnRenderGraphicItemProps) => GraphicItemType)
     /**
      * Execution type. If is "automatic" the onRun() runned automatically when the palayer is in the room. If is "interaction" the player must interact with the character to run the onRun() function.
      * If you set "automatic" remember to remove the commitment when it is no longer needed, because otherwise it repeats itself every time.
@@ -60,7 +61,7 @@ export default interface CommitmentProps {
      * @returns 
      * @default undefined
      */
-    onRun?: OnRunCommitmentEvent<CommitmentBaseModel>
+    onRun?: OnRunEvent<CommitmentInterface>
     /**
      * Whether is disabled. You can also pass a Pixi'VN flag name.
      * If it is disabled this commitment will not be taken into consideration. So the characters will not be in the room, but will be busy with other commitments.

@@ -3,7 +3,6 @@ import { CharacterInterface, getFlag } from "@drincs/pixi-vn";
 import { CommitmentProps, RoomInterface } from "../interface";
 import { timeTracker } from "../managers";
 import CommitmentStoredClass from "./CommitmentStoredClass";
-import RoomBaseModel from "./navigation/RoomBaseModel";
 
 /**
  * The base model of a commitment. I suggest you extend this class to create your own commitment model.
@@ -21,7 +20,7 @@ import RoomBaseModel from "./navigation/RoomBaseModel";
  * saveCommitment(mcRoom)
  * ```
  */
-export default class CommitmentBaseModel<TCharacter extends CharacterInterface = CharacterInterface, TRoom extends RoomBaseModel = RoomBaseModel> extends CommitmentStoredClass {
+export default class CommitmentBaseModel extends CommitmentStoredClass {
     /**
      * @param id The id of the commitment, it must be unique.
      * @param character The character or characters that are in the commitment and so in the room.

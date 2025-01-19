@@ -1,6 +1,6 @@
 import { getFlag } from "@drincs/pixi-vn";
-import { ActivityProps } from '../interface';
-import { OnRunActivityEvent } from '../types/OnRunActivityEvent';
+import { ActivityInterface, ActivityProps } from '../interface';
+import { OnRunEvent } from '../types/OnRunEvent';
 import ActivityStoredClass from './ActivityStoredClass';
 
 /**
@@ -26,13 +26,13 @@ import ActivityStoredClass from './ActivityStoredClass';
  * )
  * ```
  */
-export default class ActivityBaseModel extends ActivityStoredClass {
+export default class ActivityBaseModel extends ActivityStoredClass<ActivityInterface> {
     /**
      * @param id The activity id, that must be unique.
      * @param onRun The function that is called when the activity is runned. Have 2 parameters: the runned activity and the yourParams object, that is an object with the parameters that you want to pass to the onRun function.
      * @param props The activity properties.
      */
-    constructor(id: string, onRun: OnRunActivityEvent, props: ActivityProps) {
+    constructor(id: string, onRun: OnRunEvent<ActivityInterface>, props: ActivityProps) {
         super(id, onRun, {
             fromHour: props.fromHour,
             toHour: props.toHour,

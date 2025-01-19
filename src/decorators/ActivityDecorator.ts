@@ -1,6 +1,6 @@
 import ActivityModel from "../classes/Activity"
 import { ActivityProps } from "../interface"
-import { OnRunActivityEvent } from "../types/OnRunActivityEvent"
+import { OnRunEvent } from "../types/OnRunEvent"
 
 export const registeredActivities: { [id: string]: ActivityModel } = {}
 
@@ -12,7 +12,7 @@ export const registeredActivities: { [id: string]: ActivityModel } = {}
  * @param props The activity properties.
  * @returns The created activity
  */
-export function newActivity(id: string, onRun: OnRunActivityEvent<ActivityModel>, props: ActivityProps): ActivityModel {
+export function newActivity(id: string, onRun: OnRunEvent<ActivityModel>, props: ActivityProps): ActivityModel {
     if (registeredActivities[id]) {
         console.warn(`[NQTR] Activity ${id} already exists, it will be overwritten`)
     }

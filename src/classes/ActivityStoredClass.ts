@@ -2,13 +2,13 @@ import { OnRunProps } from "@drincs/nqtr/dist/override"
 import { StoredClassModel } from "@drincs/pixi-vn"
 import { ActivityBaseInternalInterface } from "../interface/ActivityInterface"
 import { timeTracker } from "../managers"
-import { OnRunActivityEvent } from "../types/OnRunActivityEvent"
+import { OnRunEvent } from "../types/OnRunEvent"
 
 const ACTIVITY_CATEGORY = "__nqtr-activity__"
-export default class ActivityStoredClass extends StoredClassModel implements ActivityBaseInternalInterface {
+export default class ActivityStoredClass<OnRunEventType> extends StoredClassModel implements ActivityBaseInternalInterface {
     constructor(
         id: string,
-        private readonly _onRun: OnRunActivityEvent,
+        private readonly _onRun: OnRunEvent<OnRunEventType>,
         props: {
             fromHour?: number
             toHour?: number
@@ -45,7 +45,7 @@ export default class ActivityStoredClass extends StoredClassModel implements Act
     }
 
     get run(): (props: OnRunProps) => void {
-        return (props) => this._onRun(this, props)
+        return (props) => this._onRun(this as any, props)
     }
 
     get isExpired(): boolean {
