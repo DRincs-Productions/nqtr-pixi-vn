@@ -14,9 +14,10 @@ export default class ActivityStoredClass extends StoredClassModel implements Act
             toHour?: number
             fromDay?: number
             toDay?: number
-        }
+        },
+        category: string = ACTIVITY_CATEGORY
     ) {
-        super(ACTIVITY_CATEGORY, id)
+        super(category, id)
         this._fromHour = props.fromHour
         this._toHour = props.toHour
         this._fromDay = props.fromDay
@@ -47,7 +48,7 @@ export default class ActivityStoredClass extends StoredClassModel implements Act
         return (props) => this._onRun(this, props)
     }
 
-    get isDeadline(): boolean {
+    get isExpired(): boolean {
         if (this.toDay && this.toDay <= timeTracker.currentDay) {
             return true
         }
