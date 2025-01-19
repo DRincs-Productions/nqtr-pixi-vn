@@ -86,7 +86,7 @@ export default class ActivityBaseModel extends ActivityStoredClass {
     /**
      * The icon of the activity.
      */
-    get renderIcon(): string | undefined {
+    get icon(): string | undefined {
         return this._icon
     }
 }
