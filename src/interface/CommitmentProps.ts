@@ -35,20 +35,9 @@ export default interface CommitmentProps {
      */
     toDay?: number
     /**
-     * The image. It can be a string, an Element or a Pixi'VN Canvas Item.
-     * Or an object to manage multiple image types. For example to have a image based on time.
-     * @example
-     * ```ts
-     * {
-     *    "morning": "morning-background.jpg",
-     *    "afternoon": "afternoon-background.jpg",
-     *    "evening": "evening-background.jpg",
-     *    "night": "night-background.jpg"
-     * }
-     * ```
-     * @default undefined
+     * The image ofthe Commitment.
      */
-    renderImage?: GraphicItemType | ((commitment: CommitmentBaseModel, props: OnRenderGraphicItemProps) => GraphicItemType)
+    image?: string
     /**
      * Execution type. If is "automatic" the onRun() runned automatically when the palayer is in the room. If is "interaction" the player must interact with the character to run the onRun() function.
      * If you set "automatic" remember to remove the commitment when it is no longer needed, because otherwise it repeats itself every time.

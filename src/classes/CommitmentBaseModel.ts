@@ -43,7 +43,7 @@ export default class CommitmentBaseModel extends CommitmentStoredClass {
             }
         )
         this._name = props.name || ""
-        this._renderImage = props.renderImage
+        this._image = props.image
         this.defaultDisabled = props.disabled || false
         this.defaultHidden = props.hidden || false
         this._renderIcon = props.renderIcon
@@ -51,27 +51,18 @@ export default class CommitmentBaseModel extends CommitmentStoredClass {
 
     private _name: string
     /**
-     * The name
+     * The name of the commitment.
      */
     get name(): string {
         return this._name
     }
 
-    private _renderImage?: GraphicItemType | ((commitment: CommitmentBaseModel<TCharacter, TRoom>, props: OnRenderGraphicItemProps) => GraphicItemType)
+    private _image?: string
     /**
-     * The function for rendering the image of the room.
+     * The image of the commitment.
      */
-    get renderImage(): ((props: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
-        let render = this._renderImage
-        if (render === undefined) {
-            return undefined
-        }
-        if (typeof render === "function") {
-            return (props: OnRenderGraphicItemProps) => {
-                return render(this, props)
-            }
-        }
-        return (props: OnRenderGraphicItemProps) => render
+    get image(): string | undefined {
+        return this._image
     }
 
     private _renderIcon?: GraphicItemType | ((commitment: CommitmentBaseModel, props: OnRenderGraphicItemProps) => GraphicItemType)
