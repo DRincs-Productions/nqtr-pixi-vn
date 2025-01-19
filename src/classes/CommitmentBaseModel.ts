@@ -1,11 +1,9 @@
 import { GraphicItemType, OnRenderGraphicItemProps } from "@drincs/nqtr/dist/override";
 import { CharacterInterface, getFlag } from "@drincs/pixi-vn";
-import { CommitmentProps } from "../interface";
+import { CommitmentProps, RoomInterface } from "../interface";
 import { timeTracker } from "../managers";
 import CommitmentStoredClass from "./CommitmentStoredClass";
 import RoomBaseModel from "./navigation/RoomBaseModel";
-
-const COMMITMENT_CATEGORY = "__nqtr-commitment__"
 
 /**
  * The base model of a commitment. I suggest you extend this class to create your own commitment model.
@@ -30,22 +28,26 @@ export default class CommitmentBaseModel<TCharacter extends CharacterInterface =
      * @param room The room where the commitment is.
      * @param props The properties of the commitment.
      */
-    constructor(id: string, character: TCharacter | TCharacter[] | undefined, room: TRoom, props: CommitmentProps<TCharacter, TRoom>) {
-        super(COMMITMENT_CATEGORY, id)
-        this._characters = character ? Array.isArray(character) ? character : [character] : []
-        this._room = room
+    constructor(id: string, character: CharacterInterface | CharacterInterface[] | undefined, room: RoomInterface, props: CommitmentProps) {
+        super(
+            id,
+            character ? Array.isArray(character) ? character : [character] : [],
+            room,
+            props.executionType || "interaction",
+            props.priority || 0,
+            props.onRun,
+            {
+                fromHour: props.fromHour,
+                toHour: props.toHour,
+                fromDay: props.fromDay,
+                toDay: props.toDay
+            }
+        )
         this._name = props.name || ""
-        this.defaultFromHour = props.fromHour
-        this.defaultToHour = props.toHour
-        this.defaultFromDay = props.fromDay
-        this.defaultToDay = props.toDay
         this._renderImage = props.renderImage
-        this._executionType = props.executionType || "interaction"
-        this._onRun = props.onRun
         this.defaultDisabled = props.disabled || false
         this.defaultHidden = props.hidden || false
         this._renderIcon = props.renderIcon
-        this.defaultPriority = props.priority || 0
     }
 
     private _name: string

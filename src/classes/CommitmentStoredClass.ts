@@ -11,7 +11,7 @@ export default class CommitmentStoredClass extends ActivityStoredClass implement
         id: string,
         private readonly _characters: CharacterInterface[],
         private readonly _room: RoomInterface,
-        private readonly defaultexecutionType: ExecutionType,
+        private readonly defaultExecutionType: ExecutionType,
         private readonly defaultPriority: number,
         onRun: OnRunActivityEvent,
         props: {
@@ -33,7 +33,7 @@ export default class CommitmentStoredClass extends ActivityStoredClass implement
     }
 
     get executionType(): ExecutionType {
-        return this.getStorageProperty<ExecutionType>("executionType") || this.defaultexecutionType
+        return this.getStorageProperty<ExecutionType>("executionType") || this.defaultExecutionType
     }
     set executionType(value: ExecutionType) {
         this.setStorageProperty("executionType", value)
