@@ -185,33 +185,34 @@ export default abstract class NavigationAbstractClass extends StoredClassModel i
 
     get activities(): ActivityInterface[] {
         let res: ActivityInterface[] = []
-        let activitiesToExclude: string[] = []
+        let activitiesToExclude: { id: string, customSchedHour?: boolean }[] = []
         Object.entries(this.activeActivityScheduling).forEach(([activityId, scheduling]) => {
+            let customSchedHour = (scheduling.fromHour && scheduling.toHour) ? true : false
             if (
                 scheduling.fromHour && scheduling.toHour &&
                 !timeTracker.nowIsBetween(scheduling.fromHour, scheduling.toHour)
             ) {
-                activitiesToExclude.push(activityId)
+                activitiesToExclude.push({ id: activityId, customSchedHour: customSchedHour })
             }
             else if (scheduling.fromDay && scheduling.fromDay > timeTracker.currentDay) {
-                activitiesToExclude.push(activityId)
+                activitiesToExclude.push({ id: activityId, customSchedHour: customSchedHour })
             }
             else if (scheduling.toDay && scheduling.toDay < timeTracker.currentDay) {
-                activitiesToExclude.push(activityId)
+                activitiesToExclude.push({ id: activityId, customSchedHour: customSchedHour })
             }
         })
         Object.entries(this.excludedActivitiesScheduling).forEach(([activityId, scheduling]) => {
             if (scheduling.toDay && scheduling.toDay >= timeTracker.currentDay) {
-                activitiesToExclude.push(activityId)
+                activitiesToExclude.push({ id: activityId, customSchedHour: false })
             }
         })
         this.defaultActivities.forEach(activity => {
-            if (!activitiesToExclude.includes(activity.id)) {
+            if (!activitiesToExclude.map((i) => i.id).includes(activity.id)) {
                 res.push(activity)
             }
         })
         this.additionalActivitiesIds.forEach(activityId => {
-            if (!activitiesToExclude.includes(activityId)) {
+            if (!activitiesToExclude.map((i) => i.id).includes(activityId)) {
                 let activity = getActivityById(activityId)
                 if (activity) {
                     res.push(activity)
