@@ -30,7 +30,10 @@ export interface ActivityBaseInternalInterface {
     readonly run: (props: OnRunProps) => void
     /**
      * Whether the activity/commitment is a deadline.
-     * @returns Whether the activity/commitment is a deadline.
      */
     readonly isExpired: boolean
+    /**
+     * Whether the activity/commitment is active.
+     */
+    readonly isActive: boolean
 }

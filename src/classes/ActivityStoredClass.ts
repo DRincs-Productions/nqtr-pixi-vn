@@ -54,4 +54,17 @@ export default class ActivityStoredClass<OnRunEventType> extends StoredClassMode
         }
         return false
     }
+
+    get isActive(): boolean {
+        if (this.fromDay && this.fromDay > timeTracker.currentDay) {
+            return false
+        }
+        if (this.toDay && this.toDay < timeTracker.currentDay) {
+            return false
+        }
+        if (!timeTracker.nowIsBetween(this.fromHour, this.toHour)) {
+            return false
+        }
+        return true
+    }
 }

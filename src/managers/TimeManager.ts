@@ -1,111 +1,58 @@
 import { storage } from "@drincs/pixi-vn";
-import { TIME_DATA_KEY, TIME_SETTINGS_KEY } from "../constants";
+import { TIME_DATA_KEY } from "../constants";
 import TimeDataType from "../types/TimeDataType";
 import { ITimeStlot, TimeSettings } from "../types/TimeSettings";
+import TimeManagerSettings from "./TimeManagerSettings";
 
 export default class TimeManager {
-    private editSettings(settings: TimeSettings) {
-        let data: any = {}
-        if (typeof settings.minDayHours === 'number') {
-            data['minDayHours'] = settings.minDayHours
+    initialize(settings: TimeSettings) {
+        const {
+            minDayHours = 0,
+            maxDayHours = 24,
+            defaultTimeSpent = 1,
+            timeSlots = [],
+            weekLength = 7,
+            weekendStartDay = weekLength - 1,
+            weekDaysNames = [],
+        } = settings
+        TimeManagerSettings.minDayHours = minDayHours
+        TimeManagerSettings.maxDayHours = maxDayHours
+        TimeManagerSettings.defaultTimeSpent = defaultTimeSpent
+        TimeManagerSettings.timeSlots = timeSlots
+        TimeManagerSettings.weekLength = weekLength
+        if (weekendStartDay >= TimeManagerSettings.weekLength) {
+            console.warn(`[NQTR] Weekend start day should be less than week length ${weekLength}, so will be ignored`)
         }
-        if (typeof settings.maxDayHours === 'number') {
-            data['maxDayHours'] = settings.maxDayHours
+        else {
+            TimeManagerSettings.weekendStartDay = weekendStartDay
         }
-        if (typeof settings.minDayHours === 'number') {
-            data['defaultTimeSpent'] = settings.defaultTimeSpent
+        if (weekDaysNames.length !== weekLength) {
+            console.warn(`[NQTR] Week days names should be equal to week length ${weekLength}, so will be ignored`)
         }
-        if (Array.isArray(settings.timeSlots)) {
-            data['timeSlots'] = settings.timeSlots
+        else {
+            TimeManagerSettings.weekDaysNames = weekDaysNames
         }
-        if (typeof settings.weekLength === 'number') {
-            data['weekLength'] = settings.weekLength
-        }
-        if (typeof settings.weekendStartDay === 'number') {
-            let weekLength = settings.weekLength || this.weekLength
-            if (settings.weekendStartDay >= weekLength) {
-                console.warn(`[NQTR] Weekend start day should be less than week length ${weekLength}`)
-            }
-            data['weekendStartDay'] = settings.weekendStartDay
-        }
-        if (Array.isArray(settings.weekDaysNames)) {
-            let weekLength = settings.weekLength || this.weekLength
-            if (settings.weekDaysNames.length !== weekLength) {
-                console.warn(`[NQTR] Week days names should be equal to week length ${weekLength}`)
-            }
-            data['weekDaysNames'] = settings.weekDaysNames
-        }
-        storage.setVariable(TIME_SETTINGS_KEY, data)
-    }
-    /**
-     * Get time settings
-     * @default {}
-     */
-    get settings(): TimeSettings {
-        let settings = storage.getVariable<TimeSettings>(TIME_SETTINGS_KEY) || {}
-        return settings
-    }
-    /**
-     * Set time settings, Is very important to set the settings before using the nqtr library, bacause more of the features are based on the time settings.
-     */
-    set settings(value: TimeSettings) {
-        this.editSettings(value)
     }
     get minDayHours(): number {
-        let result = 0
-        let settings = storage.getVariable<TimeSettings>(TIME_SETTINGS_KEY)
-        if (settings && settings.hasOwnProperty('minDayHours')) {
-            result = settings.minDayHours || 0
-        }
-        return result
+        return TimeManagerSettings.minDayHours
     }
     get maxDayHours(): number {
-        let result = 24
-        let settings = storage.getVariable<TimeSettings>(TIME_SETTINGS_KEY)
-        if (settings && settings.hasOwnProperty('maxDayHours')) {
-            result = settings.maxDayHours || 24
-        }
-        return result
+        return TimeManagerSettings.maxDayHours
     }
     get defaultTimeSpent(): number {
-        let result = 1
-        let settings = storage.getVariable<TimeSettings>(TIME_SETTINGS_KEY)
-        if (settings && settings.hasOwnProperty('defaultTimeSpent')) {
-            result = settings.defaultTimeSpent || 1
-        }
-        return result
+        return TimeManagerSettings.defaultTimeSpent
     }
     get timeSlots(): ITimeStlot[] {
-        let result: ITimeStlot[] = []
-        let settings = storage.getVariable<TimeSettings>(TIME_SETTINGS_KEY)
-        if (settings && settings.hasOwnProperty('timeSlots')) {
-            result = settings.timeSlots || []
-        }
-        return result
+        return TimeManagerSettings.timeSlots
     }
     get weekLength(): number {
-        let result = 7
-        let settings = storage.getVariable<TimeSettings>(TIME_SETTINGS_KEY)
-        if (settings && settings.hasOwnProperty('weekLength')) {
-            result = settings.weekLength || 7
-        }
-        return result
+        return TimeManagerSettings.weekLength
     }
     get weekendStartDay(): number {
-        let result = this.weekLength - 1
-        let settings = storage.getVariable<TimeSettings>(TIME_SETTINGS_KEY)
-        if (settings && settings.hasOwnProperty('weekendStartDay')) {
-            result = settings.weekendStartDay || this.weekLength - 1
-        }
-        return result
+        return TimeManagerSettings.weekendStartDay
     }
     get weekDaysNames(): string[] {
-        let result: string[] = []
-        let settings = storage.getVariable<TimeSettings>(TIME_SETTINGS_KEY)
-        if (settings && settings.hasOwnProperty('weekDaysNames')) {
-            result = settings.weekDaysNames || result
-        }
-        return result
+        return TimeManagerSettings.weekDaysNames
     }
 
     /**
@@ -238,7 +185,13 @@ export default class TimeManager {
      * @param toHour the ending hour.
      * @returns true if the current hour is between the given hours, otherwise false.
      */
-    nowIsBetween(fromHour: number, toHour: number): boolean {
+    nowIsBetween(fromHour: number | undefined, toHour: number | undefined): boolean {
+        if (fromHour === undefined) {
+            fromHour = this.minDayHours
+        }
+        if (toHour === undefined) {
+            toHour = this.maxDayHours
+        }
         let currentHour = this.currentHour
         if (fromHour < toHour) {
             return currentHour >= fromHour && currentHour < toHour
