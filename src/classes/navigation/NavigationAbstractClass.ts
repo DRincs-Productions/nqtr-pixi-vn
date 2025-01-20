@@ -110,6 +110,11 @@ export default abstract class NavigationAbstractClass extends StoredClassModel i
                 this.editActivityScheduling(activity.id, scheduling)
                 return
             }
+            else if (this.excludedActivitiesIds.includes(activity.id)) {
+                this.removeActivityScheduling(activity.id)
+                console.log(`[NQTR] Activity with id ${activity.id} was excluded, so it will be associated with this class again.`)
+                return
+            }
             console.warn(`[NQTR] Activity with id ${activity.id} already exists, so it will be ignored.`)
             return
         }
@@ -188,10 +193,7 @@ export default abstract class NavigationAbstractClass extends StoredClassModel i
         let activitiesToExclude: { id: string, customSchedHour?: boolean }[] = []
         Object.entries(this.activeActivityScheduling).forEach(([activityId, scheduling]) => {
             let customSchedHour = (scheduling.fromHour && scheduling.toHour) ? true : false
-            if (
-                scheduling.fromHour && scheduling.toHour &&
-                !timeTracker.nowIsBetween(scheduling.fromHour, scheduling.toHour)
-            ) {
+            if (customSchedHour && !timeTracker.nowIsBetween(scheduling.fromHour, scheduling.toHour)) {
                 activitiesToExclude.push({ id: activityId, customSchedHour: customSchedHour })
             }
             else if (scheduling.fromDay && scheduling.fromDay > timeTracker.currentDay) {
