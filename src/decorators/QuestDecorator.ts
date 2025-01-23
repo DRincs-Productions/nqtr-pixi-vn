@@ -38,11 +38,3 @@ export function getQuestById(id: string): QuestInterface | undefined {
 		return;
 	}
 }
-
-/**
- * Get all registered quests and started.
- * @returns All registered quests.
- */
-export function getAllStartedQuests(): QuestInterface[] {
-	return Object.values(registeredQuests).filter((quest) => quest.started);
-}
