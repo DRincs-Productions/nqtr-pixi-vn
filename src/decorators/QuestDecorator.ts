@@ -1,8 +1,8 @@
 import { Stage } from "../classes"
-import Quest from "../classes/quest/Quest"
+import QuestBaseModel from "../classes/quest/QuestBaseModel"
 import { QuestProps } from "../interface"
 
-export const registeredQuests: { [id: string]: Quest } = {}
+export const registeredQuests: { [id: string]: QuestBaseModel } = {}
 
 /**
  * Creates a new quest and registers it in the system.
@@ -12,11 +12,11 @@ export const registeredQuests: { [id: string]: Quest } = {}
  * @param props The quest properties
  * @returns The created quest
  */
-export function newQuest(id: string, stages: Stage[], props: QuestProps): Quest {
+export function newQuest(id: string, stages: Stage[], props: QuestProps): QuestBaseModel {
     if (registeredQuests[id]) {
         console.warn(`[NQTR] Quest ${id} already exists, it will be overwritten`)
     }
-    let quest = new Quest(id, stages, props)
+    let quest = new QuestBaseModel(id, stages, props)
     registeredQuests[id] = quest
     return quest
 }
@@ -26,7 +26,7 @@ export function newQuest(id: string, stages: Stage[], props: QuestProps): Quest 
  * @param id The id of the quest.
  * @returns The quest or undefined if not found.
  */
-export function getQuestById(id: string): Quest | undefined {
+export function getQuestById(id: string): QuestBaseModel | undefined {
     try {
         let quest = registeredQuests[id]
         if (!quest) {
@@ -45,6 +45,6 @@ export function getQuestById(id: string): Quest | undefined {
  * Get all registered quests and started.
  * @returns All registered quests.
  */
-export function getAllStartedQuests(): Quest[] {
+export function getAllStartedQuests(): QuestBaseModel[] {
     return Object.values(registeredQuests).filter(quest => quest.started)
 }

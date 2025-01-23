@@ -1,5 +1,5 @@
 import { GraphicItemType, OnRenderGraphicItemProps, OnStartEndStageQuest } from "@drincs/nqtr/dist/override"
-import Quest from "../../classes/quest/Quest"
+import QuestBaseModel from "../../classes/quest/QuestBaseModel"
 
 export default interface QuestProps {
     /**
@@ -16,7 +16,7 @@ export default interface QuestProps {
      * The icon element. Can be a string or an Element or a Pixi'VN CanvasItem
      * @default undefined
      */
-    renderIcon?: GraphicItemType | ((room: Quest, props: OnRenderGraphicItemProps) => GraphicItemType)
+    renderIcon?: GraphicItemType | ((room: QuestBaseModel, props: OnRenderGraphicItemProps) => GraphicItemType)
     /**
      * The image. It can be a string, an Element or a Pixi'VN Canvas Item.
      * Or an object to manage multiple image types. For example to have a image based on time.
@@ -31,7 +31,7 @@ export default interface QuestProps {
      * ```
      * @default undefined
      */
-    renderImage?: GraphicItemType | ((room: Quest, props: OnRenderGraphicItemProps) => GraphicItemType)
+    renderImage?: GraphicItemType | ((room: QuestBaseModel, props: OnRenderGraphicItemProps) => GraphicItemType)
     /**
      * If the quest is in development.
      * @default false
@@ -40,9 +40,9 @@ export default interface QuestProps {
     /**
      * The function that will be executed when the quest starts.
      */
-    onStart?: (quest: Quest, props: OnStartEndStageQuest) => void
+    onStart?: (quest: QuestBaseModel, props: OnStartEndStageQuest) => void
     /**
      * The function that will be executed when a stage end in the quest.
      */
-    onNextStage?: (quest: Quest, props: OnStartEndStageQuest) => void
+    onNextStage?: (quest: QuestBaseModel, props: OnStartEndStageQuest) => void
 }

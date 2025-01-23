@@ -7,6 +7,6 @@ export { default as MapBaseModel } from './navigation/MapBaseModel';
 export { default as MapStoredClass } from './navigation/MapStoredClass';
 export { default as RoomBaseModel } from './navigation/RoomBaseModel';
 export { default as RoomStoredClass } from './navigation/RoomStoredClass';
-export { default as Quest } from './quest/Quest';
-export { default as Stage } from './quest/Stage';
+export { default as Quest } from './quest/QuestBaseModel';
+export { default as Stage } from './quest/StageBaseModel';
 

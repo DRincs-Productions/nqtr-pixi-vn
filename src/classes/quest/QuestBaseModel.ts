@@ -1,13 +1,11 @@
 import { GraphicItemType, OnRenderGraphicItemProps, OnStartEndStageQuest } from "@drincs/nqtr/dist/override";
-import { StoredClassModel } from "@drincs/pixi-vn";
-import { QuestProps } from "../../interface";
-import Stage, { StageQuest } from "./Stage";
+import { QuestProps, StageInterface } from "../../interface";
+import QuestStoredClass from "./QuestStoredClass";
+import { StageQuest } from "./StageBaseModel";
 
-const QUEST_CATEGORY = "__nqtr-quest__"
-
-export default class Quest extends StoredClassModel {
-    constructor(id: string, stages: Stage[], props: QuestProps) {
-        super(QUEST_CATEGORY, id)
+export default class QuestBaseModel extends QuestStoredClass {
+    constructor(id: string, stages: StageInterface[], props: QuestProps) {
+        super(id, stages)
         this._stages = stages
         this._name = props.name || ""
         this._description = props.description || ""
@@ -16,16 +14,6 @@ export default class Quest extends StoredClassModel {
         this._isInDevelopment = props.isInDevelopment || false
         this._onStart = props.onStart
         this._onNextStage = props.onNextStage
-    }
-
-    private _stages: Stage[]
-    /**
-     * The stages of the quest.
-     */
-    get stages(): StageQuest[] {
-        return this._stages.map((stage, index) => {
-            return new StageQuest(stage.id, stage)
-        })
     }
 
     private _name: string
@@ -44,7 +32,7 @@ export default class Quest extends StoredClassModel {
         return this._description
     }
 
-    private _renderIcon?: GraphicItemType | ((room: Quest, props: OnRenderGraphicItemProps) => GraphicItemType)
+    private _renderIcon?: GraphicItemType | ((room: QuestBaseModel, props: OnRenderGraphicItemProps) => GraphicItemType)
     /**
      * The function for rendering the icon of the quest.
      */
@@ -61,7 +49,7 @@ export default class Quest extends StoredClassModel {
         return (props: OnRenderGraphicItemProps) => render
     }
 
-    private _renderImage?: GraphicItemType | ((room: Quest, props: OnRenderGraphicItemProps) => GraphicItemType)
+    private _renderImage?: GraphicItemType | ((room: QuestBaseModel, props: OnRenderGraphicItemProps) => GraphicItemType)
     /**
      * The function for rendering the image of the quest.
      */
@@ -84,16 +72,6 @@ export default class Quest extends StoredClassModel {
      */
     get isInDevelopment(): boolean {
         return this._isInDevelopment
-    }
-
-    /**
-     * The index of the current stage.
-     */
-    get currentStageIndex(): number | undefined {
-        return this.getStorageProperty<number>('currentStageIndex')
-    }
-    private set currentStageIndex(value: number | undefined) {
-        this.setStorageProperty('currentStageIndex', value)
     }
 
     /**
@@ -124,19 +102,19 @@ export default class Quest extends StoredClassModel {
         return this.currentStageIndex > this.stages.length - 1
     }
 
-    private _onStart?: (stage: Quest, props: OnStartEndStageQuest) => void
+    private _onStart?: (stage: QuestBaseModel, props: OnStartEndStageQuest) => void
     /**
      * The function that will be called when the quest starts.
      */
-    get onStart(): undefined | ((stage: Quest, props: OnStartEndStageQuest) => void) {
+    get onStart(): undefined | ((stage: QuestBaseModel, props: OnStartEndStageQuest) => void) {
         return this._onStart
     }
 
-    private _onNextStage?: (stage: Quest, props: OnStartEndStageQuest) => void
+    private _onNextStage?: (stage: QuestBaseModel, props: OnStartEndStageQuest) => void
     /**
      * The function that will be called when the quest goes to the next stage.
      */
-    get onNextStage(): undefined | ((stage: Quest, props: OnStartEndStageQuest) => void) {
+    get onNextStage(): undefined | ((stage: QuestBaseModel, props: OnStartEndStageQuest) => void) {
         return this._onNextStage
     }
 
