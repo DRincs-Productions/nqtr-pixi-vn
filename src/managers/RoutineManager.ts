@@ -1,5 +1,6 @@
-import { storage } from "@drincs/pixi-vn";
-import { fixedCommitments, getCommitmentById } from "../decorators/CommitmentDecorator";
+import { CharacterInterface, storage } from "@drincs/pixi-vn";
+import { navigator } from ".";
+import { fixedCommitments, getCommitmentById, registeredCommitments } from "../decorators/CommitmentDecorator";
 import { CommitmentInterface } from "../interface";
 
 const TEMPORARY_COMMITMENT_CATEGORY_MEMORY_KEY = "___nqtr-temporary_commitment___";
@@ -87,5 +88,65 @@ export default class RoutineManager {
 		}
 		currentCommitments = currentCommitments.filter((id) => !commitmentsIds.includes(id));
 		storage.setVariable(TEMPORARY_COMMITMENT_CATEGORY_MEMORY_KEY, currentCommitments);
+	}
+
+	/**
+	 * Clear all the expired commitments.
+	 */
+	clearExpiredRoutine() {
+		Object.values(registeredCommitments).forEach((commitment) => {
+			if (commitment.expired) {
+				delete registeredCommitments[commitment.id];
+			}
+		});
+	}
+
+	/**
+	 * Get the current commitments. The hidden commitments are not included.
+	 * In case there is a character who has two or more commitments at the same time, will be selected the commitment with the highest priority.
+	 * Higher priority commitments are calculated using the following steps:
+	 * 1. The commitments that have Commitments BaseModel.priority set to a higher value will be selected first.
+	 * 2. If there are commitments with the same priority, the commitments that are not fixed will be selected first.
+	 * 3. If there are commitments with the same priority and the same fixed status, priority will be given to the commitment with a lower index.
+	 * @returns The current commitments.
+	 */
+	get currentRoutine(): CommitmentInterface[] {
+		let character_commitments: { [character: string]: CommitmentInterface } = {};
+		[...this.temporaryRoutine, ...this.fixedRoutine].reverse().forEach((c) => {
+			if (!c.hidden) {
+				if (c.characters.length > 0) {
+					// all the characters don't already have commitments or the commitment has a higher priority
+					let allAvailable = c.characters.every(
+						(ch) => !character_commitments[ch.id] || c.priority > character_commitments[ch.id].priority
+					);
+					if (allAvailable) {
+						c.characters.forEach((ch) => {
+							character_commitments[ch.id] = c;
+						});
+					}
+				} else {
+					console.error(`[NQTR] The commitment ${c.id} has no characters assigned`);
+				}
+			}
+		});
+		return Object.values(character_commitments);
+	}
+
+	get currentRoomRoutine(): CommitmentInterface[] {
+		return navigator.currentRoom?.routine || [];
+	}
+
+	/**
+	 * Get the character commitment.
+	 * @param character The character.
+	 * @returns The commitment or undefined if not found.
+	 */
+	getCommitmentByCharacter(character: CharacterInterface): CommitmentInterface | undefined {
+		this.currentRoutine.forEach((c) => {
+			if (c.characters.map((ch) => ch.id).includes(character.id)) {
+				return c;
+			}
+		});
+		return undefined;
 	}
 }
