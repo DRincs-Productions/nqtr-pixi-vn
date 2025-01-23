@@ -9,7 +9,13 @@ export default class QuestStoredClass extends StoredClassModel implements QuestB
 		id: string,
 		private readonly _stages: StageInterface[],
 		props: {
+			/**
+			 * The function that will be executed when the quest starts.
+			 */
 			onStart?: (stage: QuestInterface, props: OnStartEndStageQuest) => void;
+			/**
+			 * The function that will be executed when a stage end in the quest.
+			 */
 			onNextStage?: (stage: QuestInterface, props: OnStartEndStageQuest) => void;
 		} = {}
 	) {
