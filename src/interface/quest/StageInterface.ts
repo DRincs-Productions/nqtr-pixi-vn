@@ -8,6 +8,10 @@ export default interface StageBaseInterface extends StageBaseInternalInterface {
 
 export interface StageBaseInternalInterface {
 	/**
+	 * The id of the stage.
+	 */
+	readonly id: string;
+	/**
 	 * The function that will be called when the stage starts.
 	 */
 	readonly onStart?: (stage: StageInterface, props: OnStartEndStageQuest) => void;

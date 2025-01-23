@@ -7,6 +7,10 @@ export default interface QuestBaseInterface extends QuestBaseInternalInterface {
 
 export interface QuestBaseInternalInterface {
 	/**
+	 * The id of the quest.
+	 */
+	readonly id: string;
+	/**
 	 * The stages of the quest.
 	 */
 	readonly stages: StageInterface[];
