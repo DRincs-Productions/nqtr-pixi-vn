@@ -1,4 +1,3 @@
-import { GraphicItemType, OnRenderGraphicItemProps } from "@drincs/nqtr/dist/override";
 import { getFlag } from "@drincs/pixi-vn";
 import { StageProps } from "../../interface";
 import StageFlags from "../../interface/quest/StageFlags";
@@ -16,7 +15,7 @@ export default class StageBaseModel extends StageStoredClass {
 		this._flags = props.flags || [];
 		this._description = props.description || "";
 		this._adviceDescription = props.adviceDescription || "";
-		this._renderImage = props.renderImage;
+		this._image = props.image;
 		this._flagsRequiredToStart = props.flagsRequiredToStart || [];
 		this._requestDescriptionToStart = props.requestDescriptionToStart || "";
 	}
@@ -45,23 +44,12 @@ export default class StageBaseModel extends StageStoredClass {
 		return this._adviceDescription;
 	}
 
-	private _renderImage?:
-		| GraphicItemType
-		| ((room: StageBaseModel, props: OnRenderGraphicItemProps) => GraphicItemType);
+	private _image?: string;
 	/**
-	 * The function for rendering the image of the stage.
+	 * The image of the stage.
 	 */
-	get renderImage(): ((props: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
-		let render = this._renderImage;
-		if (render === undefined) {
-			return undefined;
-		}
-		if (typeof render === "function") {
-			return (props: OnRenderGraphicItemProps) => {
-				return render(this, props);
-			};
-		}
-		return (props: OnRenderGraphicItemProps) => render;
+	get image(): string | undefined {
+		return this._image;
 	}
 
 	private _flags: StageFlags[];

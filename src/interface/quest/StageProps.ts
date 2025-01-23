@@ -1,6 +1,5 @@
-import { GraphicItemType, OnRenderGraphicItemProps, OnStartEndStageQuest } from "@drincs/nqtr/dist/override";
+import { OnStartEndStageQuest } from "@drincs/nqtr/dist/override";
 import { StageInterface } from "..";
-import { Stage } from "../../classes";
 import { QuestsRequiredType } from "../../types";
 import StageFlags from "./StageFlags";
 
@@ -26,20 +25,9 @@ export default interface StageProps {
 	 */
 	adviceDescription?: string;
 	/**
-	 * The image. It can be a string, an Element or a Pixi'VN Canvas Item.
-	 * Or an object to manage multiple image types. For example to have a image based on time.
-	 * @example
-	 * ```ts
-	 * {
-	 *    "morning": "morning-background.jpg",
-	 *    "afternoon": "afternoon-background.jpg",
-	 *    "evening": "evening-background.jpg",
-	 *    "night": "night-background.jpg"
-	 * }
-	 * ```
-	 * @default undefined
+	 * The image of the stage.
 	 */
-	renderImage?: GraphicItemType | ((room: Stage, props: OnRenderGraphicItemProps) => GraphicItemType);
+	image?: string;
 	/**
 	 * The day required to start the stage.
 	 * @example If the value is 3, and the previous stage ends on day 1, the stage will start on day 4.
