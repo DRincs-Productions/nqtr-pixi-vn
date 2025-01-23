@@ -1,3 +1,4 @@
+import { OnStartEndStageQuest } from "@drincs/nqtr/dist/override";
 import { getQuestById, registeredQuests } from "../decorators/QuestDecorator";
 import { QuestInterface } from "../interface";
 
@@ -20,5 +21,16 @@ export default class QuestManager {
 
 	find(id: string): QuestInterface | undefined {
 		return getQuestById(id);
+	}
+
+	/**
+	 * Start the quests that must start on the current stage.
+	 */
+	startsStageMustBeStarted(props: OnStartEndStageQuest) {
+		Object.values(registeredQuests).forEach((quest) => {
+			if (quest.currentStageMustStart) {
+				quest.startCurrentStage(props);
+			}
+		});
 	}
 }
