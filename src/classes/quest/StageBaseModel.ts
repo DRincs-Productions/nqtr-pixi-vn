@@ -72,8 +72,6 @@ export default class StageBaseModel extends StageStoredClass {
 		return this._flags;
 	}
 
-	// request to start
-
 	private _flagsRequiredToStart: StageFlags[];
 	/**
 	 * The list of flags required to start the stage.
