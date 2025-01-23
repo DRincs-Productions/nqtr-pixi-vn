@@ -55,6 +55,13 @@ export default class QuestStoredClass extends StoredClassModel implements QuestB
 		return this.currentStageIndex > this.stages.length - 1;
 	}
 
+	get failed(): boolean {
+		return this.getStorageProperty<boolean>("failed") || false;
+	}
+	set failed(value: boolean) {
+		this.setStorageProperty("failed", value);
+	}
+
 	private _onStart?: (stage: QuestInterface, props: OnStartEndStageQuest) => void;
 	get onStart(): undefined | ((stage: QuestInterface, props: OnStartEndStageQuest) => void) {
 		return this._onStart;

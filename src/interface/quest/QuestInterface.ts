@@ -36,6 +36,11 @@ export interface QuestBaseInternalInterface {
 	readonly completed: boolean;
 
 	/**
+	 * If the quest is failed.
+	 */
+	readonly failed: boolean;
+
+	/**
 	 * The function that will be called when the quest starts.
 	 */
 	readonly onStart?: (stage: QuestInterface, props: OnStartEndStageQuest) => void;
