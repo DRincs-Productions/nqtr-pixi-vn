@@ -20,6 +20,26 @@ export interface StageBaseInternalInterface {
 	/**
 	 * Check if the flag and goals are completed.
 	 * You can force the completion of the stage by setting the completed property to true.
+	 * @example
+	 * ```ts
+	 * export default class Stage extends StageStoredClass {
+	 * 	override get completed(): boolean {
+	 * 		if (super.completed) {
+	 * 			return true;
+	 * 		}
+	 * 		if (this.flags.length > 0) {
+	 * 			if (!this.flags.every((flag) => getFlag(flag.flag))) {
+	 * 				return false;
+	 * 			}
+	 * 			return true;
+	 * 		}
+	 * 		return false;
+	 * 	}
+	 * 	override set completed(value: boolean) {
+	 * 		super.completed = value;
+	 * 	}
+	 * }
+	 * ```
 	 */
 	completed: boolean;
 
@@ -35,6 +55,17 @@ export interface StageBaseInternalInterface {
 
 	/**
 	 * Check if the stage can start.
+	 * @example
+	 * ```ts
+	 * export default class Stage extends StageStoredClass {
+	 * 	override get canStart(): boolean {
+	 * 		if (this.flagsRequiredToStart.length > 0 && !this.flagsRequiredToStart.every((flag) => getFlag(flag.flag))) {
+	 * 			return false;
+	 * 		}
+	 * 		return super.canStart;
+	 * 	}
+	 * }
+	 * ```
 	 */
 	readonly canStart: boolean;
 
