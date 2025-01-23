@@ -1,6 +1,7 @@
-import { default as TimeManager } from './TimeManager';
+import NavigatorManager from "./NavigatorManager";
+import { default as TimeManager } from "./TimeManager";
 
-const timeTracker = new TimeManager()
+const timeTracker = new TimeManager();
+const navigator = new NavigatorManager();
 
-export { timeTracker };
-
+export { navigator, timeTracker };
