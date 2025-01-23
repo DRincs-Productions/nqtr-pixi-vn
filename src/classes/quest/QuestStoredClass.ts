@@ -8,10 +8,14 @@ export default class QuestStoredClass extends StoredClassModel implements QuestB
 	constructor(
 		id: string,
 		private readonly _stages: StageInterface[],
-		private readonly _onStart?: (stage: QuestInterface, props: OnStartEndStageQuest) => void,
-		private readonly _onNextStage?: (stage: QuestInterface, props: OnStartEndStageQuest) => void
+		props: {
+			onStart?: (stage: QuestInterface, props: OnStartEndStageQuest) => void;
+			onNextStage?: (stage: QuestInterface, props: OnStartEndStageQuest) => void;
+		} = {}
 	) {
 		super(QUEST_CATEGORY, id);
+		this._onStart = props.onStart;
+		this._onNextStage = props.onNextStage;
 	}
 
 	get stages(): StageInterface[] {
@@ -44,10 +48,12 @@ export default class QuestStoredClass extends StoredClassModel implements QuestB
 		return this.currentStageIndex > this.stages.length - 1;
 	}
 
+	private _onStart?: (stage: QuestInterface, props: OnStartEndStageQuest) => void;
 	get onStart(): undefined | ((stage: QuestInterface, props: OnStartEndStageQuest) => void) {
 		return this._onStart;
 	}
 
+	private _onNextStage?: (stage: QuestInterface, props: OnStartEndStageQuest) => void;
 	get onNextStage(): undefined | ((stage: QuestInterface, props: OnStartEndStageQuest) => void) {
 		return this._onNextStage;
 	}

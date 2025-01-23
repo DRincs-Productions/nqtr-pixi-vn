@@ -1,15 +1,14 @@
-import { GraphicItemType, OnRenderGraphicItemProps } from "@drincs/nqtr/dist/override";
 import { QuestProps, StageInterface } from "../../interface";
 import QuestStoredClass from "./QuestStoredClass";
 
 export default class QuestBaseModel extends QuestStoredClass {
 	constructor(id: string, stages: StageInterface[], props: QuestProps) {
-		super(id, stages, props.onStart, props.onNextStage);
+		super(id, stages, { onStart: props.onStart, onNextStage: props.onNextStage });
 		this._name = props.name || "";
 		this._description = props.description || "";
-		this._renderIcon = props.renderIcon;
-		this._renderImage = props.renderImage;
-		this._isInDevelopment = props.isInDevelopment || false;
+		this._icon = props.icon;
+		this._image = props.image;
+		this._inDevelopment = props.inDevelopment || false;
 	}
 
 	private _name: string;
@@ -28,49 +27,27 @@ export default class QuestBaseModel extends QuestStoredClass {
 		return this._description;
 	}
 
-	private _renderIcon?:
-		| GraphicItemType
-		| ((room: QuestBaseModel, props: OnRenderGraphicItemProps) => GraphicItemType);
+	private _icon?: string;
 	/**
-	 * The function for rendering the icon of the quest.
+	 * Icon of the quest.
 	 */
-	get renderIcon(): ((props: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
-		let render = this._renderIcon;
-		if (render === undefined) {
-			return undefined;
-		}
-		if (typeof render === "function") {
-			return (props: OnRenderGraphicItemProps) => {
-				return render(this, props);
-			};
-		}
-		return (props: OnRenderGraphicItemProps) => render;
+	get icon(): string | undefined {
+		return this._icon;
 	}
 
-	private _renderImage?:
-		| GraphicItemType
-		| ((room: QuestBaseModel, props: OnRenderGraphicItemProps) => GraphicItemType);
+	private _image?: string;
 	/**
-	 * The function for rendering the image of the quest.
+	 * Image of the quest.
 	 */
-	get renderImage(): ((props: OnRenderGraphicItemProps) => GraphicItemType) | undefined {
-		let render = this._renderImage;
-		if (render === undefined) {
-			return undefined;
-		}
-		if (typeof render === "function") {
-			return (props: OnRenderGraphicItemProps) => {
-				return render(this, props);
-			};
-		}
-		return (props: OnRenderGraphicItemProps) => render;
+	get image(): string | undefined {
+		return this._image;
 	}
 
-	private _isInDevelopment: boolean;
+	private _inDevelopment: boolean;
 	/**
 	 * If the quest is in development.
 	 */
-	get isInDevelopment(): boolean {
-		return this._isInDevelopment;
+	get inDevelopment(): boolean {
+		return this._inDevelopment;
 	}
 }
