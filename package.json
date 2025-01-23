@@ -1,6 +1,6 @@
 {
   "name": "@drincs/nqtr",
-  "version": "0.2.13",
+  "version": "0.2.14",
   "description": "A complete system introducing the concepts of location, time and event, producing the framework of a not-quite-point-and-click adventure game.",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -23,12 +23,12 @@
   },
   "homepage": "https://github.com/DRincs-Productions/nqtr-pixi-vn#readme",
   "devDependencies": {
-    "@drincs/nqtr": "^0.2.12",
+    "@drincs/nqtr": "^0.2.13",
     "jsdom": "^26.0.0",
     "ts-node": "^10.9.2",
     "tsup": "^8.3.5",
     "typescript": "^5.7.3",
-    "vitest": "^2.1.8"
+    "vitest": "^3.0.4"
   },
   "keywords": [
     "game",
