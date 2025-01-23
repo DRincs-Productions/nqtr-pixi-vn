@@ -38,25 +38,15 @@ export default class StageStoredClass extends StoredClassModel implements StageB
 	}
 
 	private _onStart?: (stage: StageInterface, props: OnStartEndStageQuest) => void;
-	/**
-	 * The function that will be called when the stage starts.
-	 */
 	get onStart(): undefined | ((stage: StageInterface, props: OnStartEndStageQuest) => void) {
 		return this._onStart;
 	}
 
 	private _onEnd?: (stage: StageInterface, props: OnStartEndStageQuest) => void;
-	/**
-	 * The function that will be called when the stage ends.
-	 */
 	get onEnd(): undefined | ((stage: StageInterface, props: OnStartEndStageQuest) => void) {
 		return this._onEnd;
 	}
 
-	/**
-	 * Check if the flag and goals are completed.
-	 * You can force the completion of the stage by setting the completed property to true.
-	 */
 	get completed(): boolean {
 		return this.getStorageProperty<boolean>("completed") || false;
 	}
@@ -64,9 +54,6 @@ export default class StageStoredClass extends StoredClassModel implements StageB
 		this.setStorageProperty("completed", value);
 	}
 
-	/**
-	 * If the stage is started.
-	 */
 	get started(): boolean {
 		return this.getStorageProperty<boolean>("started") || false;
 	}
@@ -81,9 +68,6 @@ export default class StageStoredClass extends StoredClassModel implements StageB
 		this.setStorageProperty("prevStageEndDay", value);
 	}
 
-	/**
-	 * The day when the stage starts.
-	 */
 	get startDay(): number | undefined {
 		let prevStageEndDay = this.prevStageEndDay;
 		if (prevStageEndDay === undefined) {
@@ -92,9 +76,6 @@ export default class StageStoredClass extends StoredClassModel implements StageB
 		return prevStageEndDay + this.daysRequiredToStart;
 	}
 
-	/**
-	 * Check if the stage can start.
-	 */
 	get canStart(): boolean {
 		let daysRequired = this.daysRequiredToStart;
 		if (daysRequired > 0) {
@@ -117,9 +98,6 @@ export default class StageStoredClass extends StoredClassModel implements StageB
 		return true;
 	}
 
-	/**
-	 * Inizialize the stage. **This function should be called only by the Quest class.**
-	 */
 	inizialize() {
 		if (this.daysRequiredToStart > 0) {
 			this.prevStageEndDay = timeTracker.currentDay;
@@ -127,9 +105,6 @@ export default class StageStoredClass extends StoredClassModel implements StageB
 		}
 	}
 
-	/**
-	 * The function that will be called when the stage starts.
-	 */
 	start(props: OnStartEndStageQuest) {
 		if (this.canStart) {
 			this.started = true;
@@ -142,17 +117,11 @@ export default class StageStoredClass extends StoredClassModel implements StageB
 	}
 
 	private _daysRequiredToStart?: number;
-	/**
-	 * The number of days required to start the stage.
-	 */
 	get daysRequiredToStart(): number {
 		return this._daysRequiredToStart || 0;
 	}
 
 	private _questsRequiredToStart: QuestsRequiredType[];
-	/**
-	 * The list of quests required to start the stage.
-	 */
 	get questsRequiredToStart(): QuestsRequiredType[] {
 		return this._questsRequiredToStart || [];
 	}
