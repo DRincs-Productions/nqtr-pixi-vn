@@ -2,6 +2,7 @@ import { OnStartEndStageQuest } from "@drincs/nqtr/dist/override";
 import { StoredClassModel } from "@drincs/pixi-vn";
 import { QuestInterface, StageInterface } from "../../interface";
 import { QuestBaseInternalInterface } from "../../interface/quest/QuestInterface";
+import StageStoredClass from "./StageStoredClass";
 
 const QUEST_CATEGORY = "__nqtr-quest__";
 export default class QuestStoredClass extends StoredClassModel implements QuestBaseInternalInterface {
@@ -133,7 +134,7 @@ export default class QuestStoredClass extends StoredClassModel implements QuestB
 		}
 		let nextCurrentStage = this.currentStage;
 		if (nextCurrentStage) {
-			nextCurrentStage.inizialize();
+			(nextCurrentStage as StageStoredClass).inizialize();
 			if (this.currentStageMustStart) {
 				this.startCurrentStage(props);
 			}
