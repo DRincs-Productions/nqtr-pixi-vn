@@ -1,5 +1,5 @@
-import { getCurrentRoutine } from "../../functions";
 import { ActivityInterface, CommitmentInterface, LocationInterface, RoomInterface } from "../../interface";
+import { routine } from "../../managers";
 import NavigationAbstractClass from "./NavigationAbstractClass";
 
 const ROOM_CATEGORY = "__nqtr-room__";
@@ -15,7 +15,7 @@ export default class RoomStoredClass extends NavigationAbstractClass implements 
 		super(ROOM_CATEGORY, id, activities);
 	}
 	get routine(): CommitmentInterface[] {
-		return getCurrentRoutine().filter((c) => c.room.id === this.id);
+		return routine.currentRoutine.filter((c) => c.room.id === this.id);
 	}
 
 	get location(): LocationInterface {
