@@ -1,3 +1,3 @@
-import QuestBaseModel from "../classes/quest/QuestBaseModel";
+import { QuestInterface } from "../interface";
 
-export type QuestsRequiredType = { quest: QuestBaseModel, stageNumber: number }
+export type QuestsRequiredType = { quest: QuestInterface; stageNumber: number };
