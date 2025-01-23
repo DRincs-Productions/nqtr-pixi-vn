@@ -7,11 +7,11 @@ import { getCurrentRoom } from "./NavigationFunctions";
  * Clear all the expired commitments.
  */
 export function clearExpiredRoutine() {
-    Object.entries(registeredCommitments).forEach(([_, commitment]) => {
-        if (commitment.isExpired()) {
-            delete registeredCommitments[commitment.id]
-        }
-    })
+	Object.entries(registeredCommitments).forEach(([_, commitment]) => {
+		if (commitment.expired()) {
+			delete registeredCommitments[commitment.id];
+		}
+	});
 }
 
 /**
@@ -24,40 +24,46 @@ export function clearExpiredRoutine() {
  * @returns The current commitments.
  */
 export function getCurrentRoutine(): CommitmentInterface[] {
-    let character_commitments: { [character: string]: CommitmentInterface } = {}
-    getTemporaryCommitments().reverse().forEach(c => {
-        if (!c.hidden) {
-            if (c.characters.length > 0) {
-                // all the characters don't already have commitments or the commitment has a higher priority
-                let allAvailable = c.characters.every(ch => !character_commitments[ch.id] || c.priority > character_commitments[ch.id].priority)
-                if (allAvailable) {
-                    c.characters.forEach(ch => {
-                        character_commitments[ch.id] = c
-                    })
-                }
-            }
-            else {
-                console.error(`[NQTR] The commitment ${c.id} has no characters assigned`)
-            }
-        }
-    })
-    getFixedRoutine().reverse().forEach(c => {
-        if (!c.hidden) {
-            if (c.characters.length > 0) {
-                // all the characters don't already have commitments or the commitment has a higher priority
-                let allAvailable = c.characters.every(ch => !character_commitments[ch.id] || c.priority > character_commitments[ch.id].priority)
-                if (allAvailable) {
-                    c.characters.forEach(ch => {
-                        character_commitments[ch.id] = c
-                    })
-                }
-            }
-            else {
-                console.error(`[NQTR] The commitment ${c.id} has no characters assigned`)
-            }
-        }
-    })
-    return Object.values(character_commitments)
+	let character_commitments: { [character: string]: CommitmentInterface } = {};
+	getTemporaryCommitments()
+		.reverse()
+		.forEach((c) => {
+			if (!c.hidden) {
+				if (c.characters.length > 0) {
+					// all the characters don't already have commitments or the commitment has a higher priority
+					let allAvailable = c.characters.every(
+						(ch) => !character_commitments[ch.id] || c.priority > character_commitments[ch.id].priority
+					);
+					if (allAvailable) {
+						c.characters.forEach((ch) => {
+							character_commitments[ch.id] = c;
+						});
+					}
+				} else {
+					console.error(`[NQTR] The commitment ${c.id} has no characters assigned`);
+				}
+			}
+		});
+	getFixedRoutine()
+		.reverse()
+		.forEach((c) => {
+			if (!c.hidden) {
+				if (c.characters.length > 0) {
+					// all the characters don't already have commitments or the commitment has a higher priority
+					let allAvailable = c.characters.every(
+						(ch) => !character_commitments[ch.id] || c.priority > character_commitments[ch.id].priority
+					);
+					if (allAvailable) {
+						c.characters.forEach((ch) => {
+							character_commitments[ch.id] = c;
+						});
+					}
+				} else {
+					console.error(`[NQTR] The commitment ${c.id} has no characters assigned`);
+				}
+			}
+		});
+	return Object.values(character_commitments);
 }
 
 /**
@@ -65,11 +71,11 @@ export function getCurrentRoutine(): CommitmentInterface[] {
  * @returns The current room routine.
  */
 export function getCurrentRoomRoutine(): CommitmentInterface[] {
-    let room = getCurrentRoom()
-    if (!room) {
-        return []
-    }
-    return room.getRoutine()
+	let room = getCurrentRoom();
+	if (!room) {
+		return [];
+	}
+	return room.getRoutine();
 }
 
 /**
@@ -78,10 +84,10 @@ export function getCurrentRoomRoutine(): CommitmentInterface[] {
  * @returns The commitment or undefined if not found.
  */
 export function getCommitmentByCharacter(character: CharacterInterface): CommitmentInterface | undefined {
-    getCurrentRoutine().forEach(c => {
-        if (c.characters.map(ch => ch.id).includes(character.id)) {
-            return c
-        }
-    })
-    return undefined
+	getCurrentRoutine().forEach((c) => {
+		if (c.characters.map((ch) => ch.id).includes(character.id)) {
+			return c;
+		}
+	});
+	return undefined;
 }
