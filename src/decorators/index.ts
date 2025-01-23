@@ -1,4 +1,4 @@
 export { getActivityById, saveActivity } from "./ActivityDecorator";
 export { saveCommitment } from "./CommitmentDecorator";
-export { newQuest } from "./QuestDecorator";
+export { saveQuest as newQuest } from "./QuestDecorator";
 export { saveRoom } from "./RoomDecorator";
