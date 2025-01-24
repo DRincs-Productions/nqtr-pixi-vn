@@ -1,9 +1,7 @@
-import { OnStartEndStageQuest } from "@drincs/nqtr/dist/override";
-import { QuestInterface, StageInterface } from "..";
+import { OnStartEndStageQuest, QuestInterface } from "@drincs/nqtr/dist/override";
+import { QuestInterface as QuestInterfaceInt, StageInterface } from "..";
 
-export default interface QuestBaseInterface extends QuestBaseInternalInterface {
-	// QuestInterface
-}
+export default interface QuestBaseInterface extends QuestBaseInternalInterface, QuestInterface {}
 
 export interface QuestBaseInternalInterface {
 	/**
@@ -43,12 +41,12 @@ export interface QuestBaseInternalInterface {
 	/**
 	 * The function that will be called when the quest starts.
 	 */
-	readonly onStart?: (stage: QuestInterface, props: OnStartEndStageQuest) => void;
+	readonly onStart?: (stage: QuestInterfaceInt, props: OnStartEndStageQuest) => void;
 
 	/**
 	 * The function that will be called when the quest goes to the next stage.
 	 */
-	readonly onNextStage?: (stage: QuestInterface, props: OnStartEndStageQuest) => void;
+	readonly onNextStage?: (stage: QuestInterfaceInt, props: OnStartEndStageQuest) => void;
 
 	/**
 	 * Start the quest.

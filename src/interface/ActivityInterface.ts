@@ -1,8 +1,6 @@
-import { OnRunProps } from "@drincs/nqtr/dist/override";
+import { ActivityInterface, OnRunProps } from "@drincs/nqtr/dist/override";
 
-export default interface ActivityBaseInterface extends ActivityBaseInternalInterface {
-	// ActivityInterface
-}
+export default interface ActivityBaseInterface extends ActivityBaseInternalInterface, ActivityInterface {}
 
 export interface ActivityBaseInternalInterface {
 	/**

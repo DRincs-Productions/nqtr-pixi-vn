@@ -1,10 +1,8 @@
-import { OnStartEndStageQuest } from "@drincs/nqtr/dist/override";
-import { StageInterface } from "..";
+import { OnStartEndStageQuest, StageInterface } from "@drincs/nqtr/dist/override";
+import { StageInterface as StageInterfaceInt } from "..";
 import { QuestsRequiredType } from "../../types";
 
-export default interface StageBaseInterface extends StageBaseInternalInterface {
-	// StageInterface
-}
+export default interface StageBaseInterface extends StageBaseInternalInterface, StageInterface {}
 
 export interface StageBaseInternalInterface {
 	/**
@@ -14,12 +12,12 @@ export interface StageBaseInternalInterface {
 	/**
 	 * The function that will be called when the stage starts.
 	 */
-	readonly onStart?: (stage: StageInterface, props: OnStartEndStageQuest) => void;
+	readonly onStart?: (stage: StageInterfaceInt, props: OnStartEndStageQuest) => void;
 
 	/**
 	 * The function that will be called when the stage ends.
 	 */
-	readonly onEnd?: (stage: StageInterface, props: OnStartEndStageQuest) => void;
+	readonly onEnd?: (stage: StageInterfaceInt, props: OnStartEndStageQuest) => void;
 
 	/**
 	 * Check if the flag and goals are completed.
