@@ -2,9 +2,9 @@ import { LocationInterface } from "@drincs/nqtr/dist/override";
 import { MapInterface, RoomInterface } from "..";
 import NavigationAbstractInterface from "./NavigationAbstractClass";
 
-export default interface LocationBaseInterface extends LocationBaseInternalInterface, LocationInterface {}
+export default interface LocationBaseInterface extends LocationInternalInterface, LocationInterface {}
 
-export interface LocationBaseInternalInterface extends NavigationAbstractInterface {
+export interface LocationInternalInterface extends NavigationAbstractInterface {
 	/**
 	 * The id of the location.
 	 */
