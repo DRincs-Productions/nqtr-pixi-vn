@@ -1,9 +1,10 @@
-import { ActivityInterface, CommitmentInterface, LocationInterface, RoomInterface } from "../../interface";
+import { ActivityInterface, CommitmentInterface, LocationInterface } from "../../interface";
+import { RoomBaseInternalInterface } from "../../interface/navigation/RoomInterface";
 import { routine } from "../../managers";
 import NavigationAbstractClass from "./NavigationAbstractClass";
 
 const ROOM_CATEGORY = "__nqtr-room__";
-export default class RoomStoredClass extends NavigationAbstractClass implements RoomInterface {
+export default class RoomStoredClass extends NavigationAbstractClass implements RoomBaseInternalInterface {
 	constructor(
 		id: string,
 		/**

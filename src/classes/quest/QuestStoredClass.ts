@@ -84,7 +84,7 @@ export default class QuestStoredClass extends StoredClassModel implements QuestB
 		this.currentStageIndex = 0;
 		let currentStage = this.currentStage;
 		if (currentStage && currentStage.start) {
-			this.onStart && this.onStart(this, props);
+			this.onStart && this.onStart(this as any as QuestInterface, props);
 			return currentStage.start(props);
 		} else {
 			console.error(`[NQTR] Quest ${this.id} has no start stage`);
@@ -135,13 +135,13 @@ export default class QuestStoredClass extends StoredClassModel implements QuestB
 			return false;
 		}
 		this.currentStageIndex = currentStageIndex + 1;
-		this.onNextStage && this.onNextStage(this, props);
+		this.onNextStage && this.onNextStage(this as any as QuestInterface, props);
 		if (prevStage && prevStage.onEnd) {
 			prevStage.onEnd(prevStage, props);
 		}
 		let nextCurrentStage = this.currentStage;
 		if (nextCurrentStage) {
-			(nextCurrentStage as StageStoredClass).inizialize();
+			(nextCurrentStage as any as StageStoredClass).inizialize();
 			if (this.currentStageMustStart) {
 				this.startCurrentStage(props);
 			}

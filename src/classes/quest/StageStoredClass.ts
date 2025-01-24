@@ -109,7 +109,7 @@ export default class StageStoredClass extends StoredClassModel implements StageB
 		if (this.canStart) {
 			this.started = true;
 			if (this.onStart) {
-				this.onStart(this, props);
+				this.onStart(this as any as StageInterface, props);
 			}
 		} else {
 			console.warn(`[NQTR] Stage ${this.id} can't start`);
