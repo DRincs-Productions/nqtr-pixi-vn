@@ -15,9 +15,9 @@ export default class CommitmentStoredClass
         private readonly _characters: CharacterInterface[],
         private readonly _room: RoomInterface,
         onRun: OnRunEvent<CommitmentInterface> | undefined,
-        private readonly defaultExecutionType: ExecutionType = "interaction",
-        private readonly defaultPriority: number,
         props: {
+            executionType?: ExecutionType;
+            priority?: number;
             fromHour?: number;
             toHour?: number;
             fromDay?: number;
@@ -26,7 +26,11 @@ export default class CommitmentStoredClass
     ) {
         onRun = onRun || (() => {});
         super(id, onRun, props, COMMITMENT_CATEGORY);
+        this.defaultExecutionType = props.executionType || "interaction";
+        this.defaultPriority = props.priority;
     }
+    private readonly defaultExecutionType: ExecutionType;
+    private readonly defaultPriority?: number;
 
     get characters(): CharacterInterface[] {
         return this._characters;
