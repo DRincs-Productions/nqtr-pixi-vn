@@ -1,9 +1,8 @@
-import { OnRunProps } from "@drincs/nqtr/dist/override";
 import { StoredClassModel } from "@drincs/pixi-vn";
 import { ActivityInterface } from "../interface";
 import { ActivityBaseInternalInterface } from "../interface/ActivityInterface";
 import { timeTracker } from "../managers";
-import { OnRunEvent } from "../types/OnRunEvent";
+import { OnRunEvent, OnRunProps } from "../types/OnRunEvent";
 
 const ACTIVITY_CATEGORY = "__nqtr-activity__";
 export default class ActivityStoredClass<OnRunEventType = ActivityInterface>
