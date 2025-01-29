@@ -1,4 +1,4 @@
-import { OnStartEndStageQuest, StageInterface as OverrideStageInterface } from "@drincs/nqtr/dist/override";
+import { OnRunProps, StageInterface as OverrideStageInterface } from "@drincs/nqtr";
 import { StageInterface as StageInterfaceInt } from "..";
 import { QuestsRequiredType } from "../../types";
 
@@ -12,12 +12,12 @@ export interface StageBaseInternalInterface {
     /**
      * The function that will be called when the stage starts.
      */
-    readonly onStart?: (stage: StageInterfaceInt, props: OnStartEndStageQuest) => void;
+    readonly onStart?: (stage: StageInterfaceInt, props: OnRunProps) => void;
 
     /**
      * The function that will be called when the stage ends.
      */
-    readonly onEnd?: (stage: StageInterfaceInt, props: OnStartEndStageQuest) => void;
+    readonly onEnd?: (stage: StageInterfaceInt, props: OnRunProps) => void;
 
     /**
      * Check if the flag and goals are completed.
@@ -74,7 +74,7 @@ export interface StageBaseInternalInterface {
     /**
      * The function that will be called when the stage starts.
      */
-    start(props: OnStartEndStageQuest): void;
+    start(props: OnRunProps): void;
 
     /**
      * The number of days required to start the stage.

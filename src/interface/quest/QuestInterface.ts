@@ -1,4 +1,4 @@
-import { OnStartEndStageQuest, QuestInterface as OverrideQuestInterface } from "@drincs/nqtr/dist/override";
+import { OnRunProps, QuestInterface as OverrideQuestInterface } from "@drincs/nqtr";
 import { QuestInterface as QuestInterfaceInt, StageInterface } from "..";
 
 export default interface QuestInterface extends QuestBaseInternalInterface, OverrideQuestInterface {}
@@ -41,19 +41,19 @@ export interface QuestBaseInternalInterface {
     /**
      * The function that will be called when the quest starts.
      */
-    readonly onStart?: (stage: QuestInterfaceInt, props: OnStartEndStageQuest) => void;
+    readonly onStart?: (stage: QuestInterfaceInt, props: OnRunProps) => void;
 
     /**
      * The function that will be called when the quest goes to the next stage.
      */
-    readonly onNextStage?: (stage: QuestInterfaceInt, props: OnStartEndStageQuest) => void;
+    readonly onNextStage?: (stage: QuestInterfaceInt, props: OnRunProps) => void;
 
     /**
      * Start the quest.
      * @param props The properties for the start stage. If you not want to pass any property, you can pass an {}.
      * @returns
      */
-    start(props: OnStartEndStageQuest): void;
+    start(props: OnRunProps): void;
 
     /**
      * Go to the next stage if the current stage is completed.
@@ -61,7 +61,7 @@ export interface QuestBaseInternalInterface {
      * @param props The properties. If you not want to pass any property, you can pass an {}.
      * @returns true if the stage was changed, false otherwise.
      */
-    tryToGoNextStage(props: OnStartEndStageQuest): boolean;
+    tryToGoNextStage(props: OnRunProps): boolean;
 
     /**
      * Complete the current stage and go to the next stage.
@@ -69,7 +69,7 @@ export interface QuestBaseInternalInterface {
      * @param props The properties. If you not want to pass any property, you can pass an {}.
      * @returns true if the stage was changed, false otherwise.
      */
-    completeCurrentStageAndGoNext(props: OnStartEndStageQuest): boolean;
+    completeCurrentStageAndGoNext(props: OnRunProps): boolean;
 
     /**
      * Go to the next stage without checking if the current stage is completed.
@@ -77,7 +77,7 @@ export interface QuestBaseInternalInterface {
      * @param props The properties. If you not want to pass any property, you can pass an {}.
      * @returns returns true if the stage was changed, false otherwise.
      */
-    goNextStage(props: OnStartEndStageQuest): boolean;
+    goNextStage(props: OnRunProps): boolean;
 
     /**
      * If the current stage must start. It is true if the current stage is not started, can start and not completed.
@@ -88,5 +88,5 @@ export interface QuestBaseInternalInterface {
      * Start the current stage.
      * @param props The properties for the start stage. If you not want to pass any property, you can pass an {}.
      */
-    startCurrentStage(props: OnStartEndStageQuest): void;
+    startCurrentStage(props: OnRunProps): void;
 }

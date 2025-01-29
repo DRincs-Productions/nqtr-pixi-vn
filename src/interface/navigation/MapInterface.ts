@@ -1,4 +1,4 @@
-import { MapInterface as OverrideMapInterface } from "@drincs/nqtr/dist/override";
+import { MapInterface as OverrideMapInterface } from "@drincs/nqtr";
 import { LocationInterface } from "..";
 import NavigationAbstractInterface from "./NavigationAbstractClass";
 

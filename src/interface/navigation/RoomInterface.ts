@@ -1,4 +1,4 @@
-import { RoomInterface as OverrideRoomInterface } from "@drincs/nqtr/dist/override";
+import { RoomInterface as OverrideRoomInterface } from "@drincs/nqtr";
 import { CommitmentInterface, LocationInterface as LocationInterfaceInt } from "..";
 import NavigationAbstractInterface from "./NavigationAbstractClass";
 

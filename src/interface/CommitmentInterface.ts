@@ -1,4 +1,4 @@
-import { CommitmentInterface as OverrideCommitmentInterface } from "@drincs/nqtr/dist/override";
+import { CommitmentInterface as OverrideCommitmentInterface } from "@drincs/nqtr";
 import { CharacterInterface } from "@drincs/pixi-vn";
 import { RoomInterface } from ".";
 import { ExecutionType } from "../types";
