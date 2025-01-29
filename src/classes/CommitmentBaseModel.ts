@@ -32,20 +32,14 @@ export default class CommitmentBaseModel extends CommitmentStoredClass {
         room: RoomInterface,
         props: CommitmentProps
     ) {
-        super(
-            id,
-            character ? (Array.isArray(character) ? character : [character]) : [],
-            room,
-            props.onRun,
-            props.executionType || "interaction",
-            props.priority || 0,
-            {
-                fromHour: props.fromHour,
-                toHour: props.toHour,
-                fromDay: props.fromDay,
-                toDay: props.toDay,
-            }
-        );
+        super(id, character ? (Array.isArray(character) ? character : [character]) : [], room, props.onRun, {
+            executionType: props.executionType,
+            priority: props.priority,
+            fromHour: props.fromHour,
+            toHour: props.toHour,
+            fromDay: props.fromDay,
+            toDay: props.toDay,
+        });
         this._name = props.name || "";
         this._image = props.image;
         this.defaultDisabled = props.disabled || false;
