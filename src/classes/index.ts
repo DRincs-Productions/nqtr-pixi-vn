@@ -1,6 +1,7 @@
 export { default as ActivityBaseModel } from "./ActivityBaseModel";
 export { default as ActivityStoredClass } from "./ActivityStoredClass";
 export { default as CommitmentBaseModel } from "./CommitmentBaseModel";
+export { default as CommitmentStoredClass } from "./CommitmentStoredClass";
 export { default as LocationBaseModel } from "./navigation/LocationBaseModel";
 export { default as LocationStoredClass } from "./navigation/LocationStoredClass";
 export { default as MapBaseModel } from "./navigation/MapBaseModel";
