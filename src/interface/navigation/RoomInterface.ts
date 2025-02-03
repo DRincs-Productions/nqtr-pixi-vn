@@ -1,4 +1,5 @@
 import { RoomInterface as OverrideRoomInterface } from "@drincs/nqtr";
+import { CharacterInterface } from "@drincs/pixi-vn";
 import { CommitmentInterface, LocationInterface as LocationInterfaceInt } from "..";
 import NavigationAbstractInterface from "./NavigationAbstractClass";
 
@@ -17,4 +18,8 @@ export interface RoomBaseInternalInterface extends NavigationAbstractInterface {
      * Get the character commitments of the room.
      */
     readonly routine: CommitmentInterface[];
+    /**
+     * Get the characters in the room.
+     */
+    readonly characters: CharacterInterface[];
 }
