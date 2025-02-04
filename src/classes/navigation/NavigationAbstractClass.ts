@@ -204,7 +204,7 @@ export default abstract class NavigationAbstractClass extends StoredClassModel i
             } = scheduling;
             if (
                 activity &&
-                !(fromHour && toHour && !timeTracker.nowIsBetween(fromHour, toHour)) &&
+                timeTracker.nowIsBetween(fromHour, toHour) &&
                 !(fromDay && fromDay > timeTracker.currentDay) &&
                 !(toDay && toDay < timeTracker.currentDay)
             ) {

@@ -14,99 +14,96 @@ export default class TimeManager {
             weekLength = 7,
             weekendStartDay = weekLength - 1,
             weekDaysNames = [],
-        } = settings
-        TimeManagerSettings.minDayHours = minDayHours
-        TimeManagerSettings.maxDayHours = maxDayHours
-        TimeManagerSettings.defaultTimeSpent = defaultTimeSpent
-        TimeManagerSettings.timeSlots = timeSlots
-        TimeManagerSettings.weekLength = weekLength
+        } = settings;
+        TimeManagerSettings.minDayHours = minDayHours;
+        TimeManagerSettings.maxDayHours = maxDayHours;
+        TimeManagerSettings.defaultTimeSpent = defaultTimeSpent;
+        TimeManagerSettings.timeSlots = timeSlots;
+        TimeManagerSettings.weekLength = weekLength;
         if (weekendStartDay >= TimeManagerSettings.weekLength) {
-            console.warn(`[NQTR] Weekend start day should be less than week length ${weekLength}, so will be ignored`)
-        }
-        else {
-            TimeManagerSettings.weekendStartDay = weekendStartDay
+            console.warn(`[NQTR] Weekend start day should be less than week length ${weekLength}, so will be ignored`);
+        } else {
+            TimeManagerSettings.weekendStartDay = weekendStartDay;
         }
         if (weekDaysNames.length !== weekLength) {
-            console.warn(`[NQTR] Week days names should be equal to week length ${weekLength}, so will be ignored`)
-        }
-        else {
-            TimeManagerSettings.weekDaysNames = weekDaysNames
+            console.warn(`[NQTR] Week days names should be equal to week length ${weekLength}, so will be ignored`);
+        } else {
+            TimeManagerSettings.weekDaysNames = weekDaysNames;
         }
     }
     get minDayHours(): number {
-        return TimeManagerSettings.minDayHours
+        return TimeManagerSettings.minDayHours;
     }
     get maxDayHours(): number {
-        return TimeManagerSettings.maxDayHours
+        return TimeManagerSettings.maxDayHours;
     }
     get defaultTimeSpent(): number {
-        return TimeManagerSettings.defaultTimeSpent
+        return TimeManagerSettings.defaultTimeSpent;
     }
     get timeSlots(): ITimeStlot[] {
-        return TimeManagerSettings.timeSlots
+        return TimeManagerSettings.timeSlots;
     }
     get weekLength(): number {
-        return TimeManagerSettings.weekLength
+        return TimeManagerSettings.weekLength;
     }
     get weekendStartDay(): number {
-        return TimeManagerSettings.weekendStartDay
+        return TimeManagerSettings.weekendStartDay;
     }
     get weekDaysNames(): string[] {
-        return TimeManagerSettings.weekDaysNames
+        return TimeManagerSettings.weekDaysNames;
     }
 
     /**
      * Get the current hour
      */
     get currentHour(): number {
-        let data = storage.getVariable<TimeDataType>(TIME_DATA_KEY) || {}
-        if (data.hasOwnProperty('currentHour') && typeof data.currentHour === 'number') {
-            return data.currentHour
+        let data = storage.getVariable<TimeDataType>(TIME_DATA_KEY) || {};
+        if (data.hasOwnProperty("currentHour") && typeof data.currentHour === "number") {
+            return data.currentHour;
         }
-        return this.minDayHours
+        return this.minDayHours;
     }
     set currentHour(value: number | undefined) {
-        let data = storage.getVariable<TimeDataType>(TIME_DATA_KEY) || {}
-        if (typeof value === 'number') {
-            data.currentHour = value
+        let data = storage.getVariable<TimeDataType>(TIME_DATA_KEY) || {};
+        if (typeof value === "number") {
+            data.currentHour = value;
         } else {
-            delete data.currentHour
+            delete data.currentHour;
         }
-        storage.setVariable(TIME_DATA_KEY, data)
+        storage.setVariable(TIME_DATA_KEY, data);
     }
     /**
      * Get the current day
      */
     get currentDay(): number {
-        let data = storage.getVariable<TimeDataType>(TIME_DATA_KEY) || {}
-        if (data.hasOwnProperty('currentDay') && typeof data.currentDay === 'number') {
-            return data.currentDay
+        let data = storage.getVariable<TimeDataType>(TIME_DATA_KEY) || {};
+        if (data.hasOwnProperty("currentDay") && typeof data.currentDay === "number") {
+            return data.currentDay;
         }
-        return 0
+        return 0;
     }
     set currentDay(value: number | undefined) {
-        let data = storage.getVariable<TimeDataType>(TIME_DATA_KEY) || {}
-        if (typeof value === 'number') {
-            data.currentDay = value
+        let data = storage.getVariable<TimeDataType>(TIME_DATA_KEY) || {};
+        if (typeof value === "number") {
+            data.currentDay = value;
+        } else {
+            delete data.currentDay;
         }
-        else {
-            delete data.currentDay
-        }
-        storage.setVariable(TIME_DATA_KEY, data)
+        storage.setVariable(TIME_DATA_KEY, data);
     }
     /**
      * If the current day is greater than or equal to the weekend start day, then it will return true.
      */
     get isWeekend(): boolean {
-        return this.currentWeekDayNumber >= this.weekendStartDay
+        return this.currentWeekDayNumber >= this.weekendStartDay;
     }
     /**
      * Get the current week day number (1 - {@link weekLength}).
      * For example, if the week length is 7 and the current day is 10, then the result will be 4.
      */
     get currentWeekDayNumber(): number {
-        let result = this.currentDay % this.weekLength
-        return result + 1
+        let result = this.currentDay % this.weekLength;
+        return result + 1;
     }
     /**
      * Get the current week day name. If the week days names are not defined, then it will return undefined.
@@ -114,12 +111,12 @@ export default class TimeManager {
      * @default ""
      */
     get currentDayName(): string {
-        let weekDayNumber = this.currentWeekDayNumber - 1
+        let weekDayNumber = this.currentWeekDayNumber - 1;
         if (weekDayNumber >= this.weekDaysNames.length) {
-            console.warn(`[NQTR] Week day name is not defined for day ${weekDayNumber}`, this.weekDaysNames)
-            return ""
+            console.warn(`[NQTR] Week day name is not defined for day ${weekDayNumber}`, this.weekDaysNames);
+            return "";
         }
-        return this.weekDaysNames[weekDayNumber]
+        return this.weekDaysNames[weekDayNumber];
     }
     /**
      * Get the current {@link timeSlots} index.
@@ -127,7 +124,7 @@ export default class TimeManager {
      * @example
      * ```tsx
      * import { weekLength } from '@drincs/nqtr';
-     * 
+     *
      * function changeBackground() {
      *     return (
      *         <img src={`background-currentTimeSlot.currentTimeSlot.png`} />
@@ -136,18 +133,18 @@ export default class TimeManager {
      */
     get currentTimeSlot(): number {
         if (this.timeSlots.length === 0) {
-            console.warn('[NQTR] Time slots are not defined')
-            return 0
+            console.warn("[NQTR] Time slots are not defined");
+            return 0;
         }
         for (let index = 0; index < this.timeSlots.length; index++) {
-            let slot = this.timeSlots[index]
+            let slot = this.timeSlots[index];
             if (this.timeSlots.length > index + 1) {
                 if (this.nowIsBetween(slot.startHour, this.timeSlots[index + 1].startHour)) {
-                    return index
+                    return index;
                 }
             }
         }
-        return this.timeSlots.length - 1
+        return this.timeSlots.length - 1;
     }
 
     /**
@@ -157,13 +154,13 @@ export default class TimeManager {
      * @returns currentTimeSlot.currentHour
      */
     increaseHour(timeSpent: number = this.defaultTimeSpent): number {
-        let newHour = this.currentHour + timeSpent
+        let newHour = this.currentHour + timeSpent;
         if (newHour >= this.maxDayHours) {
-            this.increaseDay()
-            newHour = this.minDayHours + (newHour - this.maxDayHours)
+            this.increaseDay();
+            newHour = this.minDayHours + (newHour - this.maxDayHours);
         }
-        this.currentHour = newHour
-        return this.currentHour
+        this.currentHour = newHour;
+        return this.currentHour;
     }
 
     /**
@@ -173,10 +170,10 @@ export default class TimeManager {
      * @returns timeTracker.currentDay
      */
     increaseDay(newDayHour: number = this.minDayHours, days: number = 1): number {
-        let newDay = this.currentDay + days
-        this.currentDay = newDay
-        this.currentHour = newDayHour
-        return this.currentDay
+        let newDay = this.currentDay + days;
+        this.currentDay = newDay;
+        this.currentHour = newDayHour;
+        return this.currentDay;
     }
 
     /**
@@ -187,15 +184,15 @@ export default class TimeManager {
      */
     nowIsBetween(fromHour: number | undefined, toHour: number | undefined): boolean {
         if (fromHour === undefined) {
-            fromHour = this.minDayHours
+            fromHour = this.minDayHours - 1;
         }
         if (toHour === undefined) {
-            toHour = this.maxDayHours
+            toHour = this.maxDayHours + 1;
         }
-        let currentHour = this.currentHour
+        let currentHour = this.currentHour;
         if (fromHour < toHour) {
-            return currentHour >= fromHour && currentHour < toHour
+            return currentHour >= fromHour && currentHour < toHour;
         }
-        return currentHour >= fromHour || currentHour < toHour
+        return currentHour >= fromHour || currentHour < toHour;
     }
 }
