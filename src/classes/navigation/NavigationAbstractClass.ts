@@ -217,6 +217,11 @@ export default abstract class NavigationAbstractClass extends StoredClassModel i
                 res.push(activity);
             }
         });
+        this.defaultActivities.forEach((activity) => {
+            if (activity.isActive && !res.find((a) => a.id === activity.id)) {
+                res.push(activity);
+            }
+        });
         return res;
     }
 }
