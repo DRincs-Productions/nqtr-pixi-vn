@@ -55,6 +55,13 @@ export default class QuestStoredClass extends StoredClassModel implements QuestB
         return this.currentStageIndex > this.stages.length - 1;
     }
 
+    get inProgress() {
+        if (this.completed) {
+            return false;
+        }
+        return this.started;
+    }
+
     get failed(): boolean {
         return this.getStorageProperty<boolean>("failed") || false;
     }
@@ -92,10 +99,7 @@ export default class QuestStoredClass extends StoredClassModel implements QuestB
     }
 
     tryToGoNextStage(props: OnRunProps): boolean {
-        if (!this.started) {
-            return false;
-        }
-        if (this.completed) {
+        if (!this.inProgress) {
             return false;
         }
         let currentStage = this.currentStage;
@@ -120,12 +124,8 @@ export default class QuestStoredClass extends StoredClassModel implements QuestB
     }
 
     goNextStage(props: OnRunProps): boolean {
-        if (!this.started) {
-            console.warn(`[NQTR] Quest ${this.id} is not started`);
-            return false;
-        }
-        if (this.completed) {
-            console.warn(`[NQTR] Quest ${this.id} is already completed`);
+        if (!this.inProgress) {
+            console.warn(`[NQTR] Quest ${this.id} is not in progress`);
             return false;
         }
         let prevStage = this.currentStage;
