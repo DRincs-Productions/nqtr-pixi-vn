@@ -59,6 +59,9 @@ export default class QuestStoredClass extends StoredClassModel implements QuestB
         if (this.completed) {
             return false;
         }
+        if (this.failed) {
+            return false;
+        }
         return this.started;
     }
 

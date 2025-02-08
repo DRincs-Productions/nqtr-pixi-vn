@@ -9,6 +9,9 @@ export default class QuestManager {
     get startedQuests(): QuestInterface[] {
         return this.quests.filter((quest) => quest.started);
     }
+    get inProgressQuests(): QuestInterface[] {
+        return this.quests.filter((quest) => quest.inProgress);
+    }
     get completedQuests(): QuestInterface[] {
         return this.quests.filter((quest) => quest.completed);
     }

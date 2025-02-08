@@ -29,7 +29,7 @@ export interface QuestBaseInternalInterface {
     readonly started: boolean;
 
     /**
-     * If the quest is started and not completed.
+     * If the quest is started and not completed and not failed.
      */
     readonly inProgress: boolean;
 
