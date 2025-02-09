@@ -2,6 +2,7 @@ import { CharacterInterface } from "@drincs/pixi-vn";
 import { ActivityInterface, CommitmentInterface, LocationInterface } from "../../interface";
 import { RoomBaseInternalInterface } from "../../interface/navigation/RoomInterface";
 import { routine } from "../../managers";
+import { OnRunProps } from "../../types";
 import NavigationAbstractClass from "./NavigationAbstractClass";
 
 const ROOM_CATEGORY = "__nqtr-room__";
@@ -30,5 +31,12 @@ export default class RoomStoredClass extends NavigationAbstractClass implements 
             characters.push(...commitment.characters);
         });
         return characters;
+    }
+
+    /**
+     * Get the function that will be executed when the room is visited.
+     */
+    get automaticFunction(): ((props: OnRunProps) => void) | undefined {
+        return this.routine.find((commitment) => commitment.executionType === "automatic")?.run;
     }
 }
