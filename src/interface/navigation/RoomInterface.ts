@@ -25,5 +25,5 @@ export interface RoomBaseInternalInterface extends NavigationAbstractInterface {
     /**
      * Get the function that will be executed when the room is visited.
      */
-    get automaticFunction(): ((props: OnRunProps) => void) | undefined;
+    readonly automaticFunction: ((props: OnRunProps) => void) | undefined;
 }
