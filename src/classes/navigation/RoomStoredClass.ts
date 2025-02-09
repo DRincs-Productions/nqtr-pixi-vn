@@ -33,9 +33,6 @@ export default class RoomStoredClass extends NavigationAbstractClass implements 
         return characters;
     }
 
-    /**
-     * Get the function that will be executed when the room is visited.
-     */
     get automaticFunction(): ((props: OnRunProps) => void) | undefined {
         return this.routine.find((commitment) => commitment.executionType === "automatic")?.run;
     }
