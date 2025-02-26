@@ -1,4 +1,5 @@
-import { CharacterInterface } from "@drincs/pixi-vn";
+import { CharacterInterface, narration, storage } from "@drincs/pixi-vn";
+import { CURRENT_ROOM_MEMORY_KEY, PREVIOUS_ROOM_MEMORY_KEY } from "../../constants";
 import { ActivityInterface, CommitmentInterface, LocationInterface } from "../../interface";
 import { RoomBaseInternalInterface } from "../../interface/navigation/RoomInterface";
 import { routine } from "../../managers";
@@ -34,6 +35,17 @@ export default class RoomStoredClass extends NavigationAbstractClass implements 
     }
 
     get automaticFunction(): ((props: OnRunProps) => void) | undefined {
-        return this.routine.find((commitment) => commitment.executionType === "automatic")?.run;
+        let run = this.routine.find((commitment) => commitment.executionType === "automatic")?.run;
+        return run
+            ? (props) => {
+                  let previousRoomId = storage.getVariable<string>(PREVIOUS_ROOM_MEMORY_KEY);
+                  if (previousRoomId && previousRoomId !== this.id) {
+                      storage.setVariable(CURRENT_ROOM_MEMORY_KEY, previousRoomId);
+                      narration.addCurrentStepToHistory();
+                      storage.setVariable(CURRENT_ROOM_MEMORY_KEY, this.id);
+                  }
+                  return run(props);
+              }
+            : undefined;
     }
 }
