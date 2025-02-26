@@ -1,4 +1,4 @@
-import { CharacterInterface, getFlag } from "@drincs/pixi-vn";
+import { CharacterInterface, storage } from "@drincs/pixi-vn";
 import { CommitmentProps, RoomInterface } from "../interface";
 import { timeTracker } from "../managers";
 import CommitmentStoredClass from "./CommitmentStoredClass";
@@ -78,7 +78,7 @@ export default class CommitmentBaseModel extends CommitmentStoredClass {
     get disabled(): boolean {
         let value = this.getStorageProperty<boolean>("disabled") || this.defaultDisabled;
         if (typeof value === "string") {
-            return getFlag(value);
+            return storage.getFlag(value);
         }
         return value;
     }
@@ -102,7 +102,7 @@ export default class CommitmentBaseModel extends CommitmentStoredClass {
         }
         let value = this.getStorageProperty<boolean>("hidden") || this.defaultHidden;
         if (typeof value === "string") {
-            return getFlag(value);
+            return storage.getFlag(value);
         }
         return value;
     }

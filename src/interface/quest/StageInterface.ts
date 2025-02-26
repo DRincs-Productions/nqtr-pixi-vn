@@ -30,7 +30,7 @@ export interface StageBaseInternalInterface {
      * 			return true;
      * 		}
      * 		if (this.flags.length > 0) {
-     * 			if (!this.flags.every((flag) => getFlag(flag.flag))) {
+     * 			if (!this.flags.every((flag) => storage.getFlag(flag.flag))) {
      * 				return false;
      * 			}
      * 			return true;
@@ -61,7 +61,7 @@ export interface StageBaseInternalInterface {
      * ```ts
      * export default class Stage extends StageStoredClass {
      * 	override get canStart(): boolean {
-     * 		if (this.flagsRequiredToStart.length > 0 && !this.flagsRequiredToStart.every((flag) => getFlag(flag.flag))) {
+     * 		if (this.flagsRequiredToStart.length > 0 && !this.flagsRequiredToStart.every((flag) => storage.getFlag(flag.flag))) {
      * 			return false;
      * 		}
      * 		return super.canStart;

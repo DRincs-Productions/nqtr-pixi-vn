@@ -1,7 +1,7 @@
-import { getFlag } from "@drincs/pixi-vn";
-import { ActivityInterface, ActivityProps } from '../interface';
-import { OnRunEvent } from '../types/OnRunEvent';
-import ActivityStoredClass from './ActivityStoredClass';
+import { storage } from "@drincs/pixi-vn";
+import { ActivityInterface, ActivityProps } from "../interface";
+import { OnRunEvent } from "../types/OnRunEvent";
+import ActivityStoredClass from "./ActivityStoredClass";
 
 /**
  * The activity model. It is used to create an activity.
@@ -38,59 +38,59 @@ export default class ActivityBaseModel extends ActivityStoredClass<ActivityInter
             toHour: props.toHour,
             fromDay: props.fromDay,
             toDay: props.toDay,
-        })
-        this.defaultName = props.name || ""
-        this.defaultDisabled = props.disabled || false
-        this.defaultHidden = props.hidden || false
-        this._icon = props.renderIcon
+        });
+        this.defaultName = props.name || "";
+        this.defaultDisabled = props.disabled || false;
+        this.defaultHidden = props.hidden || false;
+        this._icon = props.renderIcon;
     }
 
-    private defaultName: string
+    private defaultName: string;
     /**
      * The name of the activity.
      */
     get name(): string {
-        return this.getStorageProperty<string>("name") || this.defaultName
+        return this.getStorageProperty<string>("name") || this.defaultName;
     }
     set name(value: string | undefined) {
-        this.setStorageProperty("name", value)
+        this.setStorageProperty("name", value);
     }
 
-    private defaultDisabled: boolean | string
+    private defaultDisabled: boolean | string;
     /**
      * Whether is disabled. If it is a string, it is a Pixi'VN flag name.
      */
     get disabled(): boolean {
-        let value = this.getStorageProperty<boolean>("disabled") || this.defaultDisabled
+        let value = this.getStorageProperty<boolean>("disabled") || this.defaultDisabled;
         if (typeof value === "string") {
-            return getFlag(value)
+            return storage.getFlag(value);
         }
-        return value
+        return value;
     }
     set disabled(value: boolean | string) {
-        this.setStorageProperty("disabled", value)
+        this.setStorageProperty("disabled", value);
     }
 
-    private defaultHidden: boolean | string
+    private defaultHidden: boolean | string;
     /**
      * Whether is hidden. If it is a string, it is a Pixi'VN flag name.
      */
     get hidden(): boolean {
-        let value = this.getStorageProperty<boolean>("hidden") || this.defaultHidden
+        let value = this.getStorageProperty<boolean>("hidden") || this.defaultHidden;
         if (typeof value === "string") {
-            return getFlag(value)
+            return storage.getFlag(value);
         }
-        return value
+        return value;
     }
     set hidden(value: boolean | string) {
-        this.setStorageProperty("hidden", value)
+        this.setStorageProperty("hidden", value);
     }
 
-    private _icon?: string
+    private _icon?: string;
     /**
      * The icon of the activity.
      */
     get icon(): string | undefined {
-        return this._icon
+        return this._icon;
     }
 }
