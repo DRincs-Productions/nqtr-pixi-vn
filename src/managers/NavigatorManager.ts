@@ -1,6 +1,7 @@
 import { storage } from "@drincs/pixi-vn";
-import { CURRENT_ROOM_MEMORY_KEY, PREVIOUS_ROOM_MEMORY_KEY } from "../constants";
+import { CURRENT_ROOM_MEMORY_KEY } from "../constants";
 import { getRoomById, registeredRooms } from "../decorators/RoomDecorator";
+import { setLastEvent } from "../functions/tracking-changes";
 import { LocationInterface, MapInterface, RoomInterface } from "../interface";
 
 export default class NavigatorManager {
@@ -20,17 +21,6 @@ export default class NavigatorManager {
             result[room.location.map.id] = room.location.map;
         });
         return Object.values(result);
-    }
-    get previousRoom(): RoomInterface | undefined {
-        let roomId = storage.getVariable<string>(PREVIOUS_ROOM_MEMORY_KEY);
-        if (!roomId) {
-            return;
-        }
-        let room = getRoomById(roomId);
-        if (!room) {
-            return;
-        }
-        return room;
     }
     get currentRoom(): RoomInterface | undefined {
         let roomId = storage.getVariable<string>(CURRENT_ROOM_MEMORY_KEY);
@@ -54,11 +44,15 @@ export default class NavigatorManager {
             console.error(`[NQTR] The room ${room} is not registered, so it can't be set as current room`);
             return;
         }
-
-        let previousRoomId = storage.getVariable<string>(PREVIOUS_ROOM_MEMORY_KEY);
-        if (previousRoomId && previousRoomId !== room) {
-            storage.setVariable(PREVIOUS_ROOM_MEMORY_KEY, previousRoomId);
+        let prevRoom = storage.getVariable<string>(CURRENT_ROOM_MEMORY_KEY);
+        if (prevRoom === room) {
+            return;
         }
+
+        setLastEvent({
+            type: "editroom",
+            value: room,
+        });
         storage.setVariable(CURRENT_ROOM_MEMORY_KEY, room);
     }
     get currentLocation(): LocationInterface | undefined {

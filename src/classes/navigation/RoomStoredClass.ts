@@ -1,8 +1,9 @@
 import { CharacterInterface, narration, storage } from "@drincs/pixi-vn";
-import { CURRENT_ROOM_MEMORY_KEY, PREVIOUS_ROOM_MEMORY_KEY } from "../../constants";
+import { CURRENT_ROOM_MEMORY_KEY } from "../../constants";
+import { getLastEvent } from "../../functions/tracking-changes";
 import { ActivityInterface, CommitmentInterface, LocationInterface } from "../../interface";
 import { RoomBaseInternalInterface } from "../../interface/navigation/RoomInterface";
-import { routine } from "../../managers";
+import { routine, timeTracker } from "../../managers";
 import { OnRunProps } from "../../types";
 import NavigationAbstractClass from "./NavigationAbstractClass";
 
@@ -38,11 +39,18 @@ export default class RoomStoredClass extends NavigationAbstractClass implements 
         let run = this.routine.find((commitment) => commitment.executionType === "automatic")?.run;
         return run
             ? (props) => {
-                  let previousRoomId = storage.getVariable<string>(PREVIOUS_ROOM_MEMORY_KEY);
-                  if (previousRoomId && previousRoomId !== this.id) {
-                      storage.setVariable(CURRENT_ROOM_MEMORY_KEY, previousRoomId);
-                      narration.addCurrentStepToHistory();
-                      storage.setVariable(CURRENT_ROOM_MEMORY_KEY, this.id);
+                  let lastEvent = getLastEvent();
+                  switch (lastEvent?.type) {
+                      case "editroom":
+                          storage.setVariable(CURRENT_ROOM_MEMORY_KEY, lastEvent.value);
+                          narration.addCurrentStepToHistory();
+                          storage.setVariable(CURRENT_ROOM_MEMORY_KEY, this.id);
+                          break;
+                      case "edittime":
+                          let currentHour = timeTracker.currentHour;
+                          let currentDay = timeTracker.currentDay;
+                          narration.addCurrentStepToHistory();
+                          break;
                   }
                   return run(props);
               }
