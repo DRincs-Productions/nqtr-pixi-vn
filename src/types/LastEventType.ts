@@ -1,3 +1,5 @@
+import TimeDataType from "./TimeDataType";
+
 type LastEventType =
     | {
           type: "editroom";
@@ -5,7 +7,6 @@ type LastEventType =
       }
     | {
           type: "edittime";
-          currentHour: number;
-          currentDay: number;
+          value: TimeDataType;
       };
 export default LastEventType;

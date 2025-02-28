@@ -1,5 +1,6 @@
 import { storage } from "@drincs/pixi-vn";
 import { TIME_DATA_KEY } from "../constants";
+import { setLastEvent } from "../functions/tracking-changes";
 import TimeDataType from "../types/TimeDataType";
 import { ITimeStlot, TimeSettings } from "../types/TimeSettings";
 import TimeManagerSettings from "./TimeManagerSettings";
@@ -70,6 +71,10 @@ export default class TimeManager {
         } else {
             delete data.currentHour;
         }
+        setLastEvent({
+            type: "edittime",
+            value: data,
+        });
         storage.setVariable(TIME_DATA_KEY, data);
     }
     /**
@@ -89,6 +94,10 @@ export default class TimeManager {
         } else {
             delete data.currentDay;
         }
+        setLastEvent({
+            type: "edittime",
+            value: data,
+        });
         storage.setVariable(TIME_DATA_KEY, data);
     }
     /**

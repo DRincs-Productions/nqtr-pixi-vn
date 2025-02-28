@@ -1,10 +1,11 @@
 import { CharacterInterface, narration, storage } from "@drincs/pixi-vn";
-import { CURRENT_ROOM_MEMORY_KEY } from "../../constants";
+import { CURRENT_ROOM_MEMORY_KEY, TIME_DATA_KEY } from "../../constants";
 import { getLastEvent } from "../../functions/tracking-changes";
 import { ActivityInterface, CommitmentInterface, LocationInterface } from "../../interface";
 import { RoomBaseInternalInterface } from "../../interface/navigation/RoomInterface";
-import { routine, timeTracker } from "../../managers";
+import { routine } from "../../managers";
 import { OnRunProps } from "../../types";
+import TimeDataType from "../../types/TimeDataType";
 import NavigationAbstractClass from "./NavigationAbstractClass";
 
 const ROOM_CATEGORY = "__nqtr-room__";
@@ -47,9 +48,10 @@ export default class RoomStoredClass extends NavigationAbstractClass implements 
                           storage.setVariable(CURRENT_ROOM_MEMORY_KEY, this.id);
                           break;
                       case "edittime":
-                          let currentHour = timeTracker.currentHour;
-                          let currentDay = timeTracker.currentDay;
+                          let currentTime = storage.getVariable<TimeDataType>(TIME_DATA_KEY) || {};
+                          storage.setVariable(TIME_DATA_KEY, lastEvent.value);
                           narration.addCurrentStepToHistory();
+                          storage.setVariable(TIME_DATA_KEY, currentTime);
                           break;
                   }
                   return run(props);
